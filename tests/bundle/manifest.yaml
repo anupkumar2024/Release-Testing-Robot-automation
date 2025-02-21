@@ -1,0 +1,216 @@
+name: Nginx Server
+version: "1.15.8"
+description: Nginx
+icon: nginx.png
+snapshot: enabled
+clone: disabled
+clonemode: unfenced
+roles: [nginx]
+
+appvars:
+    var1: "{{APP_NAME}}-val1"
+    var2: "{{APP_NAME}}-val2"
+nginx:
+    name: nginx server
+    scaleout: enabled
+    multinode: True
+    labels:
+      labelkey1: labelvalue1
+      labelkey2: labelvalue2
+    annotations:
+      annokey1: annovalue1
+      annokey2: annovalue2
+    image:
+        name: nginx
+        version: 1.15.8-alpine
+        engine: docker
+    compute:
+        memory: 1024M
+        cpu:
+            reserve: false
+            cores: 1
+    storage:
+        - type: data
+          media: ssd
+          path: /opt/data
+          size: 2G
+          mount_in_sidecars: true
+          mount_in_initcontainers: true
+    envFrom:
+    - configMapRef:
+        name: "{{app['name'].lower()}}-cm3"
+    extEnv:
+    - name: SPECIAL_LEVEL_KEY
+      valueFrom:
+        configMapKeyRef:
+          name: "{{app['name'].lower()}}-cm1"
+          key: special.how
+    volumes:
+    - name: vol-cm1
+      configMap:
+        name: "{{app['name'].lower()}}-cm1"
+        defaultMode: 420
+    - name: vol-cm2
+      configMap:
+        name: "{{app['name'].lower()}}-cm2"
+        defaultMode: 420
+    - name: vol-cm3
+      configMap:
+        name: "{{app['name'].lower()}}-cm3"
+        defaultMode: 420
+    podSecurityContext:
+      runAsUser: 0
+    securityContext:
+      allowPrivilegeEscalation: true
+    serviceAccountName: "{{app['name'].lower()}}-sa"
+    volumeMounts:
+    - name: vol-cm1
+      mountPath: /cm1
+    - name: vol-cm2
+      mountPath: /cm2
+    - name: vol-cm3
+      mountPath: /cm3
+    livenessProbe:
+      httpGet:
+        path: /
+        port: 80
+        httpHeaders:
+        - name: Custom-Header
+          value: Awesome
+      initialDelaySeconds: 3
+      periodSeconds: 3
+      timeoutSeconds: 10
+    readinessProbe:
+      exec:
+        command:
+        - sleep
+        - "1"
+      initialDelaySeconds: 5
+      timeoutSeconds: 10
+    initContainers:
+    - name: "init"
+      image: k8s.gcr.io/busybox
+      imagePullPolicy: IfNotPresent
+      resources:
+        limits:
+          cpu: "25m"
+          memory: 128Mi
+      command:
+        - sleep
+        - "1"
+      securityContext:
+        privileged: true
+      volumeMounts:
+      - name: vol-cm1
+        mountPath: /cm1
+      - name: vol-cm2
+        mountPath: /cm2
+      - name: vol-cm3
+        mountPath: /cm3
+      securityContext:
+        allowPrivilegeEscalation: true
+    sidecars:
+    - name: busyside1
+      image: k8s.gcr.io/busybox
+      command:
+        - sleep
+        - "3000"
+      resources:
+        limits:
+          memory: 200Mi
+        requests:
+          memory: 100Mi
+      volumeMounts:
+      - name: vol-cm1
+        mountPath: /cm1
+      - name: vol-cm2
+        mountPath: /cm2
+      - name: vol-cm3
+        mountPath: /cm3
+      securityContext:
+        allowPrivilegeEscalation: true
+    services:
+    - type: NodePort
+      labels:
+        l1: v1
+        l2: v2
+        app: "{{APP_NAME}}"
+        namespace: "{{APP_NS}}"
+      annotations:
+        a1: av1
+        a2: av2
+        app: "{{APP_NAME}}"
+        namespace: "{{APP_NS}}"
+      scope: pod
+      ports:
+      - port: 80
+        protocol: TCP
+        name: web
+    - type: ClusterIP
+      labels:
+        l1: v1
+        l2: v2
+        app: "{{APP_NAME}}"
+        namespace: "{{APP_NS}}"
+      annotations:
+        a1: av1
+        a2: av2
+        app: "{{APP_NAME}}"
+        namespace: "{{APP_NS}}"
+      ports:
+      - port: 80
+        protocol: TCP
+        name: web
+    - type: LoadBalancer
+      labels:
+        l1: v1
+        l2: v2
+        app: "{{APP_NAME}}"
+        namespace: "{{APP_NS}}"
+      annotations:
+        a1: av1
+        a2: av2
+        app: "{{APP_NAME}}"
+        namespace: "{{APP_NS}}"
+      ports:
+      - port: 80
+        protocol: TCP
+        name: web
+    hostAliases:
+    - ip: "1.2.3.4"
+      hostnames:
+      - "foo.remote"
+      - "bar.remote"
+apphooks:
+    info: "python3 app_info.py"
+    postcreate:
+        type: job
+        spec:
+          template:
+            spec:
+              volumes:
+              - name: vol-cm1
+                configMap:
+                  name: "{{app['name'].lower()}}-cm1"
+                  defaultMode: 420
+              - name: vol-cm2
+                configMap:
+                  name: "{{app['name'].lower()}}-cm2"
+                  defaultMode: 420
+              - name: vol-cm3
+                configMap:
+                  name: "{{app['name'].lower()}}-cm3"
+                  defaultMode: 420
+              containers:
+              - name: "{{app['name'].lower()}}-pin1"
+                image: k8s.gcr.io/busybox
+                command: ["sleep",  "1"]
+                volumeMounts:
+                - name: vol-cm1
+                  mountPath: /cm1
+                - name: vol-cm2
+                  mountPath: /cm2
+                - name: vol-cm3
+                  mountPath: /cm3
+              restartPolicy: Never
+              backoffLimit: 4

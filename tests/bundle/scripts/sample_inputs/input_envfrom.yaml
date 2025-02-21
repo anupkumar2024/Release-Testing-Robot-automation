@@ -1,0 +1,11 @@
+roles:
+- name: nginx
+  envFrom:
+  - configMapRef:
+      name: "{{app['name'].lower()}}-cm2"
+  extEnv:
+  - name: SPECIAL_LEVEL_KEY_2
+    valueFrom:
+      configMapKeyRef:
+        name: "{{app['name'].lower()}}-cm1"
+        key: special.type

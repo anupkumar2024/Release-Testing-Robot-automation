@@ -1,0 +1,1535 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.1 (Python 3.9.6 on darwin)" generated="2025-02-17T09:44:37.876286" rpa="false" schemaversion="5">
+<suite id="s1" name="Backup Restore Bundle" source="/Users/anup.kumar/Library/CloudStorage/Box-Box/my-folder/python/releaseTest/Robot/backup_restore/backup_restore_bundle.robot">
+<kw name="Open Connection and Log In" owner="robin_base" type="SETUP">
+<kw name="Open Connection" owner="SSHLibrary">
+<arg>${host}</arg>
+<doc>Opens a new SSH connection to the given ``host`` and ``port``.</doc>
+<status status="PASS" start="2025-02-17T09:44:38.274441" elapsed="0.000144"/>
+</kw>
+<kw name="Login" owner="SSHLibrary">
+<msg time="2025-02-17T09:44:38.275110" level="INFO">Logging into '10.7.82.50:22' as 'root'.</msg>
+<msg time="2025-02-17T09:44:44.007638" level="INFO">Read output: Last login: Sun Feb 16 20:04:50 2025 from 10.10.100.65
+[root@vnodevlan7-82-50 ~]#</msg>
+<arg>${ssh-user}</arg>
+<arg>${ssh-pass}</arg>
+<arg>delay=3</arg>
+<doc>Logs into the SSH server with the given ``username`` and ``password``.</doc>
+<status status="PASS" start="2025-02-17T09:44:38.274956" elapsed="5.733603"/>
+</kw>
+<arg>${master-node-ip}</arg>
+<status status="PASS" start="2025-02-17T09:44:38.274150" elapsed="5.735043"/>
+</kw>
+<test id="s1-t1" name="Robin Login" line="9">
+<kw name="Robin Login" owner="backup_restore_bundle">
+<msg time="2025-02-17T09:44:45.146338" level="INFO">${response} = [{'token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo1LCJ0ZW5hbnRfaWQiOjEsImV4cCI6MTczOTg1MTk0MH0.gX9fo-PhoyA5Lp_3PNWgl-8lqokbAAQ2n_ok5YkNaz0', 'token_timestamp': 1739851940, 'tenant': 'Adm...</msg>
+<var>${response}</var>
+<status status="PASS" start="2025-02-17T09:44:44.014054" elapsed="1.132384"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2025-02-17T09:44:45.147316" level="INFO">[{'token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo1LCJ0ZW5hbnRfaWQiOjEsImV4cCI6MTczOTg1MTk0MH0.gX9fo-PhoyA5Lp_3PNWgl-8lqokbAAQ2n_ok5YkNaz0', 'token_timestamp': 1739851940, 'tenant': 'Administrators', 'role': 'superadmin', 'namespace': 't001-u000005', 'staas': False, 'tenants': ['Administrators', 'test-tenant', 'test-tenant1'], 'zoneid': 1718806345}, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo1LCJ0ZW5hbnRfaWQiOjEsImV4cCI6MTczOTg1MTk0MH0.gX9fo-PhoyA5Lp_3PNWgl-8lqokbAAQ2n_ok5YkNaz0', 200]</msg>
+<arg>${response}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2025-02-17T09:44:45.146945" elapsed="0.000439"/>
+</kw>
+<kw name="Set Suite Variable" owner="BuiltIn">
+<msg time="2025-02-17T09:44:45.149570" level="INFO">${auth_token} = eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo1LCJ0ZW5hbnRfaWQiOjEsImV4cCI6MTczOTg1MTk0MH0.gX9fo-PhoyA5Lp_3PNWgl-8lqokbAAQ2n_ok5YkNaz0</msg>
+<arg>${auth_token}</arg>
+<arg>${response[1]}</arg>
+<doc>Makes a variable available everywhere within the scope of the current suite.</doc>
+<status status="PASS" start="2025-02-17T09:44:45.147621" elapsed="0.002010"/>
+</kw>
+<kw name="Should Be Equal As Numbers" owner="BuiltIn">
+<msg time="2025-02-17T09:44:45.150584" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${response[2]}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to real numbers.</doc>
+<status status="PASS" start="2025-02-17T09:44:45.149852" elapsed="0.000819"/>
+</kw>
+<doc>Create Robin login and fetch auth token</doc>
+<status status="PASS" start="2025-02-17T09:44:44.009760" elapsed="1.141125"/>
+</test>
+<test id="s1-t2" name="Create Nampespace" line="17">
+<kw name="Robin Namespace" owner="backup_restore_bundle">
+<msg time="2025-02-17T09:44:46.697675" level="INFO">${response} = 200</msg>
+<var>${response}</var>
+<arg>${auth_token}</arg>
+<status status="PASS" start="2025-02-17T09:44:45.151646" elapsed="1.546116"/>
+</kw>
+<kw name="Should Be Equal As Numbers" owner="BuiltIn">
+<msg time="2025-02-17T09:44:46.698696" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${response}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to real numbers.</doc>
+<status status="PASS" start="2025-02-17T09:44:46.698300" elapsed="0.000506"/>
+</kw>
+<doc>Create Robin namespace</doc>
+<status status="PASS" start="2025-02-17T09:44:45.151176" elapsed="1.547895"/>
+</test>
+<test id="s1-t3" name="Robin Manual Login" line="22">
+<kw name="Robin Login From Robot" owner="robin_base">
+<kw name="Execute Command" owner="SSHLibrary">
+<msg time="2025-02-17T09:44:46.700954" level="INFO">Executing command '~/bin/robin login admin --password Robin123'.</msg>
+<msg time="2025-02-17T09:44:48.092190" level="INFO">Command exited with return code 0.</msg>
+<msg time="2025-02-17T09:44:48.093329" level="INFO">${stdout} = User admin is logged into Administrators tenant</msg>
+<msg time="2025-02-17T09:44:48.093478" level="INFO">${stderr} = </msg>
+<msg time="2025-02-17T09:44:48.093617" level="INFO">${rc} = 0</msg>
+<var>${stdout}</var>
+<var>${stderr}</var>
+<var>${rc}</var>
+<arg>~/bin/robin login ${robin-username} --password ${robin-password}</arg>
+<arg>return_stderr=True</arg>
+<arg>return_rc=True</arg>
+<doc>Executes ``command`` on the remote machine and returns its outputs.</doc>
+<status status="PASS" start="2025-02-17T09:44:46.700514" elapsed="1.393200"/>
+</kw>
+<kw name="Should Contain" owner="BuiltIn">
+<arg>${stdout}</arg>
+<arg>User ${robin-username} is logged into</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" start="2025-02-17T09:44:48.094935" elapsed="0.001238"/>
+</kw>
+<status status="PASS" start="2025-02-17T09:44:46.700056" elapsed="1.396303"/>
+</kw>
+<status status="PASS" start="2025-02-17T09:44:46.699412" elapsed="1.397518"/>
+</test>
+<test id="s1-t4" name="Create Collection" line="25">
+<kw name="Open Connection and Log In" owner="robin_base">
+<kw name="Open Connection" owner="SSHLibrary">
+<arg>${host}</arg>
+<doc>Opens a new SSH connection to the given ``host`` and ``port``.</doc>
+<status status="PASS" start="2025-02-17T09:44:48.099153" elapsed="0.000425"/>
+</kw>
+<kw name="Login" owner="SSHLibrary">
+<msg time="2025-02-17T09:44:48.100253" level="INFO">Logging into '10.7.82.50:22' as 'root'.</msg>
+<msg time="2025-02-17T09:44:53.940538" level="INFO">Read output: Last login: Sun Feb 16 20:12:15 2025 from 10.10.100.65
+[root@vnodevlan7-82-50 ~]#</msg>
+<arg>${ssh-user}</arg>
+<arg>${ssh-pass}</arg>
+<arg>delay=3</arg>
+<doc>Logs into the SSH server with the given ``username`` and ``password``.</doc>
+<status status="PASS" start="2025-02-17T09:44:48.099842" elapsed="5.840808"/>
+</kw>
+<arg>${master-node-ip}</arg>
+<status status="PASS" start="2025-02-17T09:44:48.098447" elapsed="5.842300"/>
+</kw>
+<kw name="Check file Collection" owner="robin_base">
+<kw name="Execute Command" owner="SSHLibrary">
+<msg time="2025-02-17T09:44:53.941468" level="INFO">Executing command '~/bin/robin collection list --json'.</msg>
+<msg time="2025-02-17T09:44:55.412722" level="INFO">Command exited with return code 0.</msg>
+<msg time="2025-02-17T09:44:55.413832" level="INFO">${stdout} = {
+    "collections": [
+        {
+            "id": 1,
+            "collection_id": 1718782766119,
+            "collection_type": "FILE_COLLECTION",
+            "storage_type": "STORMGR_VOLUME",
+      ...</msg>
+<msg time="2025-02-17T09:44:55.414086" level="INFO">${stderr} = </msg>
+<msg time="2025-02-17T09:44:55.414223" level="INFO">${rc} = 0</msg>
+<var>${stdout}</var>
+<var>${stderr}</var>
+<var>${rc}</var>
+<arg>~/bin/robin collection list --json</arg>
+<arg>return_stderr=True</arg>
+<arg>return_rc=True</arg>
+<doc>Executes ``command`` on the remote machine and returns its outputs.</doc>
+<status status="PASS" start="2025-02-17T09:44:53.941303" elapsed="1.472980"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2025-02-17T09:44:55.416681" level="INFO">${stdout} = {'collections': [{'id': 1, 'collection_id': 1718782766119, 'collection_type': 'FILE_COLLECTION', 'storage_type': 'STORMGR_VOLUME', 'hostname': 'robin-file-server.robinio', 'name': 'file-collection-171...</msg>
+<var>${stdout}</var>
+<arg>json.loads("""${stdout}""")</arg>
+<arg>json</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2025-02-17T09:44:55.415187" elapsed="0.001574"/>
+</kw>
+<kw name="Get Length" owner="BuiltIn">
+<msg time="2025-02-17T09:44:55.418355" level="INFO">Length is 2.</msg>
+<msg time="2025-02-17T09:44:55.418485" level="INFO">${filecollections} = 2</msg>
+<var>${filecollections}</var>
+<arg>${stdout['collections']}</arg>
+<doc>Returns and logs the length of the given item as an integer.</doc>
+<status status="PASS" start="2025-02-17T09:44:55.417329" elapsed="0.001192"/>
+</kw>
+<kw name="Set Test Variable" owner="BuiltIn">
+<msg time="2025-02-17T09:44:55.419098" level="INFO">${filecollections} = 2</msg>
+<arg>${filecollections}</arg>
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<status status="PASS" start="2025-02-17T09:44:55.418765" elapsed="0.000394"/>
+</kw>
+<kw name="Should Be Equal As Integers" owner="BuiltIn">
+<msg time="2025-02-17T09:44:55.419578" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${rc}</arg>
+<arg>0</arg>
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<status status="PASS" start="2025-02-17T09:44:55.419347" elapsed="0.000319"/>
+</kw>
+<status status="PASS" start="2025-02-17T09:44:53.941016" elapsed="1.478770"/>
+</kw>
+<kw name="Run Keyword If" owner="BuiltIn">
+<arg>${filecollections} == 0</arg>
+<arg>Create file collection</arg>
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<status status="PASS" start="2025-02-17T09:44:55.420079" elapsed="0.000235"/>
+</kw>
+<status status="PASS" start="2025-02-17T09:44:48.097410" elapsed="7.323138"/>
+</test>
+<test id="s1-t5" name="Check if manifest file exists" line="30">
+<kw name="Check Local File Exist" owner="robin_base">
+<kw name="File Should Exist" owner="OperatingSystem">
+<msg time="2025-02-17T09:44:55.422728" level="INFO" html="true">File '&lt;a href="file:///Users/anup.kumar/Library/CloudStorage/Box-Box/my-folder/python/releaseTest/Robot/backup_restore/bundle/manifest.yaml"&gt;/Users/anup.kumar/Library/CloudStorage/Box-Box/my-folder/python/releaseTest/Robot/backup_restore/bundle/manifest.yaml&lt;/a&gt;' exists.</msg>
+<arg>${file}</arg>
+<doc>Fails unless the given ``path`` points to an existing file.</doc>
+<status status="PASS" start="2025-02-17T09:44:55.421963" elapsed="0.000848"/>
+</kw>
+<arg>${manifest-file}</arg>
+<status status="PASS" start="2025-02-17T09:44:55.421477" elapsed="0.001411"/>
+</kw>
+<status status="PASS" start="2025-02-17T09:44:55.420869" elapsed="0.002177"/>
+</test>
+<test id="s1-t6" name="Upload Bundle" line="33">
+<kw name="Open Connection and Log In" owner="robin_base">
+<kw name="Open Connection" owner="SSHLibrary">
+<arg>${host}</arg>
+<doc>Opens a new SSH connection to the given ``host`` and ``port``.</doc>
+<status status="PASS" start="2025-02-17T09:44:55.423983" elapsed="0.000263"/>
+</kw>
+<kw name="Login" owner="SSHLibrary">
+<msg time="2025-02-17T09:44:55.424705" level="INFO">Logging into '10.7.82.50:22' as 'root'.</msg>
+<msg time="2025-02-17T09:45:01.412517" level="INFO">Read output: Last login: Sun Feb 16 20:12:25 2025 from 10.10.100.65
+[root@vnodevlan7-82-50 ~]#</msg>
+<arg>${ssh-user}</arg>
+<arg>${ssh-pass}</arg>
+<arg>delay=3</arg>
+<doc>Logs into the SSH server with the given ``username`` and ``password``.</doc>
+<status status="PASS" start="2025-02-17T09:44:55.424403" elapsed="5.988856"/>
+</kw>
+<arg>${master-node-ip}</arg>
+<status status="PASS" start="2025-02-17T09:44:55.423625" elapsed="5.990222"/>
+</kw>
+<kw name="Check bundle" owner="robin_base">
+<kw name="Execute Command" owner="SSHLibrary">
+<msg time="2025-02-17T09:45:01.416253" level="INFO">Executing command '~/bin/robin bundle list --json'.</msg>
+<msg time="2025-02-17T09:45:02.779469" level="INFO">Command exited with return code 0.</msg>
+<msg time="2025-02-17T09:45:02.781132" level="INFO">${stdout} = {
+    "bundles": [
+        {
+            "groupid": 0,
+            "bundleid": 191,
+            "share_with_all_tenants": false,
+            "name": "robotnginxapp",
+            "parent": "",
+        ...</msg>
+<msg time="2025-02-17T09:45:02.781287" level="INFO">${stderr} = </msg>
+<msg time="2025-02-17T09:45:02.781423" level="INFO">${rc} = 0</msg>
+<var>${stdout}</var>
+<var>${stderr}</var>
+<var>${rc}</var>
+<arg>~/bin/robin bundle list --json</arg>
+<arg>return_stderr=True</arg>
+<arg>return_rc=True</arg>
+<doc>Executes ``command`` on the remote machine and returns its outputs.</doc>
+<status status="PASS" start="2025-02-17T09:45:01.415893" elapsed="1.365625"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2025-02-17T09:45:02.783301" level="INFO">${stdout} = {'bundles': [{'groupid': 0, 'bundleid': 191, 'share_with_all_tenants': False, 'name': 'robotnginxapp', 'parent': '', 'version': 'latest', 'zoneid': 1718806345, 'napps': 0, 'ntemplates': 0, 'nb_collect...</msg>
+<var>${stdout}</var>
+<arg>json.loads("""${stdout}""")</arg>
+<arg>json</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2025-02-17T09:45:02.782443" elapsed="0.000913"/>
+</kw>
+<kw name="Get Length" owner="BuiltIn">
+<msg time="2025-02-17T09:45:02.784429" level="INFO">Length is 3.</msg>
+<msg time="2025-02-17T09:45:02.784532" level="INFO">${bundle-length} = 3</msg>
+<var>${bundle-length}</var>
+<arg>${stdout['bundles']}</arg>
+<doc>Returns and logs the length of the given item as an integer.</doc>
+<status status="PASS" start="2025-02-17T09:45:02.783612" elapsed="0.000948"/>
+</kw>
+<kw name="Get Variable Value" owner="BuiltIn">
+<msg time="2025-02-17T09:45:02.786063" level="INFO">${bundles} = [{'groupid': 0, 'bundleid': 191, 'share_with_all_tenants': False, 'name': 'robotnginxapp', 'parent': '', 'version': 'latest', 'zoneid': 1718806345, 'napps': 0, 'ntemplates': 0, 'nb_collections': 0, 'p...</msg>
+<var>${bundles}</var>
+<arg>${stdout['bundles']}</arg>
+<doc>Returns variable value or ``default`` if the variable does not exist.</doc>
+<status status="PASS" start="2025-02-17T09:45:02.784752" elapsed="0.001345"/>
+</kw>
+<kw name="Set Test Variable" owner="BuiltIn">
+<msg time="2025-02-17T09:45:02.786525" level="INFO">${bundle-length} = 3</msg>
+<arg>${bundle-length}</arg>
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<status status="PASS" start="2025-02-17T09:45:02.786275" elapsed="0.000299"/>
+</kw>
+<kw name="Set Test Variable" owner="BuiltIn">
+<msg time="2025-02-17T09:45:02.786994" level="INFO">${bundles} = [{'groupid': 0, 'bundleid': 191, 'share_with_all_tenants': False, 'name': 'robotnginxapp', 'parent': '', 'version': 'latest', 'zoneid': 1718806345, 'napps': 0, 'ntemplates': 0, 'nb_collections': 0, 'p...</msg>
+<arg>${bundles}</arg>
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<status status="PASS" start="2025-02-17T09:45:02.786730" elapsed="0.000312"/>
+</kw>
+<kw name="Should Be Equal As Integers" owner="BuiltIn">
+<msg time="2025-02-17T09:45:02.787364" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${rc}</arg>
+<arg>0</arg>
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<status status="PASS" start="2025-02-17T09:45:02.787193" elapsed="0.000242"/>
+</kw>
+<status status="PASS" start="2025-02-17T09:45:01.415139" elapsed="1.372397"/>
+</kw>
+<kw name="Run Keyword If" owner="BuiltIn">
+<arg>${bundle-length} == 0</arg>
+<arg>Upload Bundle to Robin</arg>
+<arg>${bundle-name}</arg>
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<status status="PASS" start="2025-02-17T09:45:02.787896" elapsed="0.000262"/>
+</kw>
+<kw name="Run Keyword If" owner="BuiltIn">
+<kw name="Check Bundle In List" owner="robin_base">
+<for flavor="IN">
+<iter>
+<kw name="Get Variable Value" owner="BuiltIn">
+<msg time="2025-02-17T09:45:02.790995" level="INFO">${bundlename} = robotnginxapp</msg>
+<var>${bundlename}</var>
+<arg>${bundle['name']}</arg>
+<doc>Returns variable value or ``default`` if the variable does not exist.</doc>
+<status status="PASS" start="2025-02-17T09:45:02.789845" elapsed="0.001179"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2025-02-17T09:45:02.791375" level="INFO">Checking Bundle Name:robotnginxapp</msg>
+<arg>Checking Bundle Name:${bundlename}</arg>
+<arg>console=yes</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2025-02-17T09:45:02.791174" elapsed="0.000387"/>
+</kw>
+<if>
+<branch type="IF" condition="'${bundle-name}' == '${bundlename}'">
+<kw name="Set Test Variable" owner="BuiltIn">
+<arg>${found}</arg>
+<arg>True</arg>
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<status status="NOT RUN" start="2025-02-17T09:45:02.791925" elapsed="0.000020"/>
+</kw>
+<kw name="Exit For Loop" owner="BuiltIn">
+<doc>Stops executing the enclosing FOR loop.</doc>
+<status status="NOT RUN" start="2025-02-17T09:45:02.792075" elapsed="0.000018"/>
+</kw>
+<status status="NOT RUN" start="2025-02-17T09:45:02.791679" elapsed="0.000445"/>
+</branch>
+<status status="PASS" start="2025-02-17T09:45:02.791646" elapsed="0.000507"/>
+</if>
+<var name="${bundle}">{'groupid': 0, 'bundleid': 191, 'share_with_all_tenants': False, 'name': 'robotnginxapp', 'parent': '', 'version': 'latest', 'zoneid': 1718806345, 'napps': 0, 'ntemplates': 0, 'nb_collections': 0, 'pa...</var>
+<status status="PASS" start="2025-02-17T09:45:02.789696" elapsed="0.002484"/>
+</iter>
+<iter>
+<kw name="Get Variable Value" owner="BuiltIn">
+<msg time="2025-02-17T09:45:02.793530" level="INFO">${bundlename} = anup-nginx</msg>
+<var>${bundlename}</var>
+<arg>${bundle['name']}</arg>
+<doc>Returns variable value or ``default`` if the variable does not exist.</doc>
+<status status="PASS" start="2025-02-17T09:45:02.792456" elapsed="0.001101"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2025-02-17T09:45:02.793883" level="INFO">Checking Bundle Name:anup-nginx</msg>
+<arg>Checking Bundle Name:${bundlename}</arg>
+<arg>console=yes</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2025-02-17T09:45:02.793697" elapsed="0.000257"/>
+</kw>
+<if>
+<branch type="IF" condition="'${bundle-name}' == '${bundlename}'">
+<kw name="Set Test Variable" owner="BuiltIn">
+<arg>${found}</arg>
+<arg>True</arg>
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<status status="NOT RUN" start="2025-02-17T09:45:02.794258" elapsed="0.000019"/>
+</kw>
+<kw name="Exit For Loop" owner="BuiltIn">
+<doc>Stops executing the enclosing FOR loop.</doc>
+<status status="NOT RUN" start="2025-02-17T09:45:02.794398" elapsed="0.000017"/>
+</kw>
+<status status="NOT RUN" start="2025-02-17T09:45:02.794036" elapsed="0.000407"/>
+</branch>
+<status status="PASS" start="2025-02-17T09:45:02.794016" elapsed="0.000452"/>
+</if>
+<var name="${bundle}">{'groupid': 95, 'bundleid': 96, 'share_with_all_tenants': False, 'name': 'anup-nginx', 'parent': '', 'version': 'v2', 'zoneid': 1718806345, 'napps': 2, 'ntemplates': 0, 'nb_collections': 0, 'parentid'...</var>
+<status status="PASS" start="2025-02-17T09:45:02.792346" elapsed="0.002147"/>
+</iter>
+<iter>
+<kw name="Get Variable Value" owner="BuiltIn">
+<msg time="2025-02-17T09:45:02.795787" level="INFO">${bundlename} = nginx</msg>
+<var>${bundlename}</var>
+<arg>${bundle['name']}</arg>
+<doc>Returns variable value or ``default`` if the variable does not exist.</doc>
+<status status="PASS" start="2025-02-17T09:45:02.794759" elapsed="0.001054"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2025-02-17T09:45:02.796112" level="INFO">Checking Bundle Name:nginx</msg>
+<arg>Checking Bundle Name:${bundlename}</arg>
+<arg>console=yes</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2025-02-17T09:45:02.795944" elapsed="0.000224"/>
+</kw>
+<if>
+<branch type="IF" condition="'${bundle-name}' == '${bundlename}'">
+<kw name="Set Test Variable" owner="BuiltIn">
+<arg>${found}</arg>
+<arg>True</arg>
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<status status="NOT RUN" start="2025-02-17T09:45:02.796425" elapsed="0.000016"/>
+</kw>
+<kw name="Exit For Loop" owner="BuiltIn">
+<doc>Stops executing the enclosing FOR loop.</doc>
+<status status="NOT RUN" start="2025-02-17T09:45:02.796544" elapsed="0.000014"/>
+</kw>
+<status status="NOT RUN" start="2025-02-17T09:45:02.796237" elapsed="0.000345"/>
+</branch>
+<status status="PASS" start="2025-02-17T09:45:02.796220" elapsed="0.000382"/>
+</if>
+<var name="${bundle}">{'groupid': 0, 'bundleid': 190, 'share_with_all_tenants': False, 'name': 'nginx', 'parent': '', 'version': 'latest', 'zoneid': 1718806345, 'napps': 0, 'ntemplates': 0, 'nb_collections': 0, 'parentid':...</var>
+<status status="PASS" start="2025-02-17T09:45:02.794652" elapsed="0.001970"/>
+</iter>
+<var>${bundle}</var>
+<value>@{bundles}</value>
+<status status="PASS" start="2025-02-17T09:45:02.789425" elapsed="0.007225"/>
+</for>
+<kw name="Set Suite Variable" owner="BuiltIn">
+<msg time="2025-02-17T09:45:02.796953" level="INFO">${found} = False</msg>
+<arg>${found}</arg>
+<doc>Makes a variable available everywhere within the scope of the current suite.</doc>
+<status status="PASS" start="2025-02-17T09:45:02.796766" elapsed="0.000225"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2025-02-17T09:45:02.797239" level="INFO">False</msg>
+<arg>${found}</arg>
+<arg>console=yes</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2025-02-17T09:45:02.797097" elapsed="0.000196"/>
+</kw>
+<if>
+<branch type="IF" condition="'${found}' == 'False'">
+<kw name="Upload Bundle to Robin" owner="robin_base">
+<kw name="Catenate" owner="BuiltIn">
+<msg time="2025-02-17T09:45:02.798285" level="INFO">${appFileDir} = /tmp_robot/bundle/</msg>
+<var>${appFileDir}</var>
+<arg>SEPARATOR=</arg>
+<arg>${destTempDir}</arg>
+<arg>bundle/</arg>
+<doc>Catenates the given items together and returns the resulted string.</doc>
+<status status="PASS" start="2025-02-17T09:45:02.798111" elapsed="0.000196"/>
+</kw>
+<kw name="Catenate" owner="BuiltIn">
+<msg time="2025-02-17T09:45:02.798575" level="INFO">${iconDir} = /tmp_robot/bundle/icons/</msg>
+<var>${iconDir}</var>
+<arg>SEPARATOR=</arg>
+<arg>${appFileDir}</arg>
+<arg>icons/</arg>
+<doc>Catenates the given items together and returns the resulted string.</doc>
+<status status="PASS" start="2025-02-17T09:45:02.798423" elapsed="0.000173"/>
+</kw>
+<kw name="Catenate" owner="BuiltIn">
+<msg time="2025-02-17T09:45:02.798989" level="INFO">${bundle-tar} = /tmp_robot/bundle/robotBundleNginx.tar.gz</msg>
+<var>${bundle-tar}</var>
+<arg>SEPARATOR=</arg>
+<arg>${appFileDir}</arg>
+<arg>${bundle-name}.tar.gz</arg>
+<doc>Catenates the given items together and returns the resulted string.</doc>
+<status status="PASS" start="2025-02-17T09:45:02.798708" elapsed="0.000310"/>
+</kw>
+<kw name="Execute Command" owner="SSHLibrary">
+<msg time="2025-02-17T09:45:02.799429" level="INFO">Executing command 'rm -rf /tmp_robot/; mkdir /tmp_robot/; mkdir /tmp_robot/bundle/;'.</msg>
+<msg time="2025-02-17T09:45:03.687358" level="INFO">Command exited with return code 0.</msg>
+<msg time="2025-02-17T09:45:03.688376" level="INFO">${stdout} = </msg>
+<msg time="2025-02-17T09:45:03.688530" level="INFO">${stderr} = </msg>
+<msg time="2025-02-17T09:45:03.688668" level="INFO">${rc} = 0</msg>
+<var>${stdout}</var>
+<var>${stderr}</var>
+<var>${rc}</var>
+<arg>rm -rf ${destTempDir}; mkdir ${destTempDir}; mkdir ${appFileDir};</arg>
+<arg>return_stderr=True</arg>
+<arg>return_rc=True</arg>
+<doc>Executes ``command`` on the remote machine and returns its outputs.</doc>
+<status status="PASS" start="2025-02-17T09:45:02.799175" elapsed="0.889587"/>
+</kw>
+<kw name="Execute Command" owner="SSHLibrary">
+<msg time="2025-02-17T09:45:03.690859" level="INFO">Executing command 'cd /tmp_robot/bundle/; mkdir -p icons scripts/k8s/pre scripts/sample_inputs;'.</msg>
+<msg time="2025-02-17T09:45:04.425181" level="INFO">Command exited with return code 0.</msg>
+<msg time="2025-02-17T09:45:04.426323" level="INFO">${stdout} = </msg>
+<msg time="2025-02-17T09:45:04.426469" level="INFO">${stderr} = </msg>
+<msg time="2025-02-17T09:45:04.426606" level="INFO">${rc} = 0</msg>
+<var>${stdout}</var>
+<var>${stderr}</var>
+<var>${rc}</var>
+<arg>cd ${appFileDir}; mkdir -p icons scripts/k8s/pre scripts/sample_inputs;</arg>
+<arg>return_stderr=True</arg>
+<arg>return_rc=True</arg>
+<doc>Executes ``command`` on the remote machine and returns its outputs.</doc>
+<status status="PASS" start="2025-02-17T09:45:03.689736" elapsed="0.736964"/>
+</kw>
+<kw name="Copy File On Remote With Password" owner="robin_base">
+<kw name="Open Connection" owner="SCPLibrary">
+<arg>${remoteIp}</arg>
+<arg>username=${ssh-user}</arg>
+<arg>password=${ssh-pass}</arg>
+<doc>Opens a new SCP connection to the given host.</doc>
+<status status="PASS" start="2025-02-17T09:45:04.429784" elapsed="1.765151"/>
+</kw>
+<kw name="Put File" owner="SCPLibrary">
+<arg>${sourceFile}</arg>
+<arg>${destFile}</arg>
+<doc>Uploads a file to the remote machine from the local machine.</doc>
+<status status="PASS" start="2025-02-17T09:45:06.196548" elapsed="1.751147"/>
+</kw>
+<kw name="Close Connection" owner="SCPLibrary">
+<doc>Closes the SCP connection.</doc>
+<status status="PASS" start="2025-02-17T09:45:07.948627" elapsed="0.000868"/>
+</kw>
+<arg>${master-node-ip}</arg>
+<arg>${iconFile}</arg>
+<arg>${iconDir}</arg>
+<status status="PASS" start="2025-02-17T09:45:04.428534" elapsed="3.521144"/>
+</kw>
+<kw name="Copy File On Remote With Password" owner="robin_base">
+<kw name="Open Connection" owner="SCPLibrary">
+<arg>${remoteIp}</arg>
+<arg>username=${ssh-user}</arg>
+<arg>password=${ssh-pass}</arg>
+<doc>Opens a new SCP connection to the given host.</doc>
+<status status="PASS" start="2025-02-17T09:45:07.950826" elapsed="2.854329"/>
+</kw>
+<kw name="Put File" owner="SCPLibrary">
+<arg>${sourceFile}</arg>
+<arg>${destFile}</arg>
+<doc>Uploads a file to the remote machine from the local machine.</doc>
+<status status="PASS" start="2025-02-17T09:45:10.806185" elapsed="1.842058"/>
+</kw>
+<kw name="Close Connection" owner="SCPLibrary">
+<doc>Closes the SCP connection.</doc>
+<status status="PASS" start="2025-02-17T09:45:12.649322" elapsed="0.000961"/>
+</kw>
+<arg>${master-node-ip}</arg>
+<arg>${manifest-file}</arg>
+<arg>${appFileDir}</arg>
+<status status="PASS" start="2025-02-17T09:45:07.950047" elapsed="4.700406"/>
+</kw>
+<kw name="Copy File On Remote With Password" owner="robin_base">
+<kw name="Open Connection" owner="SCPLibrary">
+<arg>${remoteIp}</arg>
+<arg>username=${ssh-user}</arg>
+<arg>password=${ssh-pass}</arg>
+<doc>Opens a new SCP connection to the given host.</doc>
+<status status="PASS" start="2025-02-17T09:45:12.651640" elapsed="1.670051"/>
+</kw>
+<kw name="Put File" owner="SCPLibrary">
+<arg>${sourceFile}</arg>
+<arg>${destFile}</arg>
+<doc>Uploads a file to the remote machine from the local machine.</doc>
+<status status="PASS" start="2025-02-17T09:45:14.323044" elapsed="2.521559"/>
+</kw>
+<kw name="Close Connection" owner="SCPLibrary">
+<doc>Closes the SCP connection.</doc>
+<status status="PASS" start="2025-02-17T09:45:16.845985" elapsed="0.001304"/>
+</kw>
+<arg>${master-node-ip}</arg>
+<arg>/Users/anup.kumar/Library/CloudStorage/Box-Box/my-folder/python/releaseTest/Robot/backup_restore/bundle/scripts/app_info.py</arg>
+<arg>${appFileDir}scripts/</arg>
+<status status="PASS" start="2025-02-17T09:45:12.650825" elapsed="4.196706"/>
+</kw>
+<kw name="Copy File On Remote With Password" owner="robin_base">
+<kw name="Open Connection" owner="SCPLibrary">
+<arg>${remoteIp}</arg>
+<arg>username=${ssh-user}</arg>
+<arg>password=${ssh-pass}</arg>
+<doc>Opens a new SCP connection to the given host.</doc>
+<status status="PASS" start="2025-02-17T09:45:16.849027" elapsed="1.940532"/>
+</kw>
+<kw name="Put File" owner="SCPLibrary">
+<arg>${sourceFile}</arg>
+<arg>${destFile}</arg>
+<doc>Uploads a file to the remote machine from the local machine.</doc>
+<status status="PASS" start="2025-02-17T09:45:18.791110" elapsed="1.534569"/>
+</kw>
+<kw name="Close Connection" owner="SCPLibrary">
+<doc>Closes the SCP connection.</doc>
+<status status="PASS" start="2025-02-17T09:45:20.326726" elapsed="0.000944"/>
+</kw>
+<arg>${master-node-ip}</arg>
+<arg>/Users/anup.kumar/Library/CloudStorage/Box-Box/my-folder/python/releaseTest/Robot/backup_restore/bundle/scripts/k8s/pre/cm1.yaml</arg>
+<arg>${appFileDir}scripts/k8s/pre/</arg>
+<status status="PASS" start="2025-02-17T09:45:16.848152" elapsed="3.479726"/>
+</kw>
+<kw name="Copy File On Remote With Password" owner="robin_base">
+<kw name="Open Connection" owner="SCPLibrary">
+<arg>${remoteIp}</arg>
+<arg>username=${ssh-user}</arg>
+<arg>password=${ssh-pass}</arg>
+<doc>Opens a new SCP connection to the given host.</doc>
+<status status="PASS" start="2025-02-17T09:45:20.329767" elapsed="1.842735"/>
+</kw>
+<kw name="Put File" owner="SCPLibrary">
+<arg>${sourceFile}</arg>
+<arg>${destFile}</arg>
+<doc>Uploads a file to the remote machine from the local machine.</doc>
+<status status="PASS" start="2025-02-17T09:45:22.173916" elapsed="1.736217"/>
+</kw>
+<kw name="Close Connection" owner="SCPLibrary">
+<doc>Closes the SCP connection.</doc>
+<status status="PASS" start="2025-02-17T09:45:23.911284" elapsed="0.001307"/>
+</kw>
+<arg>${master-node-ip}</arg>
+<arg>/Users/anup.kumar/Library/CloudStorage/Box-Box/my-folder/python/releaseTest/Robot/backup_restore/bundle/scripts/k8s/pre/cm2.yaml</arg>
+<arg>${appFileDir}scripts/k8s/pre/</arg>
+<status status="PASS" start="2025-02-17T09:45:20.328351" elapsed="3.584453"/>
+</kw>
+<kw name="Copy File On Remote With Password" owner="robin_base">
+<kw name="Open Connection" owner="SCPLibrary">
+<arg>${remoteIp}</arg>
+<arg>username=${ssh-user}</arg>
+<arg>password=${ssh-pass}</arg>
+<doc>Opens a new SCP connection to the given host.</doc>
+<status status="PASS" start="2025-02-17T09:45:23.914670" elapsed="1.875439"/>
+</kw>
+<kw name="Put File" owner="SCPLibrary">
+<arg>${sourceFile}</arg>
+<arg>${destFile}</arg>
+<doc>Uploads a file to the remote machine from the local machine.</doc>
+<status status="PASS" start="2025-02-17T09:45:25.791548" elapsed="1.509546"/>
+</kw>
+<kw name="Close Connection" owner="SCPLibrary">
+<doc>Closes the SCP connection.</doc>
+<status status="PASS" start="2025-02-17T09:45:27.302487" elapsed="0.001317"/>
+</kw>
+<arg>${master-node-ip}</arg>
+<arg>/Users/anup.kumar/Library/CloudStorage/Box-Box/my-folder/python/releaseTest/Robot/backup_restore/bundle/scripts/k8s/pre/cm3.yaml</arg>
+<arg>${appFileDir}scripts/k8s/pre/</arg>
+<status status="PASS" start="2025-02-17T09:45:23.913400" elapsed="3.390600"/>
+</kw>
+<kw name="Copy File On Remote With Password" owner="robin_base">
+<kw name="Open Connection" owner="SCPLibrary">
+<arg>${remoteIp}</arg>
+<arg>username=${ssh-user}</arg>
+<arg>password=${ssh-pass}</arg>
+<doc>Opens a new SCP connection to the given host.</doc>
+<status status="PASS" start="2025-02-17T09:45:27.305162" elapsed="1.929328"/>
+</kw>
+<kw name="Put File" owner="SCPLibrary">
+<arg>${sourceFile}</arg>
+<arg>${destFile}</arg>
+<doc>Uploads a file to the remote machine from the local machine.</doc>
+<status status="PASS" start="2025-02-17T09:45:29.235842" elapsed="1.640630"/>
+</kw>
+<kw name="Close Connection" owner="SCPLibrary">
+<doc>Closes the SCP connection.</doc>
+<status status="PASS" start="2025-02-17T09:45:30.877638" elapsed="0.001295"/>
+</kw>
+<arg>${master-node-ip}</arg>
+<arg>/Users/anup.kumar/Library/CloudStorage/Box-Box/my-folder/python/releaseTest/Robot/backup_restore/bundle/scripts/k8s/pre/sa.yaml</arg>
+<arg>${appFileDir}scripts/k8s/pre/</arg>
+<status status="PASS" start="2025-02-17T09:45:27.304389" elapsed="3.574744"/>
+</kw>
+<kw name="Copy File On Remote With Password" owner="robin_base">
+<kw name="Open Connection" owner="SCPLibrary">
+<arg>${remoteIp}</arg>
+<arg>username=${ssh-user}</arg>
+<arg>password=${ssh-pass}</arg>
+<doc>Opens a new SCP connection to the given host.</doc>
+<status status="PASS" start="2025-02-17T09:45:30.880280" elapsed="1.835905"/>
+</kw>
+<kw name="Put File" owner="SCPLibrary">
+<arg>${sourceFile}</arg>
+<arg>${destFile}</arg>
+<doc>Uploads a file to the remote machine from the local machine.</doc>
+<status status="PASS" start="2025-02-17T09:45:32.717517" elapsed="1.649688"/>
+</kw>
+<kw name="Close Connection" owner="SCPLibrary">
+<doc>Closes the SCP connection.</doc>
+<status status="PASS" start="2025-02-17T09:45:34.368578" elapsed="0.001202"/>
+</kw>
+<arg>${master-node-ip}</arg>
+<arg>/Users/anup.kumar/Library/CloudStorage/Box-Box/my-folder/python/releaseTest/Robot/backup_restore/bundle/scripts/sample_inputs/input_envfrom.yaml</arg>
+<arg>${appFileDir}scripts/sample_inputs</arg>
+<status status="PASS" start="2025-02-17T09:45:30.879511" elapsed="3.490452"/>
+</kw>
+<kw name="Edit file by sed" owner="robin_base">
+<kw name="Execute Command" owner="SSHLibrary">
+<msg time="2025-02-17T09:45:34.372249" level="INFO">Executing command 'sed -i -e 's/media/HDD/g' /tmp_robot/bundle/manifest.yaml'.</msg>
+<msg time="2025-02-17T09:45:34.841376" level="INFO">Command exited with return code 0.</msg>
+<msg time="2025-02-17T09:45:34.842183" level="INFO">${stdout} = </msg>
+<msg time="2025-02-17T09:45:34.842333" level="INFO">${stderr} = </msg>
+<msg time="2025-02-17T09:45:34.842474" level="INFO">${rc} = 0</msg>
+<var>${stdout}</var>
+<var>${stderr}</var>
+<var>${rc}</var>
+<arg>sed -i -e 's/${org-str}/${aft-str}/g' ${file}</arg>
+<arg>return_stderr=True</arg>
+<arg>return_rc=True</arg>
+<doc>Executes ``command`` on the remote machine and returns its outputs.</doc>
+<status status="PASS" start="2025-02-17T09:45:34.371780" elapsed="0.470781"/>
+</kw>
+<kw name="Should Be Equal As Integers" owner="BuiltIn">
+<msg time="2025-02-17T09:45:34.843931" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${rc}</arg>
+<arg>0</arg>
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<status status="PASS" start="2025-02-17T09:45:34.843416" elapsed="0.000644"/>
+</kw>
+<arg>${appFileDir}manifest.yaml</arg>
+<arg>media</arg>
+<arg>${media}</arg>
+<status status="PASS" start="2025-02-17T09:45:34.370922" elapsed="0.473295"/>
+</kw>
+<kw name="Execute Command" owner="SSHLibrary">
+<msg time="2025-02-17T09:45:34.844873" level="INFO">Executing command 'cd /tmp_robot/bundle/; tar czvf robotBundleNginx.tar.gz *;'.</msg>
+<msg time="2025-02-17T09:45:35.803867" level="INFO">Command exited with return code 0.</msg>
+<msg time="2025-02-17T09:45:35.804989" level="INFO">${stdout} = icons/
+icons/nginx.png
+manifest.yaml
+scripts/
+scripts/k8s/
+scripts/k8s/pre/
+scripts/k8s/pre/cm1.yaml
+scripts/k8s/pre/cm2.yaml
+scripts/k8s/pre/cm3.yaml
+scripts/k8s/pre/sa.yaml
+scripts/sample_inputs/
+sc...</msg>
+<msg time="2025-02-17T09:45:35.805167" level="INFO">${stderr} = </msg>
+<msg time="2025-02-17T09:45:35.805584" level="INFO">${rc} = 0</msg>
+<var>${stdout}</var>
+<var>${stderr}</var>
+<var>${rc}</var>
+<arg>cd ${appFileDir}; tar czvf ${bundle-name}.tar.gz *;</arg>
+<arg>return_stderr=True</arg>
+<arg>return_rc=True</arg>
+<doc>Executes ``command`` on the remote machine and returns its outputs.</doc>
+<status status="PASS" start="2025-02-17T09:45:34.844463" elapsed="0.961190"/>
+</kw>
+<kw name="Should Be Equal As Integers" owner="BuiltIn">
+<msg time="2025-02-17T09:45:35.807597" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${rc}</arg>
+<arg>0</arg>
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<status status="PASS" start="2025-02-17T09:45:35.806628" elapsed="0.001126"/>
+</kw>
+<kw name="Add Robin Bundle" owner="robin_base">
+<kw name="Execute Command" owner="SSHLibrary">
+<msg time="2025-02-17T09:45:35.809947" level="INFO">Executing command '~/bin/robin bundle add robotBundleNginx 1.0.0 /tmp_robot/bundle/robotBundleNginx.tar.gz'.</msg>
+<msg time="2025-02-17T09:45:37.892166" level="INFO">Command exited with return code 0.</msg>
+<msg time="2025-02-17T09:45:37.893220" level="INFO">${stdout} = 
+Submitted job '289886'. Use 'robin job wait 289886' to track the progress</msg>
+<msg time="2025-02-17T09:45:37.893301" level="INFO">${stderr} = File uploaded: Calculating hash. This could take a while depending on image sizeFile uploaded: Calculating hash. This could take a while depending on image size</msg>
+<msg time="2025-02-17T09:45:37.893375" level="INFO">${rc} = 0</msg>
+<var>${stdout}</var>
+<var>${stderr}</var>
+<var>${rc}</var>
+<arg>~/bin/robin bundle add ${bundle-name} ${version} ${image}</arg>
+<arg>--wait</arg>
+<arg>return_stderr=True</arg>
+<arg>return_rc=True</arg>
+<doc>Executes ``command`` on the remote machine and returns its outputs.</doc>
+<status status="PASS" start="2025-02-17T09:45:35.809401" elapsed="2.084028"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2025-02-17T09:45:37.895430" level="INFO">
+Submitted job '289886'. Use 'robin job wait 289886' to track the progress</msg>
+<arg>${stdout}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2025-02-17T09:45:37.894396" elapsed="0.001402"/>
+</kw>
+<kw name="Should Be Equal As Integers" owner="BuiltIn">
+<msg time="2025-02-17T09:45:37.897489" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${rc}</arg>
+<arg>0</arg>
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<status status="PASS" start="2025-02-17T09:45:37.896337" elapsed="0.001296"/>
+</kw>
+<arg>${bundle-name}</arg>
+<arg>1.0.0</arg>
+<arg>${bundle-tar}</arg>
+<status status="PASS" start="2025-02-17T09:45:35.808267" elapsed="2.089532"/>
+</kw>
+<arg>${bundle-name}</arg>
+<status status="PASS" start="2025-02-17T09:45:02.797624" elapsed="35.100596"/>
+</kw>
+<status status="PASS" start="2025-02-17T09:45:02.797359" elapsed="35.100924"/>
+</branch>
+<status status="PASS" start="2025-02-17T09:45:02.797343" elapsed="35.101023"/>
+</if>
+<arg>${bundles}</arg>
+<arg>${bundle-name}</arg>
+<status status="PASS" start="2025-02-17T09:45:02.788976" elapsed="35.109502"/>
+</kw>
+<arg>${bundle-length} &gt; 0</arg>
+<arg>Check Bundle In List</arg>
+<arg>${bundles}</arg>
+<arg>${bundle-name}</arg>
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<status status="PASS" start="2025-02-17T09:45:02.788393" elapsed="35.110183"/>
+</kw>
+<status status="PASS" start="2025-02-17T09:44:55.423262" elapsed="42.475835"/>
+</test>
+<test id="s1-t7" name="Get Bundle Info" line="40">
+<kw name="Run Keyword If" owner="BuiltIn">
+<kw name="Get Bundle Id" owner="robin_base">
+<kw name="Execute Command" owner="SSHLibrary">
+<msg time="2025-02-17T09:45:37.901955" level="INFO">Executing command '~/bin/robin bundle list --json'.</msg>
+<msg time="2025-02-17T09:45:39.477289" level="INFO">Command exited with return code 0.</msg>
+<msg time="2025-02-17T09:45:39.478251" level="INFO">${stdout} = {
+    "bundles": [
+        {
+            "groupid": 198,
+            "bundleid": 198,
+            "share_with_all_tenants": false,
+            "name": "robotBundleNginx",
+            "parent": "",
+   ...</msg>
+<msg time="2025-02-17T09:45:39.478341" level="INFO">${stderr} = </msg>
+<msg time="2025-02-17T09:45:39.478423" level="INFO">${rc} = 0</msg>
+<var>${stdout}</var>
+<var>${stderr}</var>
+<var>${rc}</var>
+<arg>~/bin/robin bundle list --json</arg>
+<arg>return_stderr=True</arg>
+<arg>return_rc=True</arg>
+<doc>Executes ``command`` on the remote machine and returns its outputs.</doc>
+<status status="PASS" start="2025-02-17T09:45:37.901632" elapsed="1.576857"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2025-02-17T09:45:39.480228" level="INFO">${stdout} = {'bundles': [{'groupid': 198, 'bundleid': 198, 'share_with_all_tenants': False, 'name': 'robotBundleNginx', 'parent': '', 'version': '1.0.0', 'zoneid': 1718806345, 'napps': 0, 'ntemplates': 0, 'nb_col...</msg>
+<var>${stdout}</var>
+<arg>json.loads("""${stdout}""")</arg>
+<arg>json</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2025-02-17T09:45:39.479204" elapsed="0.001087"/>
+</kw>
+<for flavor="IN">
+<iter>
+<if>
+<branch type="IF" condition="'${member['name']}'=='${bundle-name}'">
+<kw name="Set Suite Variable" owner="BuiltIn">
+<msg time="2025-02-17T09:45:39.484758" level="INFO">${bundleId} = 198</msg>
+<arg>${bundleId}</arg>
+<arg>${member['bundleid']}</arg>
+<doc>Makes a variable available everywhere within the scope of the current suite.</doc>
+<status status="PASS" start="2025-02-17T09:45:39.482685" elapsed="0.002136"/>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2025-02-17T09:45:39.485219" level="INFO">${bool-this-keyword} = True</msg>
+<var>${bool-this-keyword}</var>
+<arg>${true}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="PASS" start="2025-02-17T09:45:39.484996" elapsed="0.000252"/>
+</kw>
+<kw name="Exit For Loop" owner="BuiltIn">
+<msg time="2025-02-17T09:45:39.485683" level="INFO">Exiting for loop altogether.</msg>
+<doc>Stops executing the enclosing FOR loop.</doc>
+<status status="PASS" start="2025-02-17T09:45:39.485577" elapsed="0.000621"/>
+</kw>
+<status status="PASS" start="2025-02-17T09:45:39.481688" elapsed="0.004561"/>
+</branch>
+<status status="PASS" start="2025-02-17T09:45:39.481657" elapsed="0.004633"/>
+</if>
+<var name="${member}">{'groupid': 198, 'bundleid': 198, 'share_with_all_tenants': False, 'name': 'robotBundleNginx', 'parent': '', 'version': '1.0.0', 'zoneid': 1718806345, 'napps': 0, 'ntemplates': 0, 'nb_collections': 0,...</var>
+<status status="PASS" start="2025-02-17T09:45:39.481591" elapsed="0.004736"/>
+</iter>
+<var>${member}</var>
+<value>@{stdout['bundles']}</value>
+<status status="PASS" start="2025-02-17T09:45:39.480448" elapsed="0.005926"/>
+</for>
+<kw name="Should Be True" owner="BuiltIn">
+<arg>${bool-this-keyword}</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="PASS" start="2025-02-17T09:45:39.486529" elapsed="0.000186"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2025-02-17T09:45:39.487117" level="INFO">Bundle ID:198</msg>
+<arg>Bundle ID:${bundleId}</arg>
+<arg>console=yes</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2025-02-17T09:45:39.486880" elapsed="0.000354"/>
+</kw>
+<arg>${bundle-name}</arg>
+<status status="PASS" start="2025-02-17T09:45:37.901081" elapsed="1.586251"/>
+</kw>
+<arg>'${PREV TEST STATUS}'=='PASS'</arg>
+<arg>Get Bundle Id</arg>
+<arg>${bundle-name}</arg>
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<status status="PASS" start="2025-02-17T09:45:37.900323" elapsed="1.587070"/>
+</kw>
+<kw name="Run Keyword If" owner="BuiltIn">
+<kw name="Get Zone Id" owner="robin_base">
+<kw name="Execute Command" owner="SSHLibrary">
+<msg time="2025-02-17T09:45:39.488680" level="INFO">Executing command '~/bin/robin bundle list --json'.</msg>
+<msg time="2025-02-17T09:45:41.161473" level="INFO">Command exited with return code 0.</msg>
+<msg time="2025-02-17T09:45:41.162732" level="INFO">${stdout} = {
+    "bundles": [
+        {
+            "groupid": 198,
+            "bundleid": 198,
+            "share_with_all_tenants": false,
+            "name": "robotBundleNginx",
+            "parent": "",
+   ...</msg>
+<msg time="2025-02-17T09:45:41.162906" level="INFO">${stderr} = </msg>
+<msg time="2025-02-17T09:45:41.163044" level="INFO">${rc} = 0</msg>
+<var>${stdout}</var>
+<var>${stderr}</var>
+<var>${rc}</var>
+<arg>~/bin/robin bundle list --json</arg>
+<arg>return_stderr=True</arg>
+<arg>return_rc=True</arg>
+<doc>Executes ``command`` on the remote machine and returns its outputs.</doc>
+<status status="PASS" start="2025-02-17T09:45:39.488476" elapsed="1.674663"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2025-02-17T09:45:41.166274" level="INFO">${stdout} = {'bundles': [{'groupid': 198, 'bundleid': 198, 'share_with_all_tenants': False, 'name': 'robotBundleNginx', 'parent': '', 'version': '1.0.0', 'zoneid': 1718806345, 'napps': 0, 'ntemplates': 0, 'nb_col...</msg>
+<var>${stdout}</var>
+<arg>json.loads("""${stdout}""")</arg>
+<arg>json</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2025-02-17T09:45:41.164380" elapsed="0.001978"/>
+</kw>
+<for flavor="IN">
+<iter>
+<if>
+<branch type="IF" condition="'${member['name']}'=='${bundle-name}'">
+<kw name="Set Suite Variable" owner="BuiltIn">
+<msg time="2025-02-17T09:45:41.170238" level="INFO">${zoneId} = 1718806345</msg>
+<arg>${zoneId}</arg>
+<arg>${member['zoneid']}</arg>
+<doc>Makes a variable available everywhere within the scope of the current suite.</doc>
+<status status="PASS" start="2025-02-17T09:45:41.168873" elapsed="0.001430"/>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2025-02-17T09:45:41.170640" level="INFO">${bool-this-keyword} = True</msg>
+<var>${bool-this-keyword}</var>
+<arg>${true}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="PASS" start="2025-02-17T09:45:41.170459" elapsed="0.000202"/>
+</kw>
+<kw name="Exit For Loop" owner="BuiltIn">
+<msg time="2025-02-17T09:45:41.170859" level="INFO">Exiting for loop altogether.</msg>
+<doc>Stops executing the enclosing FOR loop.</doc>
+<status status="PASS" start="2025-02-17T09:45:41.170780" elapsed="0.000147"/>
+</kw>
+<status status="PASS" start="2025-02-17T09:45:41.168152" elapsed="0.002807"/>
+</branch>
+<status status="PASS" start="2025-02-17T09:45:41.168129" elapsed="0.002861"/>
+</if>
+<var name="${member}">{'groupid': 198, 'bundleid': 198, 'share_with_all_tenants': False, 'name': 'robotBundleNginx', 'parent': '', 'version': '1.0.0', 'zoneid': 1718806345, 'napps': 0, 'ntemplates': 0, 'nb_collections': 0,...</var>
+<status status="PASS" start="2025-02-17T09:45:41.168053" elapsed="0.002964"/>
+</iter>
+<var>${member}</var>
+<value>@{stdout['bundles']}</value>
+<status status="PASS" start="2025-02-17T09:45:41.166633" elapsed="0.004417"/>
+</for>
+<kw name="Should Be True" owner="BuiltIn">
+<arg>${bool-this-keyword}</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="PASS" start="2025-02-17T09:45:41.171165" elapsed="0.000154"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2025-02-17T09:45:41.171638" level="INFO">Zone ID:1718806345</msg>
+<arg>Zone ID:${zoneId}</arg>
+<arg>console=yes</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2025-02-17T09:45:41.171457" elapsed="0.000291"/>
+</kw>
+<status status="PASS" start="2025-02-17T09:45:39.488106" elapsed="1.683723"/>
+</kw>
+<arg>'${PREV TEST STATUS}'=='PASS'</arg>
+<arg>Get Zone Id</arg>
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<status status="PASS" start="2025-02-17T09:45:39.487643" elapsed="1.684230"/>
+</kw>
+<kw name="Run Keyword If" owner="BuiltIn">
+<kw name="Get Content Id" owner="robin_base">
+<kw name="Execute Command" owner="SSHLibrary">
+<msg time="2025-02-17T09:45:41.172894" level="INFO">Executing command '~/bin/robin bundle list --json'.</msg>
+<msg time="2025-02-17T09:45:42.767726" level="INFO">Command exited with return code 0.</msg>
+<msg time="2025-02-17T09:45:42.769200" level="INFO">${stdout} = {
+    "bundles": [
+        {
+            "groupid": 198,
+            "bundleid": 198,
+            "share_with_all_tenants": false,
+            "name": "robotBundleNginx",
+            "parent": "",
+   ...</msg>
+<msg time="2025-02-17T09:45:42.769365" level="INFO">${stderr} = </msg>
+<msg time="2025-02-17T09:45:42.769504" level="INFO">${rc} = 0</msg>
+<var>${stdout}</var>
+<var>${stderr}</var>
+<var>${rc}</var>
+<arg>~/bin/robin bundle list --json</arg>
+<arg>return_stderr=True</arg>
+<arg>return_rc=True</arg>
+<doc>Executes ``command`` on the remote machine and returns its outputs.</doc>
+<status status="PASS" start="2025-02-17T09:45:41.172732" elapsed="1.596873"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2025-02-17T09:45:42.772796" level="INFO">${stdout} = {'bundles': [{'groupid': 198, 'bundleid': 198, 'share_with_all_tenants': False, 'name': 'robotBundleNginx', 'parent': '', 'version': '1.0.0', 'zoneid': 1718806345, 'napps': 0, 'ntemplates': 0, 'nb_col...</msg>
+<var>${stdout}</var>
+<arg>json.loads("""${stdout}""")</arg>
+<arg>json</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2025-02-17T09:45:42.770883" elapsed="0.001997"/>
+</kw>
+<for flavor="IN">
+<iter>
+<if>
+<branch type="IF" condition="'${member['name']}'=='${bundle-name}'">
+<kw name="Set Suite Variable" owner="BuiltIn">
+<msg time="2025-02-17T09:45:42.777638" level="INFO">${contentId} = 1c5fee80ded434027bcab048dda5e2b9</msg>
+<arg>${contentId}</arg>
+<arg>${member['content_id']}</arg>
+<doc>Makes a variable available everywhere within the scope of the current suite.</doc>
+<status status="PASS" start="2025-02-17T09:45:42.776287" elapsed="0.001424"/>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2025-02-17T09:45:42.778209" level="INFO">${bool-this-keyword} = True</msg>
+<var>${bool-this-keyword}</var>
+<arg>${true}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="PASS" start="2025-02-17T09:45:42.777871" elapsed="0.000360"/>
+</kw>
+<kw name="Exit For Loop" owner="BuiltIn">
+<msg time="2025-02-17T09:45:42.778429" level="INFO">Exiting for loop altogether.</msg>
+<doc>Stops executing the enclosing FOR loop.</doc>
+<status status="PASS" start="2025-02-17T09:45:42.778350" elapsed="0.000159"/>
+</kw>
+<status status="PASS" start="2025-02-17T09:45:42.775521" elapsed="0.003020"/>
+</branch>
+<status status="PASS" start="2025-02-17T09:45:42.775497" elapsed="0.003074"/>
+</if>
+<var name="${member}">{'groupid': 198, 'bundleid': 198, 'share_with_all_tenants': False, 'name': 'robotBundleNginx', 'parent': '', 'version': '1.0.0', 'zoneid': 1718806345, 'napps': 0, 'ntemplates': 0, 'nb_collections': 0,...</var>
+<status status="PASS" start="2025-02-17T09:45:42.775416" elapsed="0.003183"/>
+</iter>
+<var>${member}</var>
+<value>@{stdout['bundles']}</value>
+<status status="PASS" start="2025-02-17T09:45:42.773164" elapsed="0.005471"/>
+</for>
+<kw name="Should Be True" owner="BuiltIn">
+<arg>${bool-this-keyword}</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="PASS" start="2025-02-17T09:45:42.778750" elapsed="0.000134"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2025-02-17T09:45:42.779177" level="INFO">Content ID:1c5fee80ded434027bcab048dda5e2b9</msg>
+<arg>Content ID:${contentId}</arg>
+<arg>console=yes</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2025-02-17T09:45:42.779012" elapsed="0.000242"/>
+</kw>
+<status status="PASS" start="2025-02-17T09:45:41.172440" elapsed="1.606886"/>
+</kw>
+<arg>'${PREV TEST STATUS}'=='PASS'</arg>
+<arg>Get Content Id</arg>
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<status status="PASS" start="2025-02-17T09:45:41.172049" elapsed="1.607317"/>
+</kw>
+<kw name="Run Keyword If" owner="BuiltIn">
+<kw name="Log Bundle Info" owner="robin_base">
+<kw name="Log To Console" owner="BuiltIn">
+<arg>Get Bundle Info | Bundle ID: ${bundleId} | Zone ID: ${zoneId} | Content ID: ${contentId}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" start="2025-02-17T09:45:42.780439" elapsed="0.000180"/>
+</kw>
+<arg>${bundleId}</arg>
+<arg>${zoneId}</arg>
+<arg>${contentId}</arg>
+<status status="PASS" start="2025-02-17T09:45:42.779777" elapsed="0.000895"/>
+</kw>
+<arg>'${PREV TEST STATUS}' == 'PASS'</arg>
+<arg>Log Bundle Info</arg>
+<arg>${bundleId}</arg>
+<arg>${zoneId}</arg>
+<arg>${contentId}</arg>
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<status status="PASS" start="2025-02-17T09:45:42.779522" elapsed="0.001190"/>
+</kw>
+<status status="PASS" start="2025-02-17T09:45:37.899663" elapsed="4.881196"/>
+</test>
+<test id="s1-t8" name="Check bundle list" line="47">
+<kw name="robin bundle list" owner="robin_base">
+<kw name="Execute Command" owner="SSHLibrary">
+<msg time="2025-02-17T09:45:42.781726" level="INFO">Executing command '~/bin/robin bundle list'.</msg>
+<msg time="2025-02-17T09:45:44.350289" level="INFO">Command exited with return code 0.</msg>
+<msg time="2025-02-17T09:45:44.351203" level="INFO">${stdout} = Bundle Id | Type  | Owner/Tenant         | Name             | Version | Zone Id    | Content Id                       | Description         | Group Id | #Templates | #Apps
+----------+-------+---------...</msg>
+<msg time="2025-02-17T09:45:44.351287" level="INFO">${stderr} = </msg>
+<msg time="2025-02-17T09:45:44.351360" level="INFO">${rc} = 0</msg>
+<var>${stdout}</var>
+<var>${stderr}</var>
+<var>${rc}</var>
+<arg>~/bin/robin bundle list</arg>
+<arg>return_stderr=True</arg>
+<arg>return_rc=True</arg>
+<doc>Executes ``command`` on the remote machine and returns its outputs.</doc>
+<status status="PASS" start="2025-02-17T09:45:42.781585" elapsed="1.569834"/>
+</kw>
+<kw name="Should Contain" owner="BuiltIn">
+<arg>${stdout}</arg>
+<arg>Name</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" start="2025-02-17T09:45:44.352254" elapsed="0.000786"/>
+</kw>
+<status status="PASS" start="2025-02-17T09:45:42.781380" elapsed="1.571883"/>
+</kw>
+<status status="PASS" start="2025-02-17T09:45:42.781060" elapsed="1.572847"/>
+</test>
+<test id="s1-t9" name="Create app from Bundle" line="51">
+<kw name="Create App From Bundle" owner="backup_restore_bundle">
+<msg time="2025-02-17T09:46:32.868177" level="INFO">${response} = [{'jobid': 289887, 'plan': {'name': 'robotnginxapp', 'version': '1.15.8', 'snapshot': 'enabled', 'clone': 'disabled', 'clonemode': 'unfenced', 'roles': [{'name': 'nginx', 'scaleout': 'enabled', 'multi...</msg>
+<var>${response}</var>
+<arg>${auth_token}</arg>
+<arg>${bundleId}</arg>
+<status status="PASS" start="2025-02-17T09:45:44.355807" elapsed="48.512458"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2025-02-17T09:46:32.869374" level="INFO">[{'jobid': 289887, 'plan': {'name': 'robotnginxapp', 'version': '1.15.8', 'snapshot': 'enabled', 'clone': 'disabled', 'clonemode': 'unfenced', 'roles': [{'name': 'nginx', 'scaleout': 'enabled', 'multinode': True, 'image': {'name': 'nginx', 'version': '1.15.8-alpine', 'engine': 'docker'}, 'serviceAccountName': "{{app['name'].lower()}}-sa", 'services': [{'type': 'ClusterIP', 'labels': {'l1': 'v1', 'l2': 'v2', 'app': '{{APP_NAME}}', 'namespace': '{{APP_NS}}'}, 'annotations': {'a1': 'av1', 'a2': 'av2', 'app': '{{APP_NAME}}', 'namespace': '{{APP_NS}}'}, 'ports': [{'port': 80, 'protocol': 'TCP', 'name': 'web'}]}, {'type': 'LoadBalancer', 'labels': {'l1': 'v1', 'l2': 'v2', 'app': '{{APP_NAME}}', 'namespace': '{{APP_NS}}'}, 'annotations': {'a1': 'av1', 'a2': 'av2', 'app': '{{APP_NAME}}', 'namespace': '{{APP_NS}}'}, 'ports': [{'port': 80, 'protocol': 'TCP', 'name': 'web'}]}], 'hostAliases': [{'ip': '1.2.3.4', 'hostnames': ['foo.remote', 'bar.remote']}], 'display_name': 'nginx', 'vnodes': [{'name': 'robotnginxapp.nginx.01', 'multinode': True, 'labels': {'labelkey1': 'labelvalue1', 'labelkey2': 'labelvalue2'}, 'annotations': {'annokey1': 'annovalue1', 'annokey2': 'annovalue2'}, 'storage': [{'type': 'data', 'HDD': 'ssd', 'path': '/opt/data', 'size': 2147483648, 'mount_in_sidecars': True, 'mount_in_initcontainers': True, 'blocksize': 4096, 'compression': 'disabled', 'layout': 'round-robin', 'media': 'HDD', 'name': 'none_nginx01_data01', 'protection': 0, 'replication': 1, 'faultdomain': 'host', 'encryption': 'none', 'disk_tags': {}, 'lvm_type': 'None', 'lvm_vol_count': '0', 'workload': 0, 'snap_reserved': 20, 'snapshot_space_limit': 429496730, 'fstype': 'ext4', 'stordriver': {'media': 'HDD', 'protection': 0, 'faultdomain': 'host', 'type': 'das'}, 'pvcpolicy': 'create'}], 'envFrom': [{'configMapRef': {'name': "{{app['name'].lower()}}-cm3"}}], 'extEnv': [{'name': 'SPECIAL_LEVEL_KEY', 'valueFrom': {'configMapKeyRef': {'name': "{{app['name'].lower()}}-cm1", 'key': 'special.how'}}}], 'volumes': [{'name': 'vol-cm1', 'configMap': {'name': "{{app['name'].lower()}}-cm1", 'defaultMode': 420}}, {'name': 'vol-cm2', 'configMap': {'name': "{{app['name'].lower()}}-cm2", 'defaultMode': 420}}, {'name': 'vol-cm3', 'configMap': {'name': "{{app['name'].lower()}}-cm3", 'defaultMode': 420}}], 'podSecurityContext': {'runAsUser': 0}, 'securityContext': {'allowPrivilegeEscalation': True}, 'serviceAccountName': "{{app['name'].lower()}}-sa", 'volumeMounts': [{'name': 'vol-cm1', 'mountPath': '/cm1'}, {'name': 'vol-cm2', 'mountPath': '/cm2'}, {'name': 'vol-cm3', 'mountPath': '/cm3'}], 'livenessProbe': {'httpGet': {'path': '/', 'port': 80, 'httpHeaders': [{'name': 'Custom-Header', 'value': 'Awesome'}]}, 'initialDelaySeconds': 3, 'periodSeconds': 3, 'timeoutSeconds': 10}, 'readinessProbe': {'exec': {'command': ['sleep', '1']}, 'initialDelaySeconds': 5, 'timeoutSeconds': 10}, 'initContainers': [{'name': 'init', 'image': 'k8s.gcr.io/busybox', 'imagePullPolicy': 'IfNotPresent', 'resources': {'limits': {'cpu': '25m', 'memory': '128Mi'}}, 'command': ['sleep', '1'], 'securityContext': {'allowPrivilegeEscalation': True}, 'volumeMounts': [{'name': 'vol-cm1', 'mountPath': '/cm1'}, {'name': 'vol-cm2', 'mountPath': '/cm2'}, {'name': 'vol-cm3', 'mountPath': '/cm3'}]}], 'sidecars': [{'name': 'busyside1', 'image': 'k8s.gcr.io/busybox', 'command': ['sleep', '3000'], 'resources': {'limits': {'memory': '200Mi'}, 'requests': {'memory': '100Mi'}}, 'volumeMounts': [{'name': 'vol-cm1', 'mountPath': '/cm1'}, {'name': 'vol-cm2', 'mountPath': '/cm2'}, {'name': 'vol-cm3', 'mountPath': '/cm3'}], 'securityContext': {'allowPrivilegeEscalation': True}}], 'services': [{'type': 'NodePort', 'labels': {'l1': 'v1', 'l2': 'v2', 'app': '{{APP_NAME}}', 'namespace': '{{APP_NS}}'}, 'annotations': {'a1': 'av1', 'a2': 'av2', 'app': '{{APP_NAME}}', 'namespace': '{{APP_NS}}'}, 'scope': 'pod', 'ports': [{'port': 80, 'protocol': 'TCP', 'name': 'web'}]}], 'hostAliases': [{'ip': '1.2.3.4', 'hostnames': ['foo.remote', 'bar.remote']}], 'cpu': {'reserve': False, 'min': 0, 'max': 1}, 'gpu': {'min': 0, 'max': 0}, 'mem': {'size': 1073741824, 'hugepages_2m': 0, 'hugepages_1g': 0}, 'env': {}, 'network': [{'ippool': 'robin-default', 'name': 'robin-default'}], 'enable_portmapping': True, 'enable_hooklogs': True, 'enable_metrics': True}], 'qgroups': {'data': {'enabled': False, 'priority': 1, 'rd_max_iops': 2000000, 'rd_min_iops': 0, 'rd_min_window': 500, 'rd_weight': 1, 'wr_max_iops': 2000000, 'wr_min_iops': 0, 'wr_min_window': 500, 'wr_weight': 1}}, 'restart_on_qoscfg': True}], 'appvars': {'var1': '{{APP_NAME}}-val1', 'var2': '{{APP_NAME}}-val2'}, 'apphooks': {'info': 'python3 app_info.py', 'postcreate': {'type': 'job', 'spec': {'template': {'spec': {'volumes': [{'name': 'vol-cm1', 'configMap': {'name': "{{app['name'].lower()}}-cm1", 'defaultMode': 420}}, {'name': 'vol-cm2', 'configMap': {'name': "{{app['name'].lower()}}-cm2", 'defaultMode': 420}}, {'name': 'vol-cm3', 'configMap': {'name': "{{app['name'].lower()}}-cm3", 'defaultMode': 420}}], 'containers': [{'name': "{{app['name'].lower()}}-pin1", 'image': 'k8s.gcr.io/busybox', 'command': ['sleep', '1'], 'volumeMounts': [{'name': 'vol-cm1', 'mountPath': '/cm1'}, {'name': 'vol-cm2', 'mountPath': '/cm2'}, {'name': 'vol-cm3', 'mountPath': '/cm3'}]}], 'restartPolicy': 'Never', 'backoffLimit': 4}}}}}, 'robin_version': '5.4.3-558', 'pvcpolicy': 'create', 'rpool': 'default', 'from_template': None, 'zoneid': 1718806345, 'bundleid': 198, 'content_id': '1c5fee80ded434027bcab048dda5e2b9', 'kind': 'ROBIN', 'namespace': 'anupdemo', 'input_json': {'roles': []}, 'restart_num': 15, 'auto_relocate': True, 'enable_ssh': False, 'rpoolid': 1, 'username': 'admin', 'tenant': 'Administrators', 'tenant_id': 1, 'app_ns': 'anupdemo', 'enable_hooklogs': True, 'enable_metrics': True}}, 202]</msg>
+<arg>${response}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2025-02-17T09:46:32.868792" elapsed="0.000895"/>
+</kw>
+<kw name="Should Be Equal As Numbers" owner="BuiltIn">
+<msg time="2025-02-17T09:46:32.871071" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${response[1]}</arg>
+<arg>202</arg>
+<doc>Fails if objects are unequal after converting them to real numbers.</doc>
+<status status="PASS" start="2025-02-17T09:46:32.869957" elapsed="0.001204"/>
+</kw>
+<doc>Create app from bundle</doc>
+<status status="PASS" start="2025-02-17T09:45:44.354368" elapsed="48.517016"/>
+</test>
+<test id="s1-t10" name="Register external repo" line="57">
+<kw name="Register External Repo" owner="backup_restore_bundle">
+<msg time="2025-02-17T09:46:34.969596" level="INFO">${response} = [{'jobid': 289890}, 202]</msg>
+<var>${response}</var>
+<arg>${auth_token}</arg>
+<status status="PASS" start="2025-02-17T09:46:32.872181" elapsed="2.097496"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2025-02-17T09:46:34.970523" level="INFO">[{'jobid': 289890}, 202]</msg>
+<arg>${response}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2025-02-17T09:46:34.970163" elapsed="0.000434"/>
+</kw>
+<kw name="Should Be Equal As Numbers" owner="BuiltIn">
+<msg time="2025-02-17T09:46:34.971955" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${response[1]}</arg>
+<arg>202</arg>
+<doc>Fails if objects are unequal after converting them to real numbers.</doc>
+<status status="PASS" start="2025-02-17T09:46:34.970853" elapsed="0.001205"/>
+</kw>
+<doc>Register external rep for backup storage</doc>
+<status status="PASS" start="2025-02-17T09:46:32.871668" elapsed="2.100637"/>
+</test>
+<test id="s1-t11" name="Attach app to external repo" line="63">
+<kw name="Attach App To Ext Repo" owner="backup_restore_bundle">
+<msg time="2025-02-17T09:46:36.999261" level="INFO">${response} = [{'jobid': 289891, 'plan': {'action': 'add_repo', 'name': 'robotnginxapp', 'repo_name': 'robotNginxRepo', 'namespace': 't001-u000005', 'kind': 'robin', 'opcode': None, 'current_user': {'user_id': 5, '...</msg>
+<var>${response}</var>
+<arg>${auth_token}</arg>
+<status status="PASS" start="2025-02-17T09:46:34.973248" elapsed="2.026108"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2025-02-17T09:46:37.000611" level="INFO">[{'jobid': 289891, 'plan': {'action': 'add_repo', 'name': 'robotnginxapp', 'repo_name': 'robotNginxRepo', 'namespace': 't001-u000005', 'kind': 'robin', 'opcode': None, 'current_user': {'user_id': 5, 'username': 'admin', 'tenant_id': 1, 'tenant': 'Administrators', 'tenants': ['Administrators', 'test-tenant', 'test-tenant1'], 'tenant_role': 'superadmin', 'namespace': 't001-u000005', 'user_context': 'admin', 'user_contexts': ['admin', 'admin', 'admin'], 'user_capabilities': ['AllSuperAdminCapabilities'], 'permissions': {'ALERT': {'resolve': 'GLOBAL'}, 'ANALYTICS': {'create': 'GLOBAL', 'view': 'GLOBAL'}, 'APPLICATION': {'abort_backup_create': 'GLOBAL', 'abort_snapshot_import': 'GLOBAL', 'add_policy': 'GLOBAL', 'add_repo': 'GLOBAL', 'addkey': 'GLOBAL', 'addtrigger': 'GLOBAL', 'addvol': 'GLOBAL', 'assign_vdi': 'GLOBAL', 'backup': 'GLOBAL', 'change_owner': 'GLOBAL', 'clone': 'GLOBAL', 'computeqos': 'GLOBAL', 'config': 'GLOBAL', 'create': 'GLOBAL', 'delete': 'GLOBAL', 'delete_backup': 'GLOBAL', 'deltrigger': 'GLOBAL', 'delvol': 'GLOBAL', 'evacuate': 'GLOBAL', 'expandvol': 'GLOBAL', 'freeze': 'GLOBAL', 'hydrate': 'GLOBAL', 'manage_instances': 'GLOBAL', 'moveresources': 'GLOBAL', 'probe': 'GLOBAL', 'redeploy': 'GLOBAL', 'register': 'NONE', 'remove_policy': 'GLOBAL', 'remove_repo': 'GLOBAL', 'restart': 'GLOBAL', 'restore': 'GLOBAL', 'rollback': 'GLOBAL', 'run_hook': 'GLOBAL', 'scale': 'GLOBAL', 'setreslimits': 'GLOBAL', 'setsnapback': 'GLOBAL', 'share': 'GLOBAL', 'snapshot': 'GLOBAL', 'snapshot_limits': 'GLOBAL', 'start': 'GLOBAL', 'stop': 'GLOBAL', 'storageqos': 'GLOBAL', 'unfreeze': 'GLOBAL', 'unregister': 'NONE', 'unshare': 'GLOBAL', 'update': 'GLOBAL', 'update_hpa': 'GLOBAL', 'upgrade': 'GLOBAL', 'view': 'GLOBAL'}, 'BACKUP': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'export': 'GLOBAL', 'import': 'GLOBAL', 'purge': 'GLOBAL', 'tenant_share': 'GLOBAL', 'tenant_unshare': 'GLOBAL', 'update': 'GLOBAL', 'user_share': 'GLOBAL', 'user_unshare': 'GLOBAL', 'view': 'GLOBAL'}, 'BUNDLE': {'change_owner': 'GLOBAL', 'create': 'GLOBAL', 'delete': 'GLOBAL', 'rename': 'GLOBAL', 'tenant_share': 'GLOBAL', 'tenant_unshare': 'NONE', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'CERT': {'create': 'GLOBAL', 'update': 'GLOBAL', 'update_cluster_identity': 'GLOBAL', 'view': 'GLOBAL'}, 'CHARGEBACK': {'update': 'GLOBAL', 'view': 'GLOBAL'}, 'CLOUD': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'view': 'GLOBAL'}, 'CLUSTER': {'view': 'GLOBAL'}, 'CONFIG': {'update': 'GLOBAL', 'view': 'GLOBAL'}, 'CONSOLE': {'view': 'GLOBAL'}, 'CSI_TOKEN': {'view': 'GLOBAL'}, 'DASHBOARD': {'view': 'GLOBAL'}, 'DISK': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'DOCKER_REGISTRY': {'change_owner': 'GLOBAL', 'create': 'GLOBAL', 'delete': 'GLOBAL', 'tenant_share': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'EVENT': {'create': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'FILE': {'view': 'GLOBAL'}, 'FILE_COLLECTION': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'FILE_OBJECT': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'IMAGE': {'change_owner': 'GLOBAL', 'create': 'GLOBAL', 'delete': 'GLOBAL', 'rename': 'GLOBAL', 'tenant_share': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'INSTANCE': {'addvol': 'GLOBAL', 'assign_vdi': 'GLOBAL', 'change_owner': 'GLOBAL', 'computeqos': 'GLOBAL', 'delete': 'GLOBAL', 'relocate': 'GLOBAL', 'repair': 'GLOBAL', 'restart': 'GLOBAL', 'setstate': 'GLOBAL', 'start': 'GLOBAL', 'stop': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'IPPOOL': {'add_blacklist_ips': 'GLOBAL', 'add_ranges': 'GLOBAL', 'add_reserved_ips': 'GLOBAL', 'add_routes': 'NONE', 'claim_ip': 'GLOBAL', 'create': 'GLOBAL', 'delete': 'GLOBAL', 'remove_blacklist_ips': 'GLOBAL', 'remove_ranges': 'GLOBAL', 'remove_reserved_ips': 'GLOBAL', 'remove_routes': 'NONE', 'rename': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'JOB': {'cancel': 'GLOBAL', 'check': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'K8S_APPLICATION': {'abort_backup_create': 'GLOBAL', 'abort_snapshot_import': 'GLOBAL', 'add_policy': 'GLOBAL', 'add_repo': 'GLOBAL', 'backup': 'GLOBAL', 'change_owner': 'GLOBAL', 'clone': 'GLOBAL', 'config': 'GLOBAL', 'create': 'GLOBAL', 'delete': 'GLOBAL', 'hydrate': 'GLOBAL', 'probe': 'GLOBAL', 'register': 'GLOBAL', 'remove_policy': 'GLOBAL', 'remove_repo': 'GLOBAL', 'restart': 'GLOBAL', 'restore': 'GLOBAL', 'rollback': 'GLOBAL', 'scale': 'GLOBAL', 'setsnapback': 'GLOBAL', 'share': 'GLOBAL', 'snapshot': 'GLOBAL', 'start': 'GLOBAL', 'stop': 'GLOBAL', 'unregister': 'GLOBAL', 'unshare': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'K8S_BACKUP': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'export': 'GLOBAL', 'import': 'GLOBAL', 'purge': 'GLOBAL', 'tenant_share': 'GLOBAL', 'tenant_unshare': 'GLOBAL', 'update': 'GLOBAL', 'user_share': 'GLOBAL', 'user_unshare': 'GLOBAL', 'view': 'GLOBAL'}, 'K8S_CLUSTER_ROLE': {'view': 'GLOBAL'}, 'K8S_CLUSTER_ROLE_BINDING': {'view': 'GLOBAL'}, 'K8S_CONTEXT': {'view': 'GLOBAL'}, 'K8S_DEPLOYMENT': {'view': 'GLOBAL'}, 'K8S_KUBE_CONFIG': {'view': 'GLOBAL'}, 'K8S_MASTER': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'K8S_NAMESPACE': {'view': 'GLOBAL'}, 'K8S_NODE': {'update': 'GLOBAL', 'view': 'GLOBAL'}, 'K8S_PV': {'view': 'GLOBAL'}, 'K8S_PVC': {'view': 'GLOBAL'}, 'K8S_ROLE': {'view': 'GLOBAL'}, 'K8S_ROLE_BINDING': {'view': 'GLOBAL'}, 'K8S_STORAGECLASS': {'view': 'GLOBAL'}, 'K8S_TILLER': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'K8S_USER': {'view': 'GLOBAL'}, 'K8S_USER_AUTH': {'view': 'GLOBAL'}, 'K8S_USER_CONTEXT': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'LDAP': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'LICENSE': {'update': 'GLOBAL', 'view': 'GLOBAL'}, 'LIMIT': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'LOG_COLLECT': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'MANAGER': {'view': 'GLOBAL'}, 'MANAGER_CONFIG': {'view': 'GLOBAL'}, 'METRICS': {'create': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'METRICS_COLLECT': {'view': 'GLOBAL'}, 'METRICS_COLLECT_TOKEN': {'view': 'GLOBAL'}, 'MGMT_TOKEN': {'view': 'GLOBAL'}, 'NAMESPACE': {'add_repo': 'GLOBAL', 'backup': 'GLOBAL', 'change_owner': 'GLOBAL', 'clone': 'GLOBAL', 'create': 'GLOBAL', 'delete': 'GLOBAL', 'deploy_app': 'GLOBAL', 'import': 'GLOBAL', 'remove_repo': 'GLOBAL', 'rollback': 'GLOBAL', 'setsnapback': 'GLOBAL', 'snapshot': 'GLOBAL', 'update': 'GLOBAL', 'user_share': 'GLOBAL', 'user_unshare': 'GLOBAL', 'view': 'GLOBAL'}, 'NETWORKPOLICY': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL'}, 'NFS_EXPORTS': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'NODE': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'NOTIFICATION': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'OBJECT_SHARE': {'view': 'GLOBAL'}, 'OBJECT_TYPE': {'view': 'GLOBAL'}, 'OPEN_SHIFT': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'OPERATION': {'view': 'GLOBAL'}, 'PCIRESOURCE': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'PEER_CLUSTER': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'PERSISTENT_DATA_VOLUME': {'change_owner': 'GLOBAL', 'create': 'GLOBAL', 'delete': 'GLOBAL', 'resize': 'GLOBAL', 'update': 'GLOBAL', 'user_share': 'GLOBAL', 'user_unshare': 'GLOBAL', 'view': 'GLOBAL'}, 'PRIVILEGED_APP': {'create': 'GLOBAL'}, 'PROTECTION_GROUP': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'REPLICATION_POLICY': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'REPORT': {'view': 'GLOBAL'}, 'REPO_CATALOG': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'RESOURCEPOOL': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'view': 'GLOBAL'}, 'RESOURCE_GROUP': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'RESOURCE_MANAGER': {'delete': 'GLOBAL', 'view': 'GLOBAL'}, 'SCHEDULER': {'update': 'GLOBAL', 'view': 'GLOBAL'}, 'SERVICE': {'update': 'GLOBAL', 'view': 'GLOBAL'}, 'SNAPSHOT': {'share': 'GLOBAL', 'unshare': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'SOFT_AFFINITY': {'delete': 'GLOBAL', 'view': 'GLOBAL'}, 'SSH_KEY': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'STORAGE_ARRAY': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'STORAGE_MANAGER': {'view': 'GLOBAL'}, 'STORAGE_REPO': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'purge': 'GLOBAL', 'push': 'GLOBAL', 'reclaim': 'GLOBAL', 'scan': 'GLOBAL', 'tenant_share': 'GLOBAL', 'tenant_unshare': 'GLOBAL', 'update': 'GLOBAL', 'user_share': 'GLOBAL', 'user_unshare': 'GLOBAL', 'view': 'GLOBAL'}, 'SYSTEM': {'create': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'TAG': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'TENANT': {'add_users': 'GLOBAL', 'create': 'GLOBAL', 'delete': 'GLOBAL', 'manage_resources': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'TEST': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'test': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'TRIGGER': {'view': 'GLOBAL'}, 'USER': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'update_role': 'GLOBAL', 'view': 'GLOBAL'}, 'USER_AUDIT': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'USER_AUTH': {'view': 'GLOBAL'}, 'USER_CAPABILITY': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'VLAN': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'VOLUME': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'VOLUME_BACKUP': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'VOLUME_SNAPSHOT': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'WATCHDOG': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'WORKFLOW': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'ZONE': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}}, 'user_permissions': {}, 'ip_addr': '10.7.82.50', 'session_expires': '2025-02-17T20:12:20'}}}, 202]</msg>
+<arg>${response}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2025-02-17T09:46:36.999865" elapsed="0.001026"/>
+</kw>
+<kw name="Should Be Equal As Numbers" owner="BuiltIn">
+<msg time="2025-02-17T09:46:37.002281" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${response[1]}</arg>
+<arg>202</arg>
+<doc>Fails if objects are unequal after converting them to real numbers.</doc>
+<status status="PASS" start="2025-02-17T09:46:37.001151" elapsed="0.001231"/>
+</kw>
+<doc>Attach  bundle app to external repo</doc>
+<status status="PASS" start="2025-02-17T09:46:34.972634" elapsed="2.029997"/>
+</test>
+<test id="s1-t12" name="Copy File from Remote to Local" line="70">
+<kw name="Copy File On Local With Password" owner="robin_base">
+<kw name="Open Connection" owner="SCPLibrary">
+<arg>${remoteIp}</arg>
+<arg>username=${ssh-user}</arg>
+<arg>password=${ssh-pass}</arg>
+<doc>Opens a new SCP connection to the given host.</doc>
+<status status="PASS" start="2025-02-17T09:46:37.003969" elapsed="1.630728"/>
+</kw>
+<kw name="Get File" owner="SCPLibrary">
+<arg>${sourceFile}</arg>
+<arg>${destFile}</arg>
+<doc>Downloads a file from the remote machine to the local machine.</doc>
+<status status="PASS" start="2025-02-17T09:46:38.635841" elapsed="1.459441"/>
+</kw>
+<kw name="Close Connection" owner="SCPLibrary">
+<doc>Closes the SCP connection.</doc>
+<status status="PASS" start="2025-02-17T09:46:40.096468" elapsed="0.001136"/>
+</kw>
+<arg>${master-node-ip}</arg>
+<arg>/root/.kube/config</arg>
+<arg>/Users/anup.kumar/Library/CloudStorage/Box-Box/my-folder/python/releaseTest/Robot/backup_restore/kubeconfig</arg>
+<status status="PASS" start="2025-02-17T09:46:37.003509" elapsed="3.094263"/>
+</kw>
+<status status="PASS" start="2025-02-17T09:46:37.002957" elapsed="3.095352"/>
+</test>
+<test id="s1-t13" name="Upload file to pod" line="73">
+<kw name="Upload File To Pod" owner="backup_restore_bundle">
+<msg time="2025-02-17T09:46:42.658525" level="INFO">${response} = None</msg>
+<var>${response}</var>
+<status status="PASS" start="2025-02-17T09:46:40.099367" elapsed="2.559367"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2025-02-17T09:46:42.660836" level="INFO">None</msg>
+<arg>${response}</arg>
+<arg>console=yes</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2025-02-17T09:46:42.660206" elapsed="0.000803"/>
+</kw>
+<doc>Upload text file to pod</doc>
+<status status="PASS" start="2025-02-17T09:46:40.098746" elapsed="2.562577"/>
+</test>
+<test id="s1-t14" name="Backup Creation" line="79">
+<kw name="Backup Creation" owner="backup_restore_bundle">
+<msg time="2025-02-17T09:47:04.846058" level="INFO">${response} = [{'jobid': 289892, 'plan': {'action': 'backup', 'app_name': 'robotnginxapp', 'repo': 'robotNginxRepo', 'namespace': 't001-u000005', 'name': 'robotnginxapp', 'kind': 'robin', 'opcode': 15, 'current_use...</msg>
+<var>${response}</var>
+<arg>${auth_token}</arg>
+<status status="PASS" start="2025-02-17T09:46:42.662431" elapsed="22.183719"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2025-02-17T09:47:04.847369" level="INFO">[{'jobid': 289892, 'plan': {'action': 'backup', 'app_name': 'robotnginxapp', 'repo': 'robotNginxRepo', 'namespace': 't001-u000005', 'name': 'robotnginxapp', 'kind': 'robin', 'opcode': 15, 'current_user': {'user_id': 5, 'username': 'admin', 'tenant_id': 1, 'tenant': 'Administrators', 'tenants': ['Administrators', 'test-tenant', 'test-tenant1'], 'tenant_role': 'superadmin', 'namespace': 't001-u000005', 'user_context': 'admin', 'user_contexts': ['admin', 'admin', 'admin'], 'user_capabilities': ['AllSuperAdminCapabilities'], 'permissions': {'ALERT': {'resolve': 'GLOBAL'}, 'ANALYTICS': {'create': 'GLOBAL', 'view': 'GLOBAL'}, 'APPLICATION': {'abort_backup_create': 'GLOBAL', 'abort_snapshot_import': 'GLOBAL', 'add_policy': 'GLOBAL', 'add_repo': 'GLOBAL', 'addkey': 'GLOBAL', 'addtrigger': 'GLOBAL', 'addvol': 'GLOBAL', 'assign_vdi': 'GLOBAL', 'backup': 'GLOBAL', 'change_owner': 'GLOBAL', 'clone': 'GLOBAL', 'computeqos': 'GLOBAL', 'config': 'GLOBAL', 'create': 'GLOBAL', 'delete': 'GLOBAL', 'delete_backup': 'GLOBAL', 'deltrigger': 'GLOBAL', 'delvol': 'GLOBAL', 'evacuate': 'GLOBAL', 'expandvol': 'GLOBAL', 'freeze': 'GLOBAL', 'hydrate': 'GLOBAL', 'manage_instances': 'GLOBAL', 'moveresources': 'GLOBAL', 'probe': 'GLOBAL', 'redeploy': 'GLOBAL', 'register': 'NONE', 'remove_policy': 'GLOBAL', 'remove_repo': 'GLOBAL', 'restart': 'GLOBAL', 'restore': 'GLOBAL', 'rollback': 'GLOBAL', 'run_hook': 'GLOBAL', 'scale': 'GLOBAL', 'setreslimits': 'GLOBAL', 'setsnapback': 'GLOBAL', 'share': 'GLOBAL', 'snapshot': 'GLOBAL', 'snapshot_limits': 'GLOBAL', 'start': 'GLOBAL', 'stop': 'GLOBAL', 'storageqos': 'GLOBAL', 'unfreeze': 'GLOBAL', 'unregister': 'NONE', 'unshare': 'GLOBAL', 'update': 'GLOBAL', 'update_hpa': 'GLOBAL', 'upgrade': 'GLOBAL', 'view': 'GLOBAL'}, 'BACKUP': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'export': 'GLOBAL', 'import': 'GLOBAL', 'purge': 'GLOBAL', 'tenant_share': 'GLOBAL', 'tenant_unshare': 'GLOBAL', 'update': 'GLOBAL', 'user_share': 'GLOBAL', 'user_unshare': 'GLOBAL', 'view': 'GLOBAL'}, 'BUNDLE': {'change_owner': 'GLOBAL', 'create': 'GLOBAL', 'delete': 'GLOBAL', 'rename': 'GLOBAL', 'tenant_share': 'GLOBAL', 'tenant_unshare': 'NONE', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'CERT': {'create': 'GLOBAL', 'update': 'GLOBAL', 'update_cluster_identity': 'GLOBAL', 'view': 'GLOBAL'}, 'CHARGEBACK': {'update': 'GLOBAL', 'view': 'GLOBAL'}, 'CLOUD': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'view': 'GLOBAL'}, 'CLUSTER': {'view': 'GLOBAL'}, 'CONFIG': {'update': 'GLOBAL', 'view': 'GLOBAL'}, 'CONSOLE': {'view': 'GLOBAL'}, 'CSI_TOKEN': {'view': 'GLOBAL'}, 'DASHBOARD': {'view': 'GLOBAL'}, 'DISK': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'DOCKER_REGISTRY': {'change_owner': 'GLOBAL', 'create': 'GLOBAL', 'delete': 'GLOBAL', 'tenant_share': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'EVENT': {'create': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'FILE': {'view': 'GLOBAL'}, 'FILE_COLLECTION': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'FILE_OBJECT': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'IMAGE': {'change_owner': 'GLOBAL', 'create': 'GLOBAL', 'delete': 'GLOBAL', 'rename': 'GLOBAL', 'tenant_share': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'INSTANCE': {'addvol': 'GLOBAL', 'assign_vdi': 'GLOBAL', 'change_owner': 'GLOBAL', 'computeqos': 'GLOBAL', 'delete': 'GLOBAL', 'relocate': 'GLOBAL', 'repair': 'GLOBAL', 'restart': 'GLOBAL', 'setstate': 'GLOBAL', 'start': 'GLOBAL', 'stop': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'IPPOOL': {'add_blacklist_ips': 'GLOBAL', 'add_ranges': 'GLOBAL', 'add_reserved_ips': 'GLOBAL', 'add_routes': 'NONE', 'claim_ip': 'GLOBAL', 'create': 'GLOBAL', 'delete': 'GLOBAL', 'remove_blacklist_ips': 'GLOBAL', 'remove_ranges': 'GLOBAL', 'remove_reserved_ips': 'GLOBAL', 'remove_routes': 'NONE', 'rename': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'JOB': {'cancel': 'GLOBAL', 'check': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'K8S_APPLICATION': {'abort_backup_create': 'GLOBAL', 'abort_snapshot_import': 'GLOBAL', 'add_policy': 'GLOBAL', 'add_repo': 'GLOBAL', 'backup': 'GLOBAL', 'change_owner': 'GLOBAL', 'clone': 'GLOBAL', 'config': 'GLOBAL', 'create': 'GLOBAL', 'delete': 'GLOBAL', 'hydrate': 'GLOBAL', 'probe': 'GLOBAL', 'register': 'GLOBAL', 'remove_policy': 'GLOBAL', 'remove_repo': 'GLOBAL', 'restart': 'GLOBAL', 'restore': 'GLOBAL', 'rollback': 'GLOBAL', 'scale': 'GLOBAL', 'setsnapback': 'GLOBAL', 'share': 'GLOBAL', 'snapshot': 'GLOBAL', 'start': 'GLOBAL', 'stop': 'GLOBAL', 'unregister': 'GLOBAL', 'unshare': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'K8S_BACKUP': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'export': 'GLOBAL', 'import': 'GLOBAL', 'purge': 'GLOBAL', 'tenant_share': 'GLOBAL', 'tenant_unshare': 'GLOBAL', 'update': 'GLOBAL', 'user_share': 'GLOBAL', 'user_unshare': 'GLOBAL', 'view': 'GLOBAL'}, 'K8S_CLUSTER_ROLE': {'view': 'GLOBAL'}, 'K8S_CLUSTER_ROLE_BINDING': {'view': 'GLOBAL'}, 'K8S_CONTEXT': {'view': 'GLOBAL'}, 'K8S_DEPLOYMENT': {'view': 'GLOBAL'}, 'K8S_KUBE_CONFIG': {'view': 'GLOBAL'}, 'K8S_MASTER': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'K8S_NAMESPACE': {'view': 'GLOBAL'}, 'K8S_NODE': {'update': 'GLOBAL', 'view': 'GLOBAL'}, 'K8S_PV': {'view': 'GLOBAL'}, 'K8S_PVC': {'view': 'GLOBAL'}, 'K8S_ROLE': {'view': 'GLOBAL'}, 'K8S_ROLE_BINDING': {'view': 'GLOBAL'}, 'K8S_STORAGECLASS': {'view': 'GLOBAL'}, 'K8S_TILLER': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'K8S_USER': {'view': 'GLOBAL'}, 'K8S_USER_AUTH': {'view': 'GLOBAL'}, 'K8S_USER_CONTEXT': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'LDAP': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'LICENSE': {'update': 'GLOBAL', 'view': 'GLOBAL'}, 'LIMIT': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'LOG_COLLECT': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'MANAGER': {'view': 'GLOBAL'}, 'MANAGER_CONFIG': {'view': 'GLOBAL'}, 'METRICS': {'create': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'METRICS_COLLECT': {'view': 'GLOBAL'}, 'METRICS_COLLECT_TOKEN': {'view': 'GLOBAL'}, 'MGMT_TOKEN': {'view': 'GLOBAL'}, 'NAMESPACE': {'add_repo': 'GLOBAL', 'backup': 'GLOBAL', 'change_owner': 'GLOBAL', 'clone': 'GLOBAL', 'create': 'GLOBAL', 'delete': 'GLOBAL', 'deploy_app': 'GLOBAL', 'import': 'GLOBAL', 'remove_repo': 'GLOBAL', 'rollback': 'GLOBAL', 'setsnapback': 'GLOBAL', 'snapshot': 'GLOBAL', 'update': 'GLOBAL', 'user_share': 'GLOBAL', 'user_unshare': 'GLOBAL', 'view': 'GLOBAL'}, 'NETWORKPOLICY': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL'}, 'NFS_EXPORTS': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'NODE': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'NOTIFICATION': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'OBJECT_SHARE': {'view': 'GLOBAL'}, 'OBJECT_TYPE': {'view': 'GLOBAL'}, 'OPEN_SHIFT': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'OPERATION': {'view': 'GLOBAL'}, 'PCIRESOURCE': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'PEER_CLUSTER': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'PERSISTENT_DATA_VOLUME': {'change_owner': 'GLOBAL', 'create': 'GLOBAL', 'delete': 'GLOBAL', 'resize': 'GLOBAL', 'update': 'GLOBAL', 'user_share': 'GLOBAL', 'user_unshare': 'GLOBAL', 'view': 'GLOBAL'}, 'PRIVILEGED_APP': {'create': 'GLOBAL'}, 'PROTECTION_GROUP': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'REPLICATION_POLICY': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'REPORT': {'view': 'GLOBAL'}, 'REPO_CATALOG': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'RESOURCEPOOL': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'view': 'GLOBAL'}, 'RESOURCE_GROUP': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'RESOURCE_MANAGER': {'delete': 'GLOBAL', 'view': 'GLOBAL'}, 'SCHEDULER': {'update': 'GLOBAL', 'view': 'GLOBAL'}, 'SERVICE': {'update': 'GLOBAL', 'view': 'GLOBAL'}, 'SNAPSHOT': {'share': 'GLOBAL', 'unshare': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'SOFT_AFFINITY': {'delete': 'GLOBAL', 'view': 'GLOBAL'}, 'SSH_KEY': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'STORAGE_ARRAY': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'STORAGE_MANAGER': {'view': 'GLOBAL'}, 'STORAGE_REPO': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'purge': 'GLOBAL', 'push': 'GLOBAL', 'reclaim': 'GLOBAL', 'scan': 'GLOBAL', 'tenant_share': 'GLOBAL', 'tenant_unshare': 'GLOBAL', 'update': 'GLOBAL', 'user_share': 'GLOBAL', 'user_unshare': 'GLOBAL', 'view': 'GLOBAL'}, 'SYSTEM': {'create': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'TAG': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'TENANT': {'add_users': 'GLOBAL', 'create': 'GLOBAL', 'delete': 'GLOBAL', 'manage_resources': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'TEST': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'test': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'TRIGGER': {'view': 'GLOBAL'}, 'USER': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'update_role': 'GLOBAL', 'view': 'GLOBAL'}, 'USER_AUDIT': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'USER_AUTH': {'view': 'GLOBAL'}, 'USER_CAPABILITY': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'VLAN': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'VOLUME': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'VOLUME_BACKUP': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'VOLUME_SNAPSHOT': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'WATCHDOG': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'WORKFLOW': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'ZONE': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}}, 'user_permissions': {}, 'ip_addr': '10.7.82.50', 'session_expires': '2025-02-17T20:12:20'}, 'zoneid': 1718806345, 'backup_name': 'robotnginxapp_backup-1739765659'}}, 202]</msg>
+<arg>${response}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2025-02-17T09:47:04.846720" elapsed="0.002403"/>
+</kw>
+<kw name="Should Be Equal As Numbers" owner="BuiltIn">
+<msg time="2025-02-17T09:47:04.850337" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${response[1]}</arg>
+<arg>202</arg>
+<doc>Fails if objects are unequal after converting them to real numbers.</doc>
+<status status="PASS" start="2025-02-17T09:47:04.849354" elapsed="0.001071"/>
+</kw>
+<doc>Create backup of bundle app in ext storage repository</doc>
+<status status="PASS" start="2025-02-17T09:46:42.661687" elapsed="22.188964"/>
+</test>
+<test id="s1-t15" name="Delete Bundle App" line="90">
+<kw name="Delete Robin App" owner="robin_base">
+<kw name="Execute Command" owner="SSHLibrary">
+<msg time="2025-02-17T09:47:04.852682" level="INFO">Executing command '~/bin/robin app delete robotnginxapp --wait -y --iter --del_snaps'.</msg>
+<msg time="2025-02-17T09:47:47.022170" level="INFO">Command exited with return code 0.</msg>
+<msg time="2025-02-17T09:47:47.023068" level="INFO">${stdout} = Deleting robotnginxapp_snapshot-1739765659
+Job: 289899 Name: ApplicationDelete    State: PROCESSED       Error: 0
+Job: 289899 Name: ApplicationDelete    State: COMPLETED       Error: 0
+Deleting robotn...</msg>
+<msg time="2025-02-17T09:47:47.023145" level="INFO">${stderr} = </msg>
+<msg time="2025-02-17T09:47:47.023215" level="INFO">${rc} = 0</msg>
+<var>${stdout}</var>
+<var>${stderr}</var>
+<var>${rc}</var>
+<arg>~/bin/robin app delete ${app-name} --wait -y --iter --del_snaps</arg>
+<arg>return_stderr=True</arg>
+<arg>return_rc=True</arg>
+<doc>Executes ``command`` on the remote machine and returns its outputs.</doc>
+<status status="PASS" start="2025-02-17T09:47:04.852309" elapsed="42.170960"/>
+</kw>
+<kw name="Should Be Equal As Integers" owner="BuiltIn">
+<msg time="2025-02-17T09:47:47.025204" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${rc}</arg>
+<arg>0</arg>
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<status status="PASS" start="2025-02-17T09:47:47.024316" elapsed="0.001035"/>
+</kw>
+<status status="PASS" start="2025-02-17T09:47:04.851793" elapsed="42.173725"/>
+</kw>
+<doc>Delete bundle app from cluster</doc>
+<status status="PASS" start="2025-02-17T09:47:04.850937" elapsed="42.174926"/>
+</test>
+<test id="s1-t16" name="Fetch backup Id" line="95">
+<kw name="Fetch Backup Id" owner="backup_restore_bundle">
+<msg time="2025-02-17T09:47:48.126856" level="INFO">${response} = ['ac4407a4ece511ef826177c2d0fb5064', 200, ['ac4407a4ece511ef826177c2d0fb5064']]</msg>
+<var>${response}</var>
+<arg>${auth_token}</arg>
+<status status="PASS" start="2025-02-17T09:47:47.026712" elapsed="1.100195"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2025-02-17T09:47:48.127495" level="INFO">['ac4407a4ece511ef826177c2d0fb5064', 200, ['ac4407a4ece511ef826177c2d0fb5064']]</msg>
+<arg>${response}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2025-02-17T09:47:48.127250" elapsed="0.000290"/>
+</kw>
+<kw name="Should Be Equal As Numbers" owner="BuiltIn">
+<msg time="2025-02-17T09:47:48.128398" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${response[1]}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to real numbers.</doc>
+<status status="PASS" start="2025-02-17T09:47:48.127700" elapsed="0.000762"/>
+</kw>
+<kw name="Set Suite Variable" owner="BuiltIn">
+<msg time="2025-02-17T09:47:48.129956" level="INFO">${backupId} = ac4407a4ece511ef826177c2d0fb5064</msg>
+<arg>${backupId}</arg>
+<arg>${response[0]}</arg>
+<doc>Makes a variable available everywhere within the scope of the current suite.</doc>
+<status status="PASS" start="2025-02-17T09:47:48.128633" elapsed="0.001366"/>
+</kw>
+<doc>Fetch backup Id</doc>
+<status status="PASS" start="2025-02-17T09:47:47.026181" elapsed="1.103970"/>
+</test>
+<test id="s1-t17" name="Bundle Robin App Restore" line="102">
+<kw name="Bundle App Restore From Backup" owner="robin_base">
+<kw name="Execute Command" owner="SSHLibrary">
+<msg time="2025-02-17T09:47:48.131668" level="INFO">Executing command '~/bin/robin app create from-backup robotnginxapp ac4407a4ece511ef826177c2d0fb5064 -n anupdemo --rpool default --wait'.</msg>
+<msg time="2025-02-17T09:48:55.985900" level="INFO">Command exited with return code 0.</msg>
+<msg time="2025-02-17T09:48:55.986645" level="INFO">${stdout} = Job: 289902 Name: ApplicationCreate    State: PROCESSED       Error: 0
+Job: 289902 Name: ApplicationCreate    State: WAITING         Error: 0
+Job: 289902 Name: ApplicationCreate    State: COMPLETED   ...</msg>
+<msg time="2025-02-17T09:48:55.986722" level="INFO">${stderr} = </msg>
+<msg time="2025-02-17T09:48:55.986791" level="INFO">${rc} = 0</msg>
+<var>${stdout}</var>
+<var>${stderr}</var>
+<var>${rc}</var>
+<arg>~/bin/robin app create from-backup ${app-name} ${backupId} -n ${ns} --rpool ${rpool} --wait</arg>
+<arg>return_stderr=True</arg>
+<arg>return_rc=True</arg>
+<doc>Executes ``command`` on the remote machine and returns its outputs.</doc>
+<status status="PASS" start="2025-02-17T09:47:48.131209" elapsed="67.855631"/>
+</kw>
+<kw name="Should Be Equal As Integers" owner="BuiltIn">
+<msg time="2025-02-17T09:48:55.988211" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${rc}</arg>
+<arg>0</arg>
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<status status="PASS" start="2025-02-17T09:48:55.987554" elapsed="0.000802"/>
+</kw>
+<arg>${backupId}</arg>
+<arg>${ns}</arg>
+<arg>${rpool}</arg>
+<status status="PASS" start="2025-02-17T09:47:48.130811" elapsed="67.857702"/>
+</kw>
+<doc>Restore bundle app from backup created in ext repo</doc>
+<status status="PASS" start="2025-02-17T09:47:48.130367" elapsed="67.858488"/>
+</test>
+<test id="s1-t18" name="Copy File from Remote to Local" line="106">
+<kw name="Copy File On Local With Password" owner="robin_base">
+<kw name="Open Connection" owner="SCPLibrary">
+<arg>${remoteIp}</arg>
+<arg>username=${ssh-user}</arg>
+<arg>password=${ssh-pass}</arg>
+<doc>Opens a new SCP connection to the given host.</doc>
+<status status="PASS" start="2025-02-17T09:48:55.991136" elapsed="1.974993"/>
+</kw>
+<kw name="Get File" owner="SCPLibrary">
+<arg>${sourceFile}</arg>
+<arg>${destFile}</arg>
+<doc>Downloads a file from the remote machine to the local machine.</doc>
+<status status="PASS" start="2025-02-17T09:48:57.967024" elapsed="1.699497"/>
+</kw>
+<kw name="Close Connection" owner="SCPLibrary">
+<doc>Closes the SCP connection.</doc>
+<status status="PASS" start="2025-02-17T09:48:59.667635" elapsed="0.001245"/>
+</kw>
+<arg>${master-node-ip}</arg>
+<arg>/root/.kube/config</arg>
+<arg>/Users/anup.kumar/Library/CloudStorage/Box-Box/my-folder/python/releaseTest/Robot/backup_restore/kubeconfig</arg>
+<status status="PASS" start="2025-02-17T09:48:55.990513" elapsed="3.678565"/>
+</kw>
+<status status="PASS" start="2025-02-17T09:48:55.989559" elapsed="3.680296"/>
+</test>
+<test id="s1-t19" name="Verify Data Restore" line="109">
+<kw name="List File From Pod" owner="backup_restore_bundle">
+<msg time="2025-02-17T09:49:02.238019" level="INFO">${response} = 202</msg>
+<var>${response}</var>
+<status status="PASS" start="2025-02-17T09:48:59.671071" elapsed="2.566990"/>
+</kw>
+<kw name="Should Be Equal As Numbers" owner="BuiltIn">
+<msg time="2025-02-17T09:49:02.238499" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${response}</arg>
+<arg>202</arg>
+<doc>Fails if objects are unequal after converting them to real numbers.</doc>
+<status status="PASS" start="2025-02-17T09:49:02.238311" elapsed="0.000254"/>
+</kw>
+<doc>Verify if data is restored succesfully</doc>
+<status status="PASS" start="2025-02-17T09:48:59.670399" elapsed="2.568308"/>
+</test>
+<test id="s1-t20" name="Bundle backups Cleanup" line="115">
+<kw name="Delete Backups" owner="backup_restore_bundle">
+<msg time="2025-02-17T09:49:05.555834" level="INFO">${response} = [{'jobid': 289907}, 202]</msg>
+<var>${response}</var>
+<arg>${auth_token}</arg>
+<status status="PASS" start="2025-02-17T09:49:02.239178" elapsed="3.316754"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2025-02-17T09:49:05.557246" level="INFO">[{'jobid': 289907}, 202]</msg>
+<arg>${response}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2025-02-17T09:49:05.556876" elapsed="0.000446"/>
+</kw>
+<kw name="Should Be Equal As Numbers" owner="BuiltIn">
+<msg time="2025-02-17T09:49:05.558753" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${response[1]}</arg>
+<arg>202</arg>
+<doc>Fails if objects are unequal after converting them to real numbers.</doc>
+<status status="PASS" start="2025-02-17T09:49:05.557583" elapsed="0.001270"/>
+</kw>
+<doc>Delete backups associated with App</doc>
+<status status="PASS" start="2025-02-17T09:49:02.238880" elapsed="3.320193"/>
+</test>
+<test id="s1-t21" name="Bundle App Cleanup" line="121">
+<kw name="Delete App" owner="backup_restore_bundle">
+<msg time="2025-02-17T09:49:57.426085" level="INFO">${response} = [{'jobid': 289908, 'plan': {'name': 'robotnginxapp', 'version': '1.15.8', 'snapshot': 'enabled', 'clone': 'disabled', 'clonemode': 'unfenced', 'roles': [{'name': 'nginx', 'scaleout': 'enabled', 'multi...</msg>
+<var>${response}</var>
+<arg>${auth_token}</arg>
+<status status="PASS" start="2025-02-17T09:49:05.559847" elapsed="51.866334"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2025-02-17T09:49:57.427503" level="INFO">[{'jobid': 289908, 'plan': {'name': 'robotnginxapp', 'version': '1.15.8', 'snapshot': 'enabled', 'clone': 'disabled', 'clonemode': 'unfenced', 'roles': [{'name': 'nginx', 'scaleout': 'enabled', 'multinode': True, 'image': {'name': 'nginx', 'version': '1.15.8-alpine', 'engine': 'docker', 'registry_hostname': '', 'registry_port': ''}, 'serviceAccountName': "{{app['name'].lower()}}-sa", 'services': [{'type': 'ClusterIP', 'labels': {'l1': 'v1', 'l2': 'v2', 'app': 'robotnginxapp', 'namespace': 'anupdemo', 'robin.io/tenant': 'Administrators', 'robin.io/tenant_id': '1', 'robin.io/username': 'admin', 'robin.io/user_id': '5', 'scope': 'role'}, 'annotations': {'a1': 'av1', 'a2': 'av2', 'app': 'robotnginxapp', 'namespace': 'anupdemo'}, 'ports': [{'app_protocol': None, 'name': 'web', 'node_port': None, 'port': 80, 'protocol': 'TCP', 'target_port': 80}], 'selectors': {'robin.io/role': 'nginx', 'app': 'robotnginxapp'}, 'rolename': 'nginx', 'appname': 'robotnginxapp', 'k8s_name': 'robotnginxapp-nginx-cl-0', 'cluster_ip': '172.19.57.36'}, {'type': 'LoadBalancer', 'labels': {'l1': 'v1', 'l2': 'v2', 'app': 'robotnginxapp', 'namespace': 'anupdemo', 'robin.io/tenant': 'Administrators', 'robin.io/tenant_id': '1', 'robin.io/username': 'admin', 'robin.io/user_id': '5', 'scope': 'role'}, 'annotations': {'a1': 'av1', 'a2': 'av2', 'app': 'robotnginxapp', 'namespace': 'anupdemo'}, 'ports': [{'app_protocol': None, 'name': 'web', 'node_port': 31818, 'port': 80, 'protocol': 'TCP', 'target_port': 80}], 'selectors': {'robin.io/role': 'nginx', 'app': 'robotnginxapp'}, 'rolename': 'nginx', 'appname': 'robotnginxapp', 'k8s_name': 'robotnginxapp-nginx-lb-0', 'cluster_ip': '172.19.165.65'}], 'hostAliases': [{'ip': '1.2.3.4', 'hostnames': ['foo.remote', 'bar.remote']}], 'display_name': 'nginx', 'vnodes': [{'name': 'robotnginxapp.nginx.01', 'multinode': True, 'labels': {'labelkey1': 'labelvalue1', 'labelkey2': 'labelvalue2', 'allocated': {'labelkey1': 'labelvalue1', 'labelkey2': 'labelvalue2'}}, 'annotations': {'annokey1': 'annovalue1', 'annokey2': 'annovalue2', 'allocated': {'annokey1': 'annovalue1', 'annokey2': 'annovalue2'}}, 'storage': [{'type': 'data', 'HDD': 'ssd', 'path': '/opt/data', 'size': 2147483648, 'mount_in_sidecars': True, 'mount_in_initcontainers': True, 'blocksize': 4096, 'compression': 'disabled', 'layout': 'round-robin', 'media': 'HDD', 'name': 'robotnginxapp.nginx.01.data.1.7061e7d0-03a9-471d-97e2-17f7b1973359', 'protection': 0, 'replication': 1, 'faultdomain': 'host', 'encryption': 'none', 'disk_tags': {}, 'lvm_type': 'None', 'lvm_vol_count': '0', 'workload': 0, 'snap_reserved': 20, 'snapshot_space_limit': 429496730, 'fstype': 'ext4', 'stordriver': {'media': 'HDD', 'protection': 0, 'faultdomain': 'host', 'type': 'das'}, 'pvcpolicy': 'create', 'vol_ns': 'anupdemo', 'uuid': '86aa7ae4ece511efad399991c084cde5', 'device_sets': [[{'aslices': 22, 'pused': 14696841216, 'psize': 107374182400, 'slices': 77, 'write_unit': 4096, 'stormgr_id': 2, 'wwn': '0x600224807b33a04fdfac599061b3c4b7', 'capacity': 107374182400, 'type': 'HDD', 'state': 'READY', 'host': 'vnodevlan7-82-52.robinsystems.com', 'reattachable': 0, 'protected': 0, 'role': 'Storage', 'devpath': '/dev/disk/by-id/scsi-3600224807b33a04fdfac599061b3c4b7', 'max_volumes_per_disk': 100, 'max_latency_sensitive_vols_per_disk': 2, 'max_throughput_intensive_vols_per_disk': 1, 'tags': {}, 'hostname': 'vnodevlan7-82-52.robinsystems.com', 'score': 81, 'allocated_slices': 3}]], 'snapname': 'snapshot-1739765659', 'import_data_source': {'appid': 1, 'appname': 'default', 'blocksize': 4096, 'current_snapshotid': 1, 'backupid': 1, 'volumeid': '1261', 'uuid': '86aa7ae4ece511efad399991c084cde5', 'zoneid': 1718806345, 'backup_path_prefix': '1718806345/robotnginxapp_3705/ac4407a4ece511ef826177c2d0fb5064'}, 'import_app': True, 'k8s_name': 'robotnginxap-nginx-01-data-1-7061e7d0', 'volgrp_name': 'robotnginxapp.nginx.01.72.1.6b270ce9-220a-447e-88dc-a9942e0f0dcc', 'volkind': 'IMPORTED', 'allocated': {'media': 72, 'name': 'robotnginxapp.nginx.01.data.1.7061e7d0-03a9-471d-97e2-17f7b1973359', 'partitions': 0, 'size': 2147483648, 'qgroupid': 1305, 'current_snapshotid': 1, 'snapshot_space_limit': 429496730, 'appname': 'default', 'vtype': 4, 'protection': 0, 'appid': 1, 'multinode_mounting': False, 'replication': 1, 'priority': 2, 'grpid': 1263, 'compression': 0, 'resource_poolid': 1, 'genkey': 1739765726569408, 'block_size': 4096, 'slice_size': 1073741824, 'volumeid': '1262', 'params': {}, 'current_snapshot': 'active_snap', 'next_snapshotid': 2, 'next_backupid': 1, 'stordriver': {'media': 'HDD', 'protection': 0, 'faultdomain': 'host', 'type': 'das'}}}], 'envFrom': [{'configMapRef': {'name': "{{app['name'].lower()}}-cm3"}}], 'extEnv': [{'name': 'SPECIAL_LEVEL_KEY', 'valueFrom': {'configMapKeyRef': {'name': "{{app['name'].lower()}}-cm1", 'key': 'special.how'}}}], 'volumes': [{'name': 'vol-cm1', 'configMap': {'name': "{{app['name'].lower()}}-cm1", 'defaultMode': 420}}, {'name': 'vol-cm2', 'configMap': {'name': "{{app['name'].lower()}}-cm2", 'defaultMode': 420}}, {'name': 'vol-cm3', 'configMap': {'name': "{{app['name'].lower()}}-cm3", 'defaultMode': 420}}], 'podSecurityContext': {'runAsUser': 0, 'allocated': {'runAsUser': 0}}, 'securityContext': {'allowPrivilegeEscalation': True, 'allocated': {'allowPrivilegeEscalation': True}}, 'serviceAccountName': "{{app['name'].lower()}}-sa", 'volumeMounts': [{'name': 'vol-cm1', 'mountPath': '/cm1'}, {'name': 'vol-cm2', 'mountPath': '/cm2'}, {'name': 'vol-cm3', 'mountPath': '/cm3'}], 'livenessProbe': {'httpGet': {'path': '/', 'port': 80, 'httpHeaders': [{'name': 'Custom-Header', 'value': 'Awesome'}]}, 'initialDelaySeconds': 3, 'periodSeconds': 3, 'timeoutSeconds': 10, 'allocated': {'httpGet': {'path': '/', 'port': 80, 'httpHeaders': [{'name': 'Custom-Header', 'value': 'Awesome'}]}, 'initialDelaySeconds': 3, 'periodSeconds': 3, 'timeoutSeconds': 10}}, 'readinessProbe': {'exec': {'command': ['sleep', '1']}, 'initialDelaySeconds': 5, 'timeoutSeconds': 10, 'allocated': {'exec': {'command': ['sleep', '1']}, 'initialDelaySeconds': 5, 'timeoutSeconds': 10}}, 'initContainers': [{'name': 'init', 'image': 'k8s.gcr.io/busybox', 'imagePullPolicy': 'IfNotPresent', 'resources': {'limits': {'cpu': '25m', 'memory': '128Mi'}}, 'command': ['sleep', '1'], 'securityContext': {'allowPrivilegeEscalation': True}, 'volumeMounts': [{'name': 'vol-cm1', 'mountPath': '/cm1'}, {'name': 'vol-cm2', 'mountPath': '/cm2'}, {'name': 'vol-cm3', 'mountPath': '/cm3'}]}], 'sidecars': [{'name': 'busyside1', 'image': 'k8s.gcr.io/busybox', 'command': ['sleep', '3000'], 'resources': {'limits': {'memory': '200Mi'}, 'requests': {'memory': '100Mi'}}, 'volumeMounts': [{'name': 'vol-cm1', 'mountPath': '/cm1'}, {'name': 'vol-cm2', 'mountPath': '/cm2'}, {'name': 'vol-cm3', 'mountPath': '/cm3'}], 'securityContext': {'allowPrivilegeEscalation': True}}], 'services': [{'type': 'NodePort', 'labels': {'l1': 'v1', 'l2': 'v2', 'app': 'robotnginxapp', 'namespace': 'anupdemo', 'robin.io/tenant': 'Administrators', 'robin.io/tenant_id': '1', 'robin.io/username': 'admin', 'robin.io/user_id': '5', 'scope': 'vnode'}, 'annotations': {'a1': 'av1', 'a2': 'av2', 'app': 'robotnginxapp', 'namespace': 'anupdemo'}, 'scope': 'pod', 'ports': [{'app_protocol': None, 'name': 'web', 'node_port': 31175, 'port': 80, 'protocol': 'TCP', 'target_port': 80}], 'vnodename': 'robotnginxapp-nginx-01', 'appname': 'robotnginxapp', 'selectors': {'robin.io/vnode': 'robotnginxapp-nginx-01'}, 'cluster_ip': '172.19.209.141', 'k8s_name': 'robotnginxapp-nginx-01-np-0'}], 'hostAliases': [{'ip': '1.2.3.4', 'hostnames': ['foo.remote', 'bar.remote']}], 'cpu': {'reserve': False, 'min': 0, 'max': 1}, 'gpu': {'min': 0, 'max': 0}, 'mem': {'size': 1493172224, 'hugepages_2m': 0, 'hugepages_1g': 0}, 'env': {'allocated': {'ROBINHOST': 'vnodevlan7-82-50.robinsystems.com', 'K8S_NODE': 'vnodevlan7-82-50', 'POD_NAME': 'robotnginxapp-nginx-01', 'POD_NS': 'anupdemo', 'ROBINHOST_TAG_HOSTNAME': 'vnodevlan7-82-50.robinsystems.com', 'ROBINHOST_TAG_KUBERNETES.IO-HOSTNAME': 'vnodevlan7-82-50', 'ROBINHOST_TAG_NODE.KUBERNETES.IO-EXCLUDE-FROM-EXTERNAL-LOAD-BALANCERS': '', 'ROBINHOST_TAG_NODE-ROLE.KUBERNETES.IO-CONTROL-PLANE': '', 'ROBINHOST_TAG_BETA.KUBERNETES.IO-ARCH': 'amd64', 'ROBINHOST_TAG_BETA.KUBERNETES.IO-OS': 'linux', 'ROBINHOST_TAG_KUBERNETES.IO-OS': 'linux', 'ROBINHOST_TAG_KUBERNETES.IO-ARCH': 'amd64', 'ROBINHOST_TAG_ROBINHOST': 'vnodevlan7-82-50', 'ROBINHOST_TAG_DOMAIN': 'ROBIN', 'ROBINHOST_TAG_ROBINRPOOL': 'default'}}, 'network': [{'ippool': 'robin-default', 'name': 'robin-default', 'allocated_names': ['eth0'], 'driver': 'calico', 'interfaces': 1, 'allocated_ip': '172.21.23.76', 'allocated_netmask': '255.255.192.0', 'allocated_prefix': 18, 'subnet': '172.21.0.0', 'allocated_by': 'system'}], 'enable_portmapping': True, 'enable_hooklogs': True, 'enable_metrics': True, 'sidecar_info': {'cpu': 0, 'mem': 209715200, 'gpu': 0, 'hugepages_2m': 0, 'hugepages_1g': 0, 'containers': [{'name': 'busyside1', 'cpu': 0, 'hugepages_1g': 0, 'hugepages_2m': 0, 'mem': 209715200, 'gpu': 0}]}, 'cluster_network_policy_scope': 'allow-all', 'role_name': 'nginx', 'calico_inuse': True, 'restart_on_qoscfg': True, 'v6_enabled_host': True, 'k8s_provider': 'robin', 'allocated_host_public_hostname': 'vnodevlan7-82-50.robinsystems.com', 'allocated_host_public_ip': '10.7.82.50', 'host_ip': '172.21.23.76', 'vnodehookargs': {}, 'allocated_initContainers': [{'name': 'init', 'image': 'k8s.gcr.io/busybox', 'imagePullPolicy': 'IfNotPresent', 'resources': {'limits': {'cpu': '25m', 'memory': '128Mi'}}, 'command': ['sleep', '1'], 'securityContext': {'allowPrivilegeEscalation': True}, 'volumeMounts': [{'name': 'vol-cm1', 'mountPath': '/cm1'}, {'name': 'vol-cm2', 'mountPath': '/cm2'}, {'name': 'vol-cm3', 'mountPath': '/cm3'}]}], 'allocated_sidecars': [{'name': 'busyside1', 'image': 'k8s.gcr.io/busybox', 'command': ['sleep', '3000'], 'resources': {'limits': {'memory': '200Mi'}, 'requests': {'memory': '100Mi'}}, 'volumeMounts': [{'name': 'vol-cm1', 'mountPath': '/cm1'}, {'name': 'vol-cm2', 'mountPath': '/cm2'}, {'name': 'vol-cm3', 'mountPath': '/cm3'}], 'securityContext': {'allowPrivilegeEscalation': True}}], 'allocated_volumes': [{'name': 'vol-cm1', 'configMap': {'name': 'robotnginxapp-cm1', 'defaultMode': 420}}, {'name': 'vol-cm2', 'configMap': {'name': 'robotnginxapp-cm2', 'defaultMode': 420}}, {'name': 'vol-cm3', 'configMap': {'name': 'robotnginxapp-cm3', 'defaultMode': 420}}], 'allocated_volumeMounts': [{'name': 'vol-cm1', 'mountPath': '/cm1'}, {'name': 'vol-cm2', 'mountPath': '/cm2'}, {'name': 'vol-cm3', 'mountPath': '/cm3'}], 'allocated_envFrom': [{'configMapRef': {'name': 'robotnginxapp-cm3'}}], 'allocated_extEnv': [{'name': 'SPECIAL_LEVEL_KEY', 'valueFrom': {'configMapKeyRef': {'name': 'robotnginxapp-cm1', 'key': 'special.how'}}}], 'allocated_serviceAccountName': 'robotnginxapp-sa', 'service_uids': ['3a4945ea-30de-47d5-b37b-95d4e8b8b175', '52c81455-058f-43f6-8e42-57f6b0d1df92', '3744eda5-2197-48c8-84f2-7be45223f4b0'], 'engine': 'docker', 'service_ports': [], 'rpoolid': 1, 'allocated': {'zoneid': 1718806345, 'zonename': 'default', 'nodeid': 1, 'nodename': 'vnodevlan7-82-50', 'k8s_nodename': 'vnodevlan7-82-50'}, 'allocated_host': 'vnodevlan7-82-50.robinsystems.com', 'allocated_host_type': 'physical', 'numa_allocations': {'0': {'guaranteed_cores_used': 0, 'mem_used': 1493172224, 'hugepages_1g_used': 0, 'hugepages_2m_used': 0}}, 'host_gpu_allocations': {}, 'allocated_gpu_resource_name': '', 'hosttags': {'robin.io/hostname': ['vnodevlan7-82-50.robinsystems.com'], 'kubernetes.io/hostname': ['vnodevlan7-82-50'], 'node.kubernetes.io/exclude-from-external-load-balancers': [''], 'node-role.kubernetes.io/control-plane': [''], 'beta.kubernetes.io/arch': ['amd64'], 'beta.kubernetes.io/os': ['linux'], 'kubernetes.io/os': ['linux'], 'kubernetes.io/arch': ['amd64'], 'robin.io/robinhost': ['vnodevlan7-82-50'], 'robin.io/domain': ['ROBIN'], 'robin.io/robinrpool': ['default']}, 'volume_groups': [{'media': 'HDD', 'rpoolid': 1, 'volumes': ['robotnginxapp.nginx.01.data.1.7061e7d0-03a9-471d-97e2-17f7b1973359'], 'layout': 'round-robin', 'device_sets': [{'devices': [{'aslices': 22, 'pused': 14864613376, 'psize': 107374182400, 'slices': 77, 'write_unit': 4096, 'stormgr_id': 2, 'wwn': '0x600224807b33a04fdfac599061b3c4b7', 'capacity': 107374182400, 'type': 'HDD', 'state': 'READY', 'host': 'vnodevlan7-82-52.robinsystems.com', 'reattachable': 0, 'protected': 0, 'role': 'Storage', 'devpath': '/dev/disk/by-id/scsi-3600224807b33a04fdfac599061b3c4b7', 'max_volumes_per_disk': 100, 'max_latency_sensitive_vols_per_disk': 2, 'max_throughput_intensive_vols_per_disk': 1, 'tags': {}, 'hostname': 'vnodevlan7-82-52.robinsystems.com', 'score': 81, 'allocated_slices': 3}], 'name': 'robotnginxapp.nginx.01.72.1.6b270ce9-220a-447e-88dc-a9942e0f0dcc.0.024a5e1d-c320-4809-8b7c-e8eba2044dfd', 'stormgr_id': 2479}], 'replicas': 1, 'name': 'robotnginxapp.nginx.01.72.1.6b270ce9-220a-447e-88dc-a9942e0f0dcc', 'stormgr_id': 1263}], 'pod_name': 'robotnginxapp-nginx-01', 'pod_ns': 'anupdemo', 'hostname': 'robotnginxapp-nginx-01.anupdemo.svc.cluster.local', 'id': 303, 'restart_num': 15, 'role': 'nginx', 'appname': 'robotnginxapp', 'appid': 3707, 'state': 'STARTED', 'root_fs': '/usr/local/robin/instances/robotnginxapp-nginx-01.anupdemo.svc.cluster.local', 'bundle_path': '/usr/local/robin/collections/file-collection-1739693421394/1739765478489/robotBundleNginx-1.0.0', 'bundle_object_id': '1c5fee80ded434027bcab048dda5e2b9', 'bundleid': 198, 'image': {'name': 'nginx', 'version': '1.15.8-alpine', 'engine': 'docker', 'registry_hostname': '', 'registry_port': ''}, 'cm_keys': ['ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDbzEip9LpHnXSvL8Uj7O2paCJTdUkNkxZlFrPYeiGGk+naOB7suEhED4ceuq2pq0pAL6IQqCRaiTjDcktteyACDKeQumcSCFERViYZ2GtpbtooQVs9IuA73TTft9fxMf0FSVzqyDUZHjvQiIUiQmuUtxFM58WN23bRTZlMFmr7LI1vKxD/b1wq7EA8rcn46M3EmkkAjYb+QLhNekguUnLSivp7DKMup4dBknoE0NSE9a4KpvK/vXOosZdavhCQ6g2kG06c627kiq/wa5PQpQEgV5IB4jGU7xbbkq55BpIkQrX4gwflpnOUxEI3fHhPe1DRGW7eAQxf0XQWXR4eRqZLjp+nPB1iOEMKvKSmrdZVlQBIMlZGUxeoGJ/8Orfe4ipYBjNKosvKzJMIsSTUK+dGo4sMELhARt7AYca4NGLbM8SEfSWIKbVWZaqDsX0a4PDZFjm0b/1yiQs0K7SLRcRJ3/ZCBs3nf3Nwb9+f/BO+aCKZovn9yj4rMY50duZbXZE= root@master'], 'ctime': 1739765763, 'utime': 1739765763, 'vnodeid': 303}], 'qgroups': {'data': {'enabled': False, 'priority': 1, 'rd_max_iops': 2000000, 'rd_min_iops': 0, 'rd_min_window': 500, 'rd_weight': 1, 'wr_max_iops': 2000000, 'wr_min_iops': 0, 'wr_min_window': 500, 'wr_weight': 1}}, 'restart_on_qoscfg': True, 'volume_groups': []}], 'appvars': {'var1': '{{APP_NAME}}-val1', 'var2': '{{APP_NAME}}-val2'}, 'apphooks': {'info': 'python3 app_info.py', 'postcreate': {'type': 'job', 'spec': {'template': {'spec': {'volumes': [{'name': 'vol-cm1', 'configMap': {'name': "{{app['name'].lower()}}-cm1", 'defaultMode': 420}}, {'name': 'vol-cm2', 'configMap': {'name': "{{app['name'].lower()}}-cm2", 'defaultMode': 420}}, {'name': 'vol-cm3', 'configMap': {'name': "{{app['name'].lower()}}-cm3", 'defaultMode': 420}}], 'containers': [{'name': "{{app['name'].lower()}}-pin1", 'image': 'k8s.gcr.io/busybox', 'command': ['sleep', '1'], 'volumeMounts': [{'name': 'vol-cm1', 'mountPath': '/cm1'}, {'name': 'vol-cm2', 'mountPath': '/cm2'}, {'name': 'vol-cm3', 'mountPath': '/cm3'}]}], 'restartPolicy': 'Never', 'backoffLimit': 4}}}}, 'allocated': {'info': 'python3 app_info.py', 'postcreate': {'type': 'job', 'spec': {'template': {'spec': {'volumes': [{'name': 'vol-cm1', 'configMap': {'name': 'robotnginxapp-cm1', 'defaultMode': 420}}, {'name': 'vol-cm2', 'configMap': {'name': 'robotnginxapp-cm2', 'defaultMode': 420}}, {'name': 'vol-cm3', 'configMap': {'name': 'robotnginxapp-cm3', 'defaultMode': 420}}], 'containers': [{'name': 'robotnginxapp-pin1', 'image': 'k8s.gcr.io/busybox', 'command': ['sleep', '1'], 'volumeMounts': [{'name': 'vol-cm1', 'mountPath': '/cm1'}, {'name': 'vol-cm2', 'mountPath': '/cm2'}, {'name': 'vol-cm3', 'mountPath': '/cm3'}]}], 'restartPolicy': 'Never', 'backoffLimit': 4}}}}}}, 'robin_version': '5.4.3-558', 'pvcpolicy': 'create', 'rpool': 'default', 'from_template': None, 'bundleid': 198, 'content_id': '1c5fee80ded434027bcab048dda5e2b9', 'kind': 'ROBIN', 'namespace': 'anupdemo', 'auto_relocate': True, 'enable_ssh': False, 'rpoolid': 1, 'username': 'admin', 'tenant': 'Administrators', 'tenant_id': 1, 'app_ns': 'anupdemo', 'enable_hooklogs': True, 'enable_metrics': True, 'allocated_appvars': {'var1': 'robotnginxapp-val1', 'var2': 'robotnginxapp-val2'}, 'bundle_path': '/usr/local/robin/collections/file-collection-1739693421394/1739765478489/robotBundleNginx-1.0.0', 'info': {'service_urls': [{'name': 'Nginx', 'url': 'http://robotnginxapp-nginx-01.anupdemo.svc.cluster.local:80'}]}, 'desc': '', 'master_name': 'robotnginxapp', 'parent_last_known_state': 6, 'peer_snap_uuid': 'a917cd0aece511efbf67013f1a75f247', 'backup_snapname': 'snapshot-1739765659', 'restart_num': 15, 'repo_name': 'robotNginxRepo', 'keep_snapmeta': False, 'zoneid': 1718806345, 'k8s_network_policies': [], 'planid': 21880, 'id': 3707, 'bundle_object_id': '1c5fee80ded434027bcab048dda5e2b9'}}, 202]</msg>
+<arg>${response}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2025-02-17T09:49:57.426704" elapsed="0.001256"/>
+</kw>
+<kw name="Should Be Equal As Numbers" owner="BuiltIn">
+<msg time="2025-02-17T09:49:57.429215" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${response[1]}</arg>
+<arg>202</arg>
+<doc>Fails if objects are unequal after converting them to real numbers.</doc>
+<status status="PASS" start="2025-02-17T09:49:57.428227" elapsed="0.001081"/>
+</kw>
+<doc>Delete bundle app from cluster</doc>
+<status status="PASS" start="2025-02-17T09:49:05.559363" elapsed="51.870200"/>
+</test>
+<test id="s1-t22" name="External Repo Cleanup" line="127">
+<kw name="Delete Ext Repo" owner="backup_restore_bundle">
+<msg time="2025-02-17T09:49:59.452115" level="INFO">${response} = [{'jobid': 289910}, 202]</msg>
+<var>${response}</var>
+<arg>${auth_token}</arg>
+<status status="PASS" start="2025-02-17T09:49:57.430322" elapsed="2.021878"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2025-02-17T09:49:59.453108" level="INFO">[{'jobid': 289910}, 202]</msg>
+<arg>${response}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2025-02-17T09:49:59.452735" elapsed="0.000447"/>
+</kw>
+<kw name="Should Be Equal As Numbers" owner="BuiltIn">
+<msg time="2025-02-17T09:49:59.454595" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${response[1]}</arg>
+<arg>202</arg>
+<doc>Fails if objects are unequal after converting them to real numbers.</doc>
+<status status="PASS" start="2025-02-17T09:49:59.453440" elapsed="0.001260"/>
+</kw>
+<doc>Delete ext repo</doc>
+<status status="PASS" start="2025-02-17T09:49:57.429845" elapsed="2.025104"/>
+</test>
+<test id="s1-t23" name="Bundle Cleanup" line="132">
+<kw name="Delete Robin Bundle" owner="robin_base">
+<kw name="Execute Command" owner="SSHLibrary">
+<msg time="2025-02-17T09:49:59.456763" level="INFO">Executing command '~/bin/robin bundle remove 1718806345 198 -y'.</msg>
+<msg time="2025-02-17T09:50:00.906311" level="INFO">Command exited with return code 0.</msg>
+<msg time="2025-02-17T09:50:00.907292" level="INFO">${stdout} = Submitted job '289911'. Use 'robin job wait 289911' to track the progress</msg>
+<msg time="2025-02-17T09:50:00.907447" level="INFO">${stderr} = </msg>
+<msg time="2025-02-17T09:50:00.907585" level="INFO">${rc} = 0</msg>
+<var>${stdout}</var>
+<var>${stderr}</var>
+<var>${rc}</var>
+<arg>~/bin/robin bundle remove ${zoneId} ${bundleId} -y</arg>
+<arg>return_stderr=True</arg>
+<arg>return_rc=True</arg>
+<doc>Executes ``command`` on the remote machine and returns its outputs.</doc>
+<status status="PASS" start="2025-02-17T09:49:59.456347" elapsed="1.451327"/>
+</kw>
+<kw name="Should Be Equal As Integers" owner="BuiltIn">
+<msg time="2025-02-17T09:50:00.909438" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${rc}</arg>
+<arg>0</arg>
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<status status="PASS" start="2025-02-17T09:50:00.908700" elapsed="0.000891"/>
+</kw>
+<status status="PASS" start="2025-02-17T09:49:59.455904" elapsed="1.453903"/>
+</kw>
+<status status="PASS" start="2025-02-17T09:49:59.455289" elapsed="1.455118"/>
+</test>
+<test id="s1-t24" name="Namespace Cleanup" line="135">
+<kw name="Delete Robin Namespace" owner="robin_base">
+<kw name="Execute Command" owner="SSHLibrary">
+<msg time="2025-02-17T09:50:00.912428" level="INFO">Executing command '~/bin/robin namespace remove anupdemo -y'.</msg>
+<msg time="2025-02-17T09:50:09.004337" level="INFO">Command exited with return code 0.</msg>
+<msg time="2025-02-17T09:50:09.005469" level="INFO">${stdout} = The following namespaces have been removed: anupdemo</msg>
+<msg time="2025-02-17T09:50:09.005618" level="INFO">${stderr} = </msg>
+<msg time="2025-02-17T09:50:09.005883" level="INFO">${rc} = 0</msg>
+<var>${stdout}</var>
+<var>${stderr}</var>
+<var>${rc}</var>
+<arg>~/bin/robin namespace remove ${ns} -y</arg>
+<arg>return_stderr=True</arg>
+<arg>return_rc=True</arg>
+<doc>Executes ``command`` on the remote machine and returns its outputs.</doc>
+<status status="PASS" start="2025-02-17T09:50:00.912064" elapsed="8.093920"/>
+</kw>
+<kw name="Should Be Equal As Integers" owner="BuiltIn">
+<msg time="2025-02-17T09:50:09.008234" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${rc}</arg>
+<arg>0</arg>
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<status status="PASS" start="2025-02-17T09:50:09.007237" elapsed="0.001221"/>
+</kw>
+<arg>${ns}</arg>
+<status status="PASS" start="2025-02-17T09:50:00.911486" elapsed="8.097271"/>
+</kw>
+<status status="PASS" start="2025-02-17T09:50:00.910856" elapsed="8.098735"/>
+</test>
+<status status="PASS" start="2025-02-17T09:44:37.877607" elapsed="331.132781"/>
+</suite>
+<statistics>
+<total>
+<stat pass="24" fail="0" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat pass="24" fail="0" skip="0" id="s1" name="Backup Restore Bundle">Backup Restore Bundle</stat>
+</suite>
+</statistics>
+<errors>
+<msg time="2025-02-17T09:48:55.989366" level="WARN">Multiple tests with name 'Copy File from Remote to Local' executed in suite 'Backup Restore Bundle'.</msg>
+</errors>
+</robot>

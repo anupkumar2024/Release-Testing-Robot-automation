@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.0 (Python 3.12.3 on win32)" generated="2024-08-06T21:00:21.680125" rpa="false" schemaversion="5">
+<suite id="s1" name="Pod Soft Anti Affinity" source="C:\Users\anup.kumar\Box\python\releaseTest\Robot\soft_anti_affinity\pod_soft_anti_affinity.robot">
+<test id="s1-t1" name="Load Yaml" line="6">
+<kw name="Load Yaml With Namespace" owner="pod_soft_anti_affinity">
+<msg time="2024-08-06T21:00:27.553227" level="INFO">${response} = [{'apiVersion': 'apps/v1', 'kind': 'Deployment', 'metadata': {'name': 'nginx-anti-affinity-soft', 'annotations': None, 'namespace': 'anupdemo'}, 'spec': {'replicas': 2, 'selector': {'matchLabels': {'a...</msg>
+<var>${response}</var>
+<status status="PASS" start="2024-08-06T21:00:27.537197" elapsed="0.016030"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2024-08-06T21:00:27.553227" level="INFO">[{'apiVersion': 'apps/v1', 'kind': 'Deployment', 'metadata': {'name': 'nginx-anti-affinity-soft', 'annotations': None, 'namespace': 'anupdemo'}, 'spec': {'replicas': 2, 'selector': {'matchLabels': {'app': 'nginx-soft'}}, 'template': {'metadata': {'labels': {'app': 'nginx-soft'}}, 'spec': {'affinity': {'podAntiAffinity': {'prefferedDuringSchedulingIgnoredDuringExecution': [{'labelSelector': {'matchExpressions': [{'key': 'app', 'operator': 'In', 'values': ['nginx-soft']}]}, 'topologyKey': 'kubernetes.io/hostname'}]}}, 'containers': [{'name': 'nginx', 'image': 'nginx:latest', 'imagePullPolicy': 'IfNotPresent', 'ports': [{'containerPort': 80}], 'volumeMounts': [{'name': 'my-pv-storage', 'mountPath': '/usr/share/nginx/html'}]}], 'volumes': [{'name': 'my-pv-storage', 'emptyDir': {}}]}}}}]</msg>
+<arg>${response}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2024-08-06T21:00:27.553227" elapsed="0.000000"/>
+</kw>
+<doc>Load Yaml with Namepsace of App</doc>
+<status status="PASS" start="2024-08-06T21:00:27.537197" elapsed="0.016030"/>
+</test>
+<test id="s1-t2" name="Create App" line="11">
+<kw name="Create App" owner="pod_soft_anti_affinity">
+<msg time="2024-08-06T21:00:28.347539" level="INFO">${response} = [{'api_version': 'apps/v1',
+ 'kind': 'Deployment',
+ 'metadata': {'annotations': None,
+              'creation_timestamp': datetime.datetime(2024, 8, 6, 15, 29, 48, tzinfo=tzutc()),
+              'dele...</msg>
+<var>${response}</var>
+<status status="PASS" start="2024-08-06T21:00:27.553227" elapsed="0.794312"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2024-08-06T21:00:28.347539" level="INFO">[{'api_version': 'apps/v1',
+ 'kind': 'Deployment',
+ 'metadata': {'annotations': None,
+              'creation_timestamp': datetime.datetime(2024, 8, 6, 15, 29, 48, tzinfo=tzutc()),
+              'deletion_grace_period_seconds': None,
+              'deletion_timestamp': None,
+              'finalizers': None,
+              'generate_name': None,
+              'generation': 1,
+              'labels': None,
+              'managed_fields': [{'api_version': 'apps/v1',
+                                  'fields_type': 'FieldsV1',
+                                  'fields_v1': {'f:spec': {'f:progressDeadlineSeconds': {},
+                                                           'f:replicas': {},
+                                                           'f:revisionHistoryLimit': {},
+                                                           'f:selector': {},
+                                                           'f:strategy': {'f:rollingUpdate': {'.': {},
+                                                                                              'f:maxSurge': {},
+                                                                                              'f:maxUnavailable': {}},
+                                                                          'f:type': {}},
+                                                           'f:template': {'f:metadata': {'f:labels': {'.': {},
+                                                                                                      'f:app': {}}},
+                                                                          'f:spec': {'f:affinity': {'.': {},
+                                                                                                    'f:podAntiAffinity': {}},
+                                                                                     'f:containers': {'k:{"name":"nginx"}': {'.': {},
+                                                                                                                             'f:image': {},
+                                                                                                                             'f:imagePullPolicy': {},
+                                                                                                                             'f:name': {},
+                                                                                                                             'f:ports': {'.': {},
+                                                                                                                                         'k:{"containerPort":80,"protocol":"TCP"}': {'.': {},
+                                                                                                                                                                                     'f:containerPort': {},
+                                                                                                                                                                                     'f:protocol': {}}},
+                                                                                                                             'f:resources': {},
+                                                                                                                             'f:terminationMessagePath': {},
+                                                                                                                             'f:terminationMessagePolicy': {},
+                                                                                                                             'f:volumeMounts': {'.': {},
+                                                                                                                                                'k:{"mountPath":"/usr/share/nginx/html"}': {'.': {},
+                                                                                                                                                                                            'f:mountPath': {},
+                                                                                                                                                                                            'f:name': {}}}}},
+                                                                                     'f:dnsPolicy': {},
+                                                                                     'f:restartPolicy': {},
+                                                                                     'f:schedulerName': {},
+                                                                                     'f:securityContext': {},
+                                                                                     'f:terminationGracePeriodSeconds': {},
+                                                                                     'f:volumes': {'.': {},
+                                                                                                   'k:{"name":"my-pv-storage"}': {'.': {},
+                                                                                                                                  'f:emptyDir': {},
+                                                                                                                                  'f:name': {}}}}}}},
+                                  'manager': 'OpenAPI-Generator',
+                                  'operation': 'Update',
+                                  'subresource': None,
+                                  'time': datetime.datetime(2024, 8, 6, 15, 29, 48, tzinfo=tzutc())}],
+              'name': 'nginx-anti-affinity-soft',
+              'namespace': 'anupdemo',
+              'owner_references': None,
+              'resource_version': '11277377',
+              'self_link': None,
+              'uid': 'cb8176e5-6987-48ce-adae-eeae85308fc9'},
+ 'spec': {'min_ready_seconds': None,
+          'paused': None,
+          'progress_deadline_seconds': 600,
+          'replicas': 2,
+          'revision_history_limit': 10,
+          'selector': {'match_expressions': None,
+                       'match_labels': {'app': 'nginx-soft'}},
+          'strategy': {'rolling_update': {'max_surge': '25%',
+                                          'max_unavailable': '25%'},
+                       'type': 'RollingUpdate'},
+          'template': {'metadata': {'annotations': None,
+                                    'creation_timestamp': None,
+                                    'deletion_grace_period_seconds': None,
+                                    'deletion_timestamp': None,
+                                    'finalizers': None,
+                                    'generate_name': None,
+                                    'generation': None,
+                                    'labels': {'app': 'nginx-soft'},
+                                    'managed_fields': None,
+                                    'name': None,
+                                    'namespace': None,
+                                    'owner_references': None,
+                                    'resource_version': None,
+                                    'self_link': None,
+                                    'uid': None},
+                       'spec': {'active_deadline_seconds': None,
+                                'affinity': {'node_affinity': None,
+                                             'pod_affinity': None,
+                                             'pod_anti_affinity': {'preferred_during_scheduling_ignored_during_execution': None,
+                                                                   'required_during_scheduling_ignored_during_execution': None}},
+                                'automount_service_account_token': None,
+                                'containers': [{'args': None,
+                                                'command': None,
+                                                'env': None,
+                                                'env_from': None,
+                                                'image': 'nginx:latest',
+                                                'image_pull_policy': 'IfNotPresent',
+                                                'lifecycle': None,
+                                                'liveness_probe': None,
+                                                'name': 'nginx',
+                                                'ports': [{'container_port': 80,
+                                                           'host_ip': None,
+                                                           'host_port': None,
+                                                           'name': None,
+                                                           'protocol': 'TCP'}],
+                                                'readiness_probe': None,
+                                                'resize_policy': None,
+                                                'resources': {'claims': None,
+                                                              'limits': None,
+                                                              'requests': None},
+                                                'restart_policy': None,
+                                                'security_context': None,
+                                                'startup_probe': None,
+                                                'stdin': None,
+                                                'stdin_once': None,
+                                                'termination_message_path': '/dev/termination-log',
+                                                'termination_message_policy': 'File',
+                                                'tty': None,
+                                                'volume_devices': None,
+                                                'volume_mounts': [{'mount_path': '/usr/share/nginx/html',
+                                                                   'mount_propagation': None,
+                                                                   'name': 'my-pv-storage',
+                                                                   'read_only': None,
+                                                                   'sub_path': None,
+                                                                   'sub_path_expr': None}],
+                                                'working_dir': None}],
+                                'dns_config': None,
+                                'dns_policy': 'ClusterFirst',
+                                'enable_service_links': None,
+                                'ephemeral_containers': None,
+                                'host_aliases': None,
+                                'host_ipc': None,
+                                'host_network': None,
+                                'host_pid': None,
+                                'host_users': None,
+                                'hostname': None,
+                                'image_pull_secrets': None,
+                                'init_containers': None,
+                                'node_name': None,
+                                'node_selector': None,
+                                'os': None,
+                                'overhead': None,
+                                'preemption_policy': None,
+                                'priority': None,
+                                'priority_class_name': None,
+                                'readiness_gates': None,
+                                'resource_claims': None,
+                                'restart_policy': 'Always',
+                                'runtime_class_name': None,
+                                'scheduler_name': 'default-scheduler',
+                                'scheduling_gates': None,
+                                'security_context': {'fs_group': None,
+                                                     'fs_group_change_policy': None,
+                                                     'run_as_group': None,
+                                                     'run_as_non_root': None,
+                                                     'run_as_user': None,
+                                                     'se_linux_options': None,
+                                                     'seccomp_profile': None,
+                                                     'supplemental_groups': None,
+                                                     'sysctls': None,
+                                                     'windows_options': None},
+                                'service_account': None,
+                                'service_account_name': None,
+                                'set_hostname_as_fqdn': None,
+                                'share_process_namespace': None,
+                                'subdomain': None,
+                                'termination_grace_period_seconds': 30,
+                                'tolerations': None,
+                                'topology_spread_constraints': None,
+                                'volumes': [{'aws_elastic_block_store': None,
+                                             'azure_disk': None,
+                                             'azure_file': None,
+                                             'cephfs': None,
+                                             'cinder': None,
+                                             'config_map': None,
+                                             'csi': None,
+                                             'downward_api': None,
+                                             'empty_dir': {'medium': None,
+                                                           'size_limit': None},
+                                             'ephemeral': None,
+                                             'fc': None,
+                                             'flex_volume': None,
+                                             'flocker': None,
+                                             'gce_persistent_disk': None,
+                                             'git_repo': None,
+                                             'glusterfs': None,
+                                             'host_path': None,
+                                             'iscsi': None,
+                                             'name': 'my-pv-storage',
+                                             'nfs': None,
+                                             'persistent_volume_claim': None,
+                                             'photon_persistent_disk': None,
+                                             'portworx_volume': None,
+                                             'projected': None,
+                                             'quobyte': None,
+                                             'rbd': None,
+                                             'scale_io': None,
+                                             'secret': None,
+                                             'storageos': None,
+                                             'vsphere_volume': None}]}}},
+ 'status': {'available_replicas': None,
+            'collision_count': None,
+            'conditions': None,
+            'observed_generation': None,
+            'ready_replicas': None,
+            'replicas': None,
+            'unavailable_replicas': None,
+            'updated_replicas': None}}]</msg>
+<arg>${response}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2024-08-06T21:00:28.347539" elapsed="0.000000"/>
+</kw>
+<doc>Create App with deployment.yaml File</doc>
+<status status="PASS" start="2024-08-06T21:00:27.553227" elapsed="0.794312"/>
+</test>
+<test id="s1-t3" name="Fetch Node List" line="16">
+<kw name="Get Pod Node Name" owner="pod_soft_anti_affinity">
+<msg time="2024-08-06T21:00:29.040817" level="INFO">${response} = ['hypervvm-61-95', 'vnodevlan7-82-53']</msg>
+<var>${response}</var>
+<status status="PASS" start="2024-08-06T21:00:28.347539" elapsed="0.693278"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2024-08-06T21:00:29.040817" level="INFO">['hypervvm-61-95', 'vnodevlan7-82-53']</msg>
+<arg>${response}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2024-08-06T21:00:29.040817" elapsed="0.000000"/>
+</kw>
+<doc>Fetch Node names where PODS are scheduled</doc>
+<status status="PASS" start="2024-08-06T21:00:28.347539" elapsed="0.693278"/>
+</test>
+<test id="s1-t4" name="Verify Pod Anti Affinity" line="21">
+<kw name="Verify Pod Anti Affinity" owner="pod_soft_anti_affinity">
+<msg time="2024-08-06T21:00:29.726120" level="INFO">${response} = (200, ['hypervvm-61-95', 'vnodevlan7-82-53'])</msg>
+<var>${response}</var>
+<status status="PASS" start="2024-08-06T21:00:29.040817" elapsed="0.685303"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2024-08-06T21:00:29.726120" level="INFO">(200, ['hypervvm-61-95', 'vnodevlan7-82-53'])</msg>
+<arg>${response}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2024-08-06T21:00:29.726120" elapsed="0.000000"/>
+</kw>
+<kw name="Should Be Equal As Numbers" owner="BuiltIn">
+<msg time="2024-08-06T21:00:29.726120" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${response[0]}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to real numbers.</doc>
+<status status="PASS" start="2024-08-06T21:00:29.726120" elapsed="0.000000"/>
+</kw>
+<doc>Verify Pod Soft Anti Affinity</doc>
+<status status="PASS" start="2024-08-06T21:00:29.040817" elapsed="0.685303"/>
+</test>
+<test id="s1-t5" name="App cleanup" line="27">
+<kw name="App Cleanup" owner="pod_soft_anti_affinity">
+<msg time="2024-08-06T21:00:30.409349" level="INFO">${response} = {'api_version': 'v1',
+ 'code': None,
+ 'details': {'causes': None,
+             'group': 'apps',
+             'kind': 'deployments',
+             'name': 'nginx-anti-affinity-soft',
+             'retry...</msg>
+<var>${response}</var>
+<status status="PASS" start="2024-08-06T21:00:29.726120" elapsed="0.683229"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2024-08-06T21:00:30.409349" level="INFO">{'api_version': 'v1',
+ 'code': None,
+ 'details': {'causes': None,
+             'group': 'apps',
+             'kind': 'deployments',
+             'name': 'nginx-anti-affinity-soft',
+             'retry_after_seconds': None,
+             'uid': 'cb8176e5-6987-48ce-adae-eeae85308fc9'},
+ 'kind': 'Status',
+ 'message': None,
+ 'metadata': {'_continue': None,
+              'remaining_item_count': None,
+              'resource_version': None,
+              'self_link': None},
+ 'reason': None,
+ 'status': 'Success'}</msg>
+<arg>${response}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2024-08-06T21:00:30.409349" elapsed="0.000000"/>
+</kw>
+<doc>Delete deployment</doc>
+<status status="PASS" start="2024-08-06T21:00:29.726120" elapsed="0.683229"/>
+</test>
+<status status="PASS" start="2024-08-06T21:00:21.680125" elapsed="8.745537"/>
+</suite>
+<statistics>
+<total>
+<stat pass="5" fail="0" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat pass="5" fail="0" skip="0" id="s1" name="Pod Soft Anti Affinity">Pod Soft Anti Affinity</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>

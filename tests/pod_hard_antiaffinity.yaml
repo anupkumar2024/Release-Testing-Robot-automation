@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-anti-affinity-hard-test
+  annotations:
+spec:
+  replicas: replica_count
+  selector:
+    matchLabels:
+      app: nginx-hard
+  template:
+    metadata:
+      labels:
+        app: nginx-hard
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                  - nginx-hard
+              topologyKey: kubernetes.io/hostname
+      containers:
+      - name: nginx
+        image: nginx:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: my-pv-storage
+          mountPath: "/usr/share/nginx/html"
+      volumes:
+        - name: my-pv-storage
+          emptyDir: {}

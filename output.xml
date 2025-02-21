@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.1 (Python 3.9.6 on darwin)" generated="2025-02-21T15:50:13.797698" rpa="false" schemaversion="5">
+<suite id="s1" name="Vol Replication" source="/Users/anup.kumar/Robot/tests/vol_replication.robot">
+<kw name="Open Connection and Log In" owner="robin_base" type="SETUP">
+<kw name="Open Connection" owner="SSHLibrary">
+<arg>${host}</arg>
+<doc>Opens a new SSH connection to the given ``host`` and ``port``.</doc>
+<status status="PASS" start="2025-02-21T15:50:13.980327" elapsed="0.000123"/>
+</kw>
+<kw name="Login" owner="SSHLibrary">
+<msg time="2025-02-21T15:50:13.980927" level="INFO">Logging into '10.7.82.50:22' as 'root'.</msg>
+<msg time="2025-02-21T15:50:19.940176" level="INFO">Read output: Last login: Fri Feb 21 02:14:59 2025 from 10.10.100.163
+[root@vnodevlan7-82-50 ~]#</msg>
+<arg>${ssh-user}</arg>
+<arg>${ssh-pass}</arg>
+<arg>delay=3</arg>
+<doc>Logs into the SSH server with the given ``username`` and ``password``.</doc>
+<status status="PASS" start="2025-02-21T15:50:13.980763" elapsed="5.960143"/>
+</kw>
+<arg>${master-node-ip}</arg>
+<status status="PASS" start="2025-02-21T15:50:13.980128" elapsed="5.961354"/>
+</kw>
+<test id="s1-t1" name="Robin Login" line="9">
+<kw name="Robin Login" owner="vol_replication">
+<msg time="2025-02-21T15:50:21.194636" level="INFO">${response} = [{'token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo1LCJ0ZW5hbnRfaWQiOjEsImV4cCI6MTc0MDIxOTQ3MX0.SBuaNVZ0tSliVCWEl7S_B7u17uca2rhFOmgQmCuvEmo', 'token_timestamp': 1740219471, 'tenant': 'Adm...</msg>
+<var>${response}</var>
+<status status="PASS" start="2025-02-21T15:50:19.944158" elapsed="1.250565"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2025-02-21T15:50:21.196588" level="INFO">{'token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo1LCJ0ZW5hbnRfaWQiOjEsImV4cCI6MTc0MDIxOTQ3MX0.SBuaNVZ0tSliVCWEl7S_B7u17uca2rhFOmgQmCuvEmo', 'token_timestamp': 1740219471, 'tenant': 'Administrators', 'role': 'superadmin', 'namespace': 't001-u000005', 'staas': False, 'tenants': ['Administrators', 'test-tenant', 'test-tenant1'], 'zoneid': 1718806345}</msg>
+<arg>${response[0]}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2025-02-21T15:50:21.195218" elapsed="0.001458"/>
+</kw>
+<kw name="Set Suite Variable" owner="BuiltIn">
+<msg time="2025-02-21T15:50:21.199252" level="INFO">${auth_token} = eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo1LCJ0ZW5hbnRfaWQiOjEsImV4cCI6MTc0MDIxOTQ3MX0.SBuaNVZ0tSliVCWEl7S_B7u17uca2rhFOmgQmCuvEmo</msg>
+<arg>${auth_token}</arg>
+<arg>${response[1]}</arg>
+<doc>Makes a variable available everywhere within the scope of the current suite.</doc>
+<status status="PASS" start="2025-02-21T15:50:21.196963" elapsed="0.002347"/>
+</kw>
+<kw name="Should Be Equal As Numbers" owner="BuiltIn">
+<msg time="2025-02-21T15:50:21.200742" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${response[2]}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to real numbers.</doc>
+<status status="PASS" start="2025-02-21T15:50:21.199514" elapsed="0.001351"/>
+</kw>
+<doc>Create Robin login and fetch auth token</doc>
+<status status="PASS" start="2025-02-21T15:50:19.941970" elapsed="1.259190"/>
+</test>
+<test id="s1-t2" name="Create Nampespace" line="16">
+<kw name="Robin Namespace" owner="vol_replication">
+<msg time="2025-02-21T15:50:22.879670" level="INFO">${response} = 200</msg>
+<var>${response}</var>
+<arg>${auth_token}</arg>
+<status status="PASS" start="2025-02-21T15:50:21.201990" elapsed="1.677768"/>
+</kw>
+<kw name="Should Be Equal As Numbers" owner="BuiltIn">
+<msg time="2025-02-21T15:50:22.881279" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${response}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to real numbers.</doc>
+<status status="PASS" start="2025-02-21T15:50:22.880458" elapsed="0.000942"/>
+</kw>
+<doc>Create Robin namespace</doc>
+<status status="PASS" start="2025-02-21T15:50:21.201466" elapsed="1.680208"/>
+</test>
+<test id="s1-t3" name="Copy chart tar file to masternode" line="21">
+<kw name="Copy File On Remote With Password" owner="robin_base">
+<kw name="Open Connection" owner="SCPLibrary">
+<arg>${remoteIp}</arg>
+<arg>username=${ssh-user}</arg>
+<arg>password=${ssh-pass}</arg>
+<doc>Opens a new SCP connection to the given host.</doc>
+<status status="PASS" start="2025-02-21T15:50:22.883334" elapsed="1.936568"/>
+</kw>
+<kw name="Put File" owner="SCPLibrary">
+<arg>${sourceFile}</arg>
+<arg>${destFile}</arg>
+<doc>Uploads a file to the remote machine from the local machine.</doc>
+<status status="PASS" start="2025-02-21T15:50:24.821289" elapsed="1.477091"/>
+</kw>
+<kw name="Close Connection" owner="SCPLibrary">
+<doc>Closes the SCP connection.</doc>
+<status status="PASS" start="2025-02-21T15:50:26.300056" elapsed="0.001496"/>
+</kw>
+<arg>${master-node-ip}</arg>
+<arg>/Users/anup.kumar/Robot/tests/${volumeReplicationChartName}.tgz</arg>
+<arg>/root/</arg>
+<status status="PASS" start="2025-02-21T15:50:22.882673" elapsed="3.419067"/>
+</kw>
+<status status="PASS" start="2025-02-21T15:50:22.882010" elapsed="3.420107"/>
+</test>
+<test id="s1-t4" name="Create Helm Stateful App" line="24">
+<kw name="Create Helm Stateful App" owner="vol_replication">
+<msg time="2025-02-21T15:50:29.328195" level="INFO">${response} = ('NAME: robotnginxapp\nLAST DEPLOYED: Fri Feb 21 02:17:59 2025\nNAMESPACE: anupdemo\nSTATUS: deployed\nREVISION: 1\nTEST SUITE: None\n', '')</msg>
+<var>${response}</var>
+<status status="PASS" start="2025-02-21T15:50:26.303119" elapsed="3.025239"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2025-02-21T15:50:29.329797" level="INFO">('NAME: robotnginxapp\nLAST DEPLOYED: Fri Feb 21 02:17:59 2025\nNAMESPACE: anupdemo\nSTATUS: deployed\nREVISION: 1\nTEST SUITE: None\n', '')</msg>
+<arg>${response}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2025-02-21T15:50:29.329327" elapsed="0.000567"/>
+</kw>
+<doc>Create Helm stateful app</doc>
+<status status="PASS" start="2025-02-21T15:50:26.302470" elapsed="3.027828"/>
+</test>
+<test id="s1-t5" name="Fetch PV Name" line="29">
+<kw name="Fetch Pvc" owner="vol_replication">
+<msg time="2025-02-21T15:50:36.925832" level="INFO">${response} = pvc-c2d5a563-5581-411f-ace1-2cc53202f49c</msg>
+<var>${response}</var>
+<status status="PASS" start="2025-02-21T15:50:29.331280" elapsed="7.594779"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2025-02-21T15:50:36.928305" level="INFO">pvc-c2d5a563-5581-411f-ace1-2cc53202f49c</msg>
+<arg>${response}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2025-02-21T15:50:36.927540" elapsed="0.000873"/>
+</kw>
+<doc>Fetch Physical Volume name</doc>
+<status status="PASS" start="2025-02-21T15:50:29.330673" elapsed="7.598192"/>
+</test>
+<test id="s1-t6" name="Verify Volume Replication" line="34">
+<kw name="Verify Vol Replication" owner="vol_replication">
+<msg time="2025-02-21T15:50:50.744980" level="INFO">${response} = (200, 3, ['0x600224807b33a04fdfac599061b3c4b7', '0x60022480442c1a47d93934f30af5fc51', '0x60022480d2ad9333fa8a0c40638c3def'], ['vnodevlan7-82-52.robinsystems.com', 'hypervvm-61-95.robinsystems.com', 'v...</msg>
+<var>${response}</var>
+<arg>${auth_token}</arg>
+<status status="PASS" start="2025-02-21T15:50:36.929953" elapsed="13.815110"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2025-02-21T15:50:50.745964" level="INFO">(200, 3, ['0x600224807b33a04fdfac599061b3c4b7', '0x60022480442c1a47d93934f30af5fc51', '0x60022480d2ad9333fa8a0c40638c3def'], ['vnodevlan7-82-52.robinsystems.com', 'hypervvm-61-95.robinsystems.com', 'vnodevlan7-82-51.robinsystems.com'], ['vnodevlan7-82-52', 'hypervvm-61-95', 'vnodevlan7-82-51'])</msg>
+<arg>${response}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2025-02-21T15:50:50.745571" elapsed="0.000471"/>
+</kw>
+<kw name="Should Be Equal As Numbers" owner="BuiltIn">
+<msg time="2025-02-21T15:50:50.747469" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${response[0]}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to real numbers.</doc>
+<status status="PASS" start="2025-02-21T15:50:50.746294" elapsed="0.001273"/>
+</kw>
+<doc>Verify If Volume is Replicated</doc>
+<status status="PASS" start="2025-02-21T15:50:36.929260" elapsed="13.818728"/>
+</test>
+<test id="s1-t7" name="Helm App Cleanup" line="40">
+<kw name="Helm App Cleanup" owner="vol_replication">
+<msg time="2025-02-21T15:50:53.340559" level="INFO">${response} = ['']</msg>
+<var>${response}</var>
+<status status="PASS" start="2025-02-21T15:50:50.748842" elapsed="2.591926"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2025-02-21T15:50:53.343009" level="INFO">['']</msg>
+<arg>${response}</arg>
+<arg>console=yes</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2025-02-21T15:50:53.341927" elapsed="0.001336"/>
+</kw>
+<doc>Delete the helm app and its resources</doc>
+<status status="PASS" start="2025-02-21T15:50:50.748326" elapsed="2.595291"/>
+</test>
+<test id="s1-t8" name="Helm bundle Cleanup" line="45">
+<kw name="Delete Helm Bundle" owner="robin_base">
+<kw name="Execute Command" owner="SSHLibrary">
+<msg time="2025-02-21T15:50:53.345702" level="INFO">Executing command '~/bin/robin bundle list --headers "Bundle Id",Name | grep robotnginxapp | awk -F"," '{print $1}''.</msg>
+<msg time="2025-02-21T15:50:54.725343" level="INFO">Command exited with return code 0.</msg>
+<msg time="2025-02-21T15:50:54.726580" level="INFO">${stdout} = </msg>
+<msg time="2025-02-21T15:50:54.726754" level="INFO">${stderr} = </msg>
+<msg time="2025-02-21T15:50:54.726983" level="INFO">${rc} = 0</msg>
+<var>${stdout}</var>
+<var>${stderr}</var>
+<var>${rc}</var>
+<arg>~/bin/robin bundle list --headers "Bundle Id",Name | grep ${app-name} | awk -F"," '{print $1}'</arg>
+<arg>return_stderr=True</arg>
+<arg>return_rc=True</arg>
+<doc>Executes ``command`` on the remote machine and returns its outputs.</doc>
+<status status="PASS" start="2025-02-21T15:50:53.345289" elapsed="1.381791"/>
+</kw>
+<kw name="Set Test Variable" owner="BuiltIn">
+<msg time="2025-02-21T15:50:54.731872" level="INFO">${robin-bundle-id} = </msg>
+<arg>${robin-bundle-id}</arg>
+<arg>${stdout}</arg>
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<status status="PASS" start="2025-02-21T15:50:54.728661" elapsed="0.003347"/>
+</kw>
+<kw name="Execute Command" owner="SSHLibrary">
+<msg time="2025-02-21T15:50:54.732741" level="INFO">Executing command '~/bin/robin host list --headers Id | head -1 | awk -F ":" '{print $1}''.</msg>
+<msg time="2025-02-21T15:50:56.357213" level="INFO">Command exited with return code 0.</msg>
+<msg time="2025-02-21T15:50:56.358385" level="INFO">${stdout} = 1718806345</msg>
+<msg time="2025-02-21T15:50:56.358528" level="INFO">${stderr} = </msg>
+<msg time="2025-02-21T15:50:56.358665" level="INFO">${rc} = 0</msg>
+<var>${stdout}</var>
+<var>${stderr}</var>
+<var>${rc}</var>
+<arg>~/bin/robin host list --headers Id | head -1 | awk -F ":" '{print $1}'</arg>
+<arg>return_stderr=True</arg>
+<arg>return_rc=True</arg>
+<doc>Executes ``command`` on the remote machine and returns its outputs.</doc>
+<status status="PASS" start="2025-02-21T15:50:54.732356" elapsed="1.626404"/>
+</kw>
+<kw name="Set Test Variable" owner="BuiltIn">
+<msg time="2025-02-21T15:50:56.363620" level="INFO">${robin-bundle-zone} = 1718806345</msg>
+<arg>${robin-bundle-zone}</arg>
+<arg>${stdout}</arg>
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<status status="PASS" start="2025-02-21T15:50:56.360024" elapsed="0.003745"/>
+</kw>
+<kw name="Execute Command" owner="SSHLibrary">
+<msg time="2025-02-21T15:50:56.365048" level="INFO">Executing command '~/bin/robin bundle delete 1718806345  -y --wait'.</msg>
+<msg time="2025-02-21T15:50:57.901154" level="INFO">Command exited with return code 2.</msg>
+<msg time="2025-02-21T15:50:57.902672" level="INFO">${stdout} = </msg>
+<msg time="2025-02-21T15:50:57.902989" level="INFO">${stderr} = usage: robin bundle remove [-h] [-y] [--force] [--wait] zoneid bundleid
+robin bundle remove: error: the following arguments are required: bundleid</msg>
+<msg time="2025-02-21T15:50:57.903083" level="INFO">${rc} = 2</msg>
+<var>${stdout}</var>
+<var>${stderr}</var>
+<var>${rc}</var>
+<arg>~/bin/robin bundle delete ${robin-bundle-zone} ${robin-bundle-id} -y --wait</arg>
+<arg>return_stderr=True</arg>
+<arg>return_rc=True</arg>
+<doc>Executes ``command`` on the remote machine and returns its outputs.</doc>
+<status status="PASS" start="2025-02-21T15:50:56.364350" elapsed="1.538795"/>
+</kw>
+<kw name="Should Be Equal As Integers" owner="BuiltIn">
+<msg time="2025-02-21T15:50:57.905272" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<msg time="2025-02-21T15:50:57.905548" level="FAIL">2 != 0</msg>
+<arg>${rc}</arg>
+<arg>0</arg>
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<status status="FAIL" start="2025-02-21T15:50:57.904222" elapsed="0.001488">2 != 0</status>
+</kw>
+<status status="FAIL" start="2025-02-21T15:50:53.344750" elapsed="4.561200">2 != 0</status>
+</kw>
+<status status="FAIL" start="2025-02-21T15:50:53.343983" elapsed="4.562355">2 != 0</status>
+</test>
+<test id="s1-t9" name="Namespace Cleanup" line="48">
+<kw name="Delete Robin Namespace" owner="robin_base">
+<kw name="Execute Command" owner="SSHLibrary">
+<msg time="2025-02-21T15:50:57.908268" level="INFO">Executing command '~/bin/robin namespace remove anupdemo -y'.</msg>
+<msg time="2025-02-21T15:51:11.052746" level="INFO">Command exited with return code 0.</msg>
+<msg time="2025-02-21T15:51:11.053887" level="INFO">${stdout} = The following namespaces have been removed: anupdemo</msg>
+<msg time="2025-02-21T15:51:11.054263" level="INFO">${stderr} = </msg>
+<msg time="2025-02-21T15:51:11.054411" level="INFO">${rc} = 0</msg>
+<var>${stdout}</var>
+<var>${stderr}</var>
+<var>${rc}</var>
+<arg>~/bin/robin namespace remove ${ns} -y</arg>
+<arg>return_stderr=True</arg>
+<arg>return_rc=True</arg>
+<doc>Executes ``command`` on the remote machine and returns its outputs.</doc>
+<status status="PASS" start="2025-02-21T15:50:57.907901" elapsed="13.146602"/>
+</kw>
+<kw name="Should Be Equal As Integers" owner="BuiltIn">
+<msg time="2025-02-21T15:51:11.056379" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${rc}</arg>
+<arg>0</arg>
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<status status="PASS" start="2025-02-21T15:51:11.055602" elapsed="0.000934"/>
+</kw>
+<arg>${ns}</arg>
+<status status="PASS" start="2025-02-21T15:50:57.907351" elapsed="13.149514"/>
+</kw>
+<status status="PASS" start="2025-02-21T15:50:57.906710" elapsed="13.150590"/>
+</test>
+<status status="FAIL" start="2025-02-21T15:50:13.800400" elapsed="57.257739"/>
+</suite>
+<statistics>
+<total>
+<stat pass="8" fail="1" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat pass="8" fail="1" skip="0" id="s1" name="Vol Replication">Vol Replication</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>

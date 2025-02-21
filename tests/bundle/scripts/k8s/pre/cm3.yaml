@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "{{app['name'].lower()}}-cm3"
+data:
+  special.how: "best"
+  special.type: "car"

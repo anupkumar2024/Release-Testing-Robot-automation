@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.0 (Python 3.12.3 on win32)" generated="2024-07-22T18:45:07.648088" rpa="false" schemaversion="5">
+<suite id="s1" name="restore helmApp from snapshot" source="C:\Users\anup.kumar\Box\python\releaseTest\Robot\restore_app_from_snapshot\restore_helmApp_from_snapshot.robot">
+<test id="s1-t1" name="Robin Login" line="5">
+<kw name="Robin Login" owner="restore_helmApp_from_snapshot">
+<msg time="2024-07-22T18:45:14.790181" level="INFO">${response} = [{'token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo1LCJ0ZW5hbnRfaWQiOjEsImV4cCI6MTcyMTc0MDQ4M30.0hajafCSTVHMKBHsObYDThRTNwo2Z-AWUrIXgpWzW2w', 'token_timestamp': 1721740483, 'tenant': 'Adm...</msg>
+<var>${response}</var>
+<status status="PASS" start="2024-07-22T18:45:13.419341" elapsed="1.370840"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2024-07-22T18:45:14.790181" level="INFO">[{'token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo1LCJ0ZW5hbnRfaWQiOjEsImV4cCI6MTcyMTc0MDQ4M30.0hajafCSTVHMKBHsObYDThRTNwo2Z-AWUrIXgpWzW2w', 'token_timestamp': 1721740483, 'tenant': 'Administrators', 'role': 'superadmin', 'namespace': 't001-u000005', 'staas': False, 'tenants': ['Administrators'], 'zoneid': 1718806345}, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo1LCJ0ZW5hbnRfaWQiOjEsImV4cCI6MTcyMTc0MDQ4M30.0hajafCSTVHMKBHsObYDThRTNwo2Z-AWUrIXgpWzW2w', 200]</msg>
+<arg>${response}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2024-07-22T18:45:14.790181" elapsed="0.000000"/>
+</kw>
+<kw name="Set Suite Variable" owner="BuiltIn">
+<msg time="2024-07-22T18:45:14.806688" level="INFO">${auth_token} = eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo1LCJ0ZW5hbnRfaWQiOjEsImV4cCI6MTcyMTc0MDQ4M30.0hajafCSTVHMKBHsObYDThRTNwo2Z-AWUrIXgpWzW2w</msg>
+<arg>${auth_token}</arg>
+<arg>${response[1]}</arg>
+<doc>Makes a variable available everywhere within the scope of the current suite.</doc>
+<status status="PASS" start="2024-07-22T18:45:14.790181" elapsed="0.016507"/>
+</kw>
+<kw name="Should Be Equal As Numbers" owner="BuiltIn">
+<msg time="2024-07-22T18:45:14.806688" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${response[2]}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to real numbers.</doc>
+<status status="PASS" start="2024-07-22T18:45:14.806688" elapsed="0.000000"/>
+</kw>
+<doc>Create Robin login and fetch auth token</doc>
+<status status="PASS" start="2024-07-22T18:45:13.419341" elapsed="1.387347"/>
+</test>
+<test id="s1-t2" name="Create Helm app from Chart" line="12">
+<kw name="Create Helm App" owner="restore_helmApp_from_snapshot">
+<msg time="2024-07-22T18:45:18.079722" level="INFO">[chan 0] Opened sftp connection (server version 3)</msg>
+<msg time="2024-07-22T18:45:19.332109" level="INFO">[chan 0] sftp session closed.</msg>
+<msg time="2024-07-22T18:45:22.772369" level="INFO">${response} = NAME: nginx-app
+LAST DEPLOYED: Mon Jul 22 06:15:14 2024
+NAMESPACE: anupdemo
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+NOTES:
+1. Get the application URL by running these commands:
+  export POD_NAME...</msg>
+<var>${response}</var>
+<status status="PASS" start="2024-07-22T18:45:14.806688" elapsed="7.965681"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2024-07-22T18:45:22.772369" level="INFO">NAME: nginx-app
+LAST DEPLOYED: Mon Jul 22 06:15:14 2024
+NAMESPACE: anupdemo
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+NOTES:
+1. Get the application URL by running these commands:
+  export POD_NAME=$(kubectl get pods --namespace anupdemo -l "app.kubernetes.io/name=nginx,app.kubernetes.io/instance=nginx-app" -o jsonpath="{.items[0].metadata.name}")
+  echo "Visit http://127.0.0.1:8080 to use your application"
+  kubectl --namespace anupdemo port-forward $POD_NAME 8080:80
+</msg>
+<arg>${response}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2024-07-22T18:45:22.772369" elapsed="0.000000"/>
+</kw>
+<doc>Create Helm App from Chart</doc>
+<status status="PASS" start="2024-07-22T18:45:14.806688" elapsed="7.965681"/>
+</test>
+<test id="s1-t3" name="Register Helm App" line="17">
+<kw name="Register Helm App" owner="restore_helmApp_from_snapshot">
+<msg time="2024-07-22T18:45:40.068214" level="INFO">${response} = [{'jobid': 15951}, 202]</msg>
+<var>${response}</var>
+<arg>${auth_token}</arg>
+<status status="PASS" start="2024-07-22T18:45:22.772369" elapsed="17.295845"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2024-07-22T18:45:40.068214" level="INFO">[{'jobid': 15951}, 202]</msg>
+<arg>${response}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2024-07-22T18:45:40.068214" elapsed="0.000000"/>
+</kw>
+<kw name="Should Be Equal As Numbers" owner="BuiltIn">
+<msg time="2024-07-22T18:45:40.068214" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${response[1]}</arg>
+<arg>202</arg>
+<doc>Fails if objects are unequal after converting them to real numbers.</doc>
+<status status="PASS" start="2024-07-22T18:45:40.068214" elapsed="0.000000"/>
+</kw>
+<doc>Register helm app created with Robin</doc>
+<status status="PASS" start="2024-07-22T18:45:22.772369" elapsed="17.295845"/>
+</test>
+<test id="s1-t4" name="Fetch Pod Name" line="23">
+<kw name="Get Pod Name" owner="restore_helmApp_from_snapshot">
+<msg time="2024-07-22T18:45:45.882678" level="INFO">${response} = ['nginx-server-0', 'nginx', True, 'Running']</msg>
+<var>${response}</var>
+<status status="PASS" start="2024-07-22T18:45:40.068214" elapsed="5.814464"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2024-07-22T18:45:45.882678" level="INFO">['nginx-server-0', 'nginx', True, 'Running']</msg>
+<arg>${response}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2024-07-22T18:45:45.882678" elapsed="0.000000"/>
+</kw>
+<doc>Fetch Pod Name</doc>
+<status status="PASS" start="2024-07-22T18:45:40.068214" elapsed="5.814464"/>
+</test>
+<test id="s1-t5" name="Upload Data" line="28">
+<kw name="Upload File To Pod" owner="restore_helmApp_from_snapshot">
+<msg time="2024-07-22T18:45:54.026096" level="INFO">${response} = 200</msg>
+<var>${response}</var>
+<status status="PASS" start="2024-07-22T18:45:45.882678" elapsed="8.143418"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2024-07-22T18:45:54.026096" level="INFO">200</msg>
+<arg>${response}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2024-07-22T18:45:54.026096" elapsed="0.000000"/>
+</kw>
+<doc>Upload file to pod</doc>
+<status status="PASS" start="2024-07-22T18:45:45.882678" elapsed="8.143418"/>
+</test>
+<test id="s1-t6" name="Create Snapshot" line="33">
+<kw name="Create Snapshot" owner="restore_helmApp_from_snapshot">
+<msg time="2024-07-22T18:46:09.560381" level="INFO">${response} = [{'jobid': 15952, 'plan': {'action': 'snapshot', 'snapname': 'nginx-snap', 'namespace': 'anupdemo', 'name': 'nginx-app', 'kind': 'helm', 'opcode': None, 'current_user': {'user_id': 5, 'username': 'adm...</msg>
+<var>${response}</var>
+<arg>${auth_token}</arg>
+<status status="PASS" start="2024-07-22T18:45:54.042826" elapsed="15.517555"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2024-07-22T18:46:09.560381" level="INFO">[{'jobid': 15952, 'plan': {'action': 'snapshot', 'snapname': 'nginx-snap', 'namespace': 'anupdemo', 'name': 'nginx-app', 'kind': 'helm', 'opcode': None, 'current_user': {'user_id': 5, 'username': 'admin', 'tenant_id': 1, 'tenant': 'Administrators', 'tenants': ['Administrators'], 'tenant_role': 'superadmin', 'namespace': 't001-u000005', 'user_context': 'admin', 'user_contexts': ['admin'], 'user_capabilities': ['AllSuperAdminCapabilities'], 'permissions': {'ALERT': {'resolve': 'GLOBAL'}, 'ANALYTICS': {'create': 'GLOBAL', 'view': 'GLOBAL'}, 'APPLICATION': {'abort_backup_create': 'GLOBAL', 'abort_snapshot_import': 'GLOBAL', 'add_policy': 'GLOBAL', 'add_repo': 'GLOBAL', 'addkey': 'GLOBAL', 'addtrigger': 'GLOBAL', 'addvol': 'GLOBAL', 'assign_vdi': 'GLOBAL', 'backup': 'GLOBAL', 'change_owner': 'GLOBAL', 'clone': 'GLOBAL', 'computeqos': 'GLOBAL', 'config': 'GLOBAL', 'create': 'GLOBAL', 'delete': 'GLOBAL', 'delete_backup': 'GLOBAL', 'deltrigger': 'GLOBAL', 'delvol': 'GLOBAL', 'evacuate': 'GLOBAL', 'expandvol': 'GLOBAL', 'freeze': 'GLOBAL', 'hydrate': 'GLOBAL', 'manage_instances': 'GLOBAL', 'moveresources': 'GLOBAL', 'probe': 'GLOBAL', 'redeploy': 'GLOBAL', 'register': 'NONE', 'remove_policy': 'GLOBAL', 'remove_repo': 'GLOBAL', 'restart': 'GLOBAL', 'restore': 'GLOBAL', 'rollback': 'GLOBAL', 'run_hook': 'GLOBAL', 'scale': 'GLOBAL', 'setreslimits': 'GLOBAL', 'setsnapback': 'GLOBAL', 'share': 'GLOBAL', 'snapshot': 'GLOBAL', 'snapshot_limits': 'GLOBAL', 'start': 'GLOBAL', 'stop': 'GLOBAL', 'storageqos': 'GLOBAL', 'unfreeze': 'GLOBAL', 'unregister': 'NONE', 'unshare': 'GLOBAL', 'update': 'GLOBAL', 'update_hpa': 'GLOBAL', 'upgrade': 'GLOBAL', 'view': 'GLOBAL'}, 'BACKUP': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'export': 'GLOBAL', 'import': 'GLOBAL', 'purge': 'GLOBAL', 'tenant_share': 'GLOBAL', 'tenant_unshare': 'GLOBAL', 'update': 'GLOBAL', 'user_share': 'GLOBAL', 'user_unshare': 'GLOBAL', 'view': 'GLOBAL'}, 'BUNDLE': {'change_owner': 'GLOBAL', 'create': 'GLOBAL', 'delete': 'GLOBAL', 'rename': 'GLOBAL', 'tenant_share': 'GLOBAL', 'tenant_unshare': 'NONE', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'CERT': {'create': 'GLOBAL', 'update': 'GLOBAL', 'update_cluster_identity': 'GLOBAL', 'view': 'GLOBAL'}, 'CHARGEBACK': {'update': 'GLOBAL', 'view': 'GLOBAL'}, 'CLOUD': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'view': 'GLOBAL'}, 'CLUSTER': {'view': 'GLOBAL'}, 'CONFIG': {'update': 'GLOBAL', 'view': 'GLOBAL'}, 'CONSOLE': {'view': 'GLOBAL'}, 'CSI_TOKEN': {'view': 'GLOBAL'}, 'DASHBOARD': {'view': 'GLOBAL'}, 'DISK': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'DOCKER_REGISTRY': {'change_owner': 'GLOBAL', 'create': 'GLOBAL', 'delete': 'GLOBAL', 'tenant_share': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'EVENT': {'create': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'FILE': {'view': 'GLOBAL'}, 'FILE_COLLECTION': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'FILE_OBJECT': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'IMAGE': {'change_owner': 'GLOBAL', 'create': 'GLOBAL', 'delete': 'GLOBAL', 'rename': 'GLOBAL', 'tenant_share': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'INSTANCE': {'addvol': 'GLOBAL', 'assign_vdi': 'GLOBAL', 'change_owner': 'GLOBAL', 'computeqos': 'GLOBAL', 'delete': 'GLOBAL', 'relocate': 'GLOBAL', 'repair': 'GLOBAL', 'restart': 'GLOBAL', 'setstate': 'GLOBAL', 'start': 'GLOBAL', 'stop': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'IPPOOL': {'add_blacklist_ips': 'GLOBAL', 'add_ranges': 'GLOBAL', 'add_reserved_ips': 'GLOBAL', 'add_routes': 'NONE', 'claim_ip': 'GLOBAL', 'create': 'GLOBAL', 'delete': 'GLOBAL', 'remove_blacklist_ips': 'GLOBAL', 'remove_ranges': 'GLOBAL', 'remove_reserved_ips': 'GLOBAL', 'remove_routes': 'NONE', 'rename': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'JOB': {'cancel': 'GLOBAL', 'check': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'K8S_APPLICATION': {'abort_backup_create': 'GLOBAL', 'abort_snapshot_import': 'GLOBAL', 'add_policy': 'GLOBAL', 'add_repo': 'GLOBAL', 'backup': 'GLOBAL', 'change_owner': 'GLOBAL', 'clone': 'GLOBAL', 'config': 'GLOBAL', 'create': 'GLOBAL', 'delete': 'GLOBAL', 'hydrate': 'GLOBAL', 'probe': 'GLOBAL', 'register': 'GLOBAL', 'remove_policy': 'GLOBAL', 'remove_repo': 'GLOBAL', 'restart': 'GLOBAL', 'restore': 'GLOBAL', 'rollback': 'GLOBAL', 'scale': 'GLOBAL', 'setsnapback': 'GLOBAL', 'share': 'GLOBAL', 'snapshot': 'GLOBAL', 'start': 'GLOBAL', 'stop': 'GLOBAL', 'unregister': 'GLOBAL', 'unshare': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'K8S_BACKUP': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'export': 'GLOBAL', 'import': 'GLOBAL', 'purge': 'GLOBAL', 'tenant_share': 'GLOBAL', 'tenant_unshare': 'GLOBAL', 'update': 'GLOBAL', 'user_share': 'GLOBAL', 'user_unshare': 'GLOBAL', 'view': 'GLOBAL'}, 'K8S_CLUSTER_ROLE': {'view': 'GLOBAL'}, 'K8S_CLUSTER_ROLE_BINDING': {'view': 'GLOBAL'}, 'K8S_CONTEXT': {'view': 'GLOBAL'}, 'K8S_DEPLOYMENT': {'view': 'GLOBAL'}, 'K8S_KUBE_CONFIG': {'view': 'GLOBAL'}, 'K8S_MASTER': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'K8S_NAMESPACE': {'view': 'GLOBAL'}, 'K8S_NODE': {'update': 'GLOBAL', 'view': 'GLOBAL'}, 'K8S_PV': {'view': 'GLOBAL'}, 'K8S_PVC': {'view': 'GLOBAL'}, 'K8S_ROLE': {'view': 'GLOBAL'}, 'K8S_ROLE_BINDING': {'view': 'GLOBAL'}, 'K8S_STORAGECLASS': {'view': 'GLOBAL'}, 'K8S_TILLER': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'K8S_USER': {'view': 'GLOBAL'}, 'K8S_USER_AUTH': {'view': 'GLOBAL'}, 'K8S_USER_CONTEXT': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'LDAP': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'LICENSE': {'update': 'GLOBAL', 'view': 'GLOBAL'}, 'LIMIT': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'LOG_COLLECT': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'MANAGER': {'view': 'GLOBAL'}, 'MANAGER_CONFIG': {'view': 'GLOBAL'}, 'METRICS': {'create': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'METRICS_COLLECT': {'view': 'GLOBAL'}, 'METRICS_COLLECT_TOKEN': {'view': 'GLOBAL'}, 'MGMT_TOKEN': {'view': 'GLOBAL'}, 'NAMESPACE': {'add_repo': 'GLOBAL', 'backup': 'GLOBAL', 'change_owner': 'GLOBAL', 'clone': 'GLOBAL', 'create': 'GLOBAL', 'delete': 'GLOBAL', 'deploy_app': 'GLOBAL', 'import': 'GLOBAL', 'remove_repo': 'GLOBAL', 'rollback': 'GLOBAL', 'setsnapback': 'GLOBAL', 'snapshot': 'GLOBAL', 'update': 'GLOBAL', 'user_share': 'GLOBAL', 'user_unshare': 'GLOBAL', 'view': 'GLOBAL'}, 'NETWORKPOLICY': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL'}, 'NFS_EXPORTS': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'NODE': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'NOTIFICATION': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'OBJECT_SHARE': {'view': 'GLOBAL'}, 'OBJECT_TYPE': {'view': 'GLOBAL'}, 'OPEN_SHIFT': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'OPERATION': {'view': 'GLOBAL'}, 'PCIRESOURCE': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'PEER_CLUSTER': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'PERSISTENT_DATA_VOLUME': {'change_owner': 'GLOBAL', 'create': 'GLOBAL', 'delete': 'GLOBAL', 'resize': 'GLOBAL', 'update': 'GLOBAL', 'user_share': 'GLOBAL', 'user_unshare': 'GLOBAL', 'view': 'GLOBAL'}, 'PRIVILEGED_APP': {'create': 'GLOBAL'}, 'PROTECTION_GROUP': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'REPLICATION_POLICY': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'REPORT': {'view': 'GLOBAL'}, 'REPO_CATALOG': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'RESOURCEPOOL': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'view': 'GLOBAL'}, 'RESOURCE_GROUP': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'RESOURCE_MANAGER': {'delete': 'GLOBAL', 'view': 'GLOBAL'}, 'SCHEDULER': {'update': 'GLOBAL', 'view': 'GLOBAL'}, 'SERVICE': {'update': 'GLOBAL', 'view': 'GLOBAL'}, 'SNAPSHOT': {'share': 'GLOBAL', 'unshare': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'SOFT_AFFINITY': {'delete': 'GLOBAL', 'view': 'GLOBAL'}, 'SSH_KEY': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'STORAGE_ARRAY': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'STORAGE_MANAGER': {'view': 'GLOBAL'}, 'STORAGE_REPO': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'purge': 'GLOBAL', 'push': 'GLOBAL', 'reclaim': 'GLOBAL', 'scan': 'GLOBAL', 'tenant_share': 'GLOBAL', 'tenant_unshare': 'GLOBAL', 'update': 'GLOBAL', 'user_share': 'GLOBAL', 'user_unshare': 'GLOBAL', 'view': 'GLOBAL'}, 'SYSTEM': {'create': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'TAG': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'TENANT': {'add_users': 'GLOBAL', 'create': 'GLOBAL', 'delete': 'GLOBAL', 'manage_resources': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'TEST': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'test': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'TRIGGER': {'view': 'GLOBAL'}, 'USER': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'update_role': 'GLOBAL', 'view': 'GLOBAL'}, 'USER_AUDIT': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'USER_AUTH': {'view': 'GLOBAL'}, 'USER_CAPABILITY': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'VLAN': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'VOLUME': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'VOLUME_BACKUP': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'VOLUME_SNAPSHOT': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'WATCHDOG': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'WORKFLOW': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'ZONE': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}}, 'user_permissions': {}, 'ip_addr': '172.21.119.0', 'session_expires': '2024-07-23T06:14:43'}, 'appid': 271, 'appname': 'nginx-app', 'query': {'apps': ['helm/nginx-app'], 'selectors': [], 'resources': ['pod/nginx-server-0', 'service/anup-nginx', 'statefulset.apps/nginx-server'], 'namespace': 'anupdemo'}, 'original_app_owner': 5}}, 202]</msg>
+<arg>${response}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2024-07-22T18:46:09.560381" elapsed="0.000000"/>
+</kw>
+<kw name="Should Be Equal As Numbers" owner="BuiltIn">
+<msg time="2024-07-22T18:46:09.560381" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${response[1]}</arg>
+<arg>202</arg>
+<doc>Fails if objects are unequal after converting them to real numbers.</doc>
+<status status="PASS" start="2024-07-22T18:46:09.560381" elapsed="0.000000"/>
+</kw>
+<doc>Create snapshot of Helm App</doc>
+<status status="PASS" start="2024-07-22T18:45:54.042826" elapsed="15.533306"/>
+</test>
+<test id="s1-t7" name="Delete Data" line="39">
+<kw name="Delete Data From Pod" owner="restore_helmApp_from_snapshot">
+<msg time="2024-07-22T18:46:16.359437" level="INFO">${response} = None</msg>
+<var>${response}</var>
+<status status="PASS" start="2024-07-22T18:46:09.577846" elapsed="6.781591"/>
+</kw>
+<doc>Delete data from pod</doc>
+<status status="PASS" start="2024-07-22T18:46:09.577846" elapsed="6.781591"/>
+</test>
+<test id="s1-t8" name="Fetch Snapshot" line="43">
+<kw name="Fetch Snapshot Id" owner="restore_helmApp_from_snapshot">
+<msg time="2024-07-22T18:46:18.048146" level="INFO">${response} = ('76b70346482c11ef8fa0211f3f320af9', 200)</msg>
+<var>${response}</var>
+<arg>${auth_token}</arg>
+<status status="PASS" start="2024-07-22T18:46:16.359437" elapsed="1.688709"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2024-07-22T18:46:18.048146" level="INFO">('76b70346482c11ef8fa0211f3f320af9', 200)</msg>
+<arg>${response}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2024-07-22T18:46:18.048146" elapsed="0.000000"/>
+</kw>
+<kw name="Should Be Equal As Numbers" owner="BuiltIn">
+<msg time="2024-07-22T18:46:18.048146" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${response[1]}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to real numbers.</doc>
+<status status="PASS" start="2024-07-22T18:46:18.048146" elapsed="0.000000"/>
+</kw>
+<doc>Fetch Snapshot Id from which data will be restored</doc>
+<status status="PASS" start="2024-07-22T18:46:16.359437" elapsed="1.688709"/>
+</test>
+<test id="s1-t9" name="Restore Data" line="49">
+<kw name="Restore App From Snapshot" owner="restore_helmApp_from_snapshot">
+<msg time="2024-07-22T18:49:50.780687" level="INFO">${response} = [{'jobid': 15956, 'plan': {'action': 'rollback', 'snapshotid': '76b70346482c11ef8fa0211f3f320af9', 'namespace': 'anupdemo', 'name': 'nginx-app', 'kind': 'k8s', 'opcode': None, 'current_user': {'user_i...</msg>
+<var>${response}</var>
+<arg>${auth_token}</arg>
+<status status="PASS" start="2024-07-22T18:46:18.048146" elapsed="212.732541"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2024-07-22T18:49:50.780687" level="INFO">[{'jobid': 15956, 'plan': {'action': 'rollback', 'snapshotid': '76b70346482c11ef8fa0211f3f320af9', 'namespace': 'anupdemo', 'name': 'nginx-app', 'kind': 'k8s', 'opcode': None, 'current_user': {'user_id': 5, 'username': 'admin', 'tenant_id': 1, 'tenant': 'Administrators', 'tenants': ['Administrators'], 'tenant_role': 'superadmin', 'namespace': 't001-u000005', 'user_context': 'admin', 'user_contexts': ['admin'], 'user_capabilities': ['AllSuperAdminCapabilities'], 'permissions': {'ALERT': {'resolve': 'GLOBAL'}, 'ANALYTICS': {'create': 'GLOBAL', 'view': 'GLOBAL'}, 'APPLICATION': {'abort_backup_create': 'GLOBAL', 'abort_snapshot_import': 'GLOBAL', 'add_policy': 'GLOBAL', 'add_repo': 'GLOBAL', 'addkey': 'GLOBAL', 'addtrigger': 'GLOBAL', 'addvol': 'GLOBAL', 'assign_vdi': 'GLOBAL', 'backup': 'GLOBAL', 'change_owner': 'GLOBAL', 'clone': 'GLOBAL', 'computeqos': 'GLOBAL', 'config': 'GLOBAL', 'create': 'GLOBAL', 'delete': 'GLOBAL', 'delete_backup': 'GLOBAL', 'deltrigger': 'GLOBAL', 'delvol': 'GLOBAL', 'evacuate': 'GLOBAL', 'expandvol': 'GLOBAL', 'freeze': 'GLOBAL', 'hydrate': 'GLOBAL', 'manage_instances': 'GLOBAL', 'moveresources': 'GLOBAL', 'probe': 'GLOBAL', 'redeploy': 'GLOBAL', 'register': 'NONE', 'remove_policy': 'GLOBAL', 'remove_repo': 'GLOBAL', 'restart': 'GLOBAL', 'restore': 'GLOBAL', 'rollback': 'GLOBAL', 'run_hook': 'GLOBAL', 'scale': 'GLOBAL', 'setreslimits': 'GLOBAL', 'setsnapback': 'GLOBAL', 'share': 'GLOBAL', 'snapshot': 'GLOBAL', 'snapshot_limits': 'GLOBAL', 'start': 'GLOBAL', 'stop': 'GLOBAL', 'storageqos': 'GLOBAL', 'unfreeze': 'GLOBAL', 'unregister': 'NONE', 'unshare': 'GLOBAL', 'update': 'GLOBAL', 'update_hpa': 'GLOBAL', 'upgrade': 'GLOBAL', 'view': 'GLOBAL'}, 'BACKUP': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'export': 'GLOBAL', 'import': 'GLOBAL', 'purge': 'GLOBAL', 'tenant_share': 'GLOBAL', 'tenant_unshare': 'GLOBAL', 'update': 'GLOBAL', 'user_share': 'GLOBAL', 'user_unshare': 'GLOBAL', 'view': 'GLOBAL'}, 'BUNDLE': {'change_owner': 'GLOBAL', 'create': 'GLOBAL', 'delete': 'GLOBAL', 'rename': 'GLOBAL', 'tenant_share': 'GLOBAL', 'tenant_unshare': 'NONE', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'CERT': {'create': 'GLOBAL', 'update': 'GLOBAL', 'update_cluster_identity': 'GLOBAL', 'view': 'GLOBAL'}, 'CHARGEBACK': {'update': 'GLOBAL', 'view': 'GLOBAL'}, 'CLOUD': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'view': 'GLOBAL'}, 'CLUSTER': {'view': 'GLOBAL'}, 'CONFIG': {'update': 'GLOBAL', 'view': 'GLOBAL'}, 'CONSOLE': {'view': 'GLOBAL'}, 'CSI_TOKEN': {'view': 'GLOBAL'}, 'DASHBOARD': {'view': 'GLOBAL'}, 'DISK': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'DOCKER_REGISTRY': {'change_owner': 'GLOBAL', 'create': 'GLOBAL', 'delete': 'GLOBAL', 'tenant_share': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'EVENT': {'create': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'FILE': {'view': 'GLOBAL'}, 'FILE_COLLECTION': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'FILE_OBJECT': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'IMAGE': {'change_owner': 'GLOBAL', 'create': 'GLOBAL', 'delete': 'GLOBAL', 'rename': 'GLOBAL', 'tenant_share': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'INSTANCE': {'addvol': 'GLOBAL', 'assign_vdi': 'GLOBAL', 'change_owner': 'GLOBAL', 'computeqos': 'GLOBAL', 'delete': 'GLOBAL', 'relocate': 'GLOBAL', 'repair': 'GLOBAL', 'restart': 'GLOBAL', 'setstate': 'GLOBAL', 'start': 'GLOBAL', 'stop': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'IPPOOL': {'add_blacklist_ips': 'GLOBAL', 'add_ranges': 'GLOBAL', 'add_reserved_ips': 'GLOBAL', 'add_routes': 'NONE', 'claim_ip': 'GLOBAL', 'create': 'GLOBAL', 'delete': 'GLOBAL', 'remove_blacklist_ips': 'GLOBAL', 'remove_ranges': 'GLOBAL', 'remove_reserved_ips': 'GLOBAL', 'remove_routes': 'NONE', 'rename': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'JOB': {'cancel': 'GLOBAL', 'check': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'K8S_APPLICATION': {'abort_backup_create': 'GLOBAL', 'abort_snapshot_import': 'GLOBAL', 'add_policy': 'GLOBAL', 'add_repo': 'GLOBAL', 'backup': 'GLOBAL', 'change_owner': 'GLOBAL', 'clone': 'GLOBAL', 'config': 'GLOBAL', 'create': 'GLOBAL', 'delete': 'GLOBAL', 'hydrate': 'GLOBAL', 'probe': 'GLOBAL', 'register': 'GLOBAL', 'remove_policy': 'GLOBAL', 'remove_repo': 'GLOBAL', 'restart': 'GLOBAL', 'restore': 'GLOBAL', 'rollback': 'GLOBAL', 'scale': 'GLOBAL', 'setsnapback': 'GLOBAL', 'share': 'GLOBAL', 'snapshot': 'GLOBAL', 'start': 'GLOBAL', 'stop': 'GLOBAL', 'unregister': 'GLOBAL', 'unshare': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'K8S_BACKUP': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'export': 'GLOBAL', 'import': 'GLOBAL', 'purge': 'GLOBAL', 'tenant_share': 'GLOBAL', 'tenant_unshare': 'GLOBAL', 'update': 'GLOBAL', 'user_share': 'GLOBAL', 'user_unshare': 'GLOBAL', 'view': 'GLOBAL'}, 'K8S_CLUSTER_ROLE': {'view': 'GLOBAL'}, 'K8S_CLUSTER_ROLE_BINDING': {'view': 'GLOBAL'}, 'K8S_CONTEXT': {'view': 'GLOBAL'}, 'K8S_DEPLOYMENT': {'view': 'GLOBAL'}, 'K8S_KUBE_CONFIG': {'view': 'GLOBAL'}, 'K8S_MASTER': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'K8S_NAMESPACE': {'view': 'GLOBAL'}, 'K8S_NODE': {'update': 'GLOBAL', 'view': 'GLOBAL'}, 'K8S_PV': {'view': 'GLOBAL'}, 'K8S_PVC': {'view': 'GLOBAL'}, 'K8S_ROLE': {'view': 'GLOBAL'}, 'K8S_ROLE_BINDING': {'view': 'GLOBAL'}, 'K8S_STORAGECLASS': {'view': 'GLOBAL'}, 'K8S_TILLER': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'K8S_USER': {'view': 'GLOBAL'}, 'K8S_USER_AUTH': {'view': 'GLOBAL'}, 'K8S_USER_CONTEXT': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'LDAP': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'LICENSE': {'update': 'GLOBAL', 'view': 'GLOBAL'}, 'LIMIT': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'LOG_COLLECT': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'MANAGER': {'view': 'GLOBAL'}, 'MANAGER_CONFIG': {'view': 'GLOBAL'}, 'METRICS': {'create': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'METRICS_COLLECT': {'view': 'GLOBAL'}, 'METRICS_COLLECT_TOKEN': {'view': 'GLOBAL'}, 'MGMT_TOKEN': {'view': 'GLOBAL'}, 'NAMESPACE': {'add_repo': 'GLOBAL', 'backup': 'GLOBAL', 'change_owner': 'GLOBAL', 'clone': 'GLOBAL', 'create': 'GLOBAL', 'delete': 'GLOBAL', 'deploy_app': 'GLOBAL', 'import': 'GLOBAL', 'remove_repo': 'GLOBAL', 'rollback': 'GLOBAL', 'setsnapback': 'GLOBAL', 'snapshot': 'GLOBAL', 'update': 'GLOBAL', 'user_share': 'GLOBAL', 'user_unshare': 'GLOBAL', 'view': 'GLOBAL'}, 'NETWORKPOLICY': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL'}, 'NFS_EXPORTS': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'NODE': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'NOTIFICATION': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'OBJECT_SHARE': {'view': 'GLOBAL'}, 'OBJECT_TYPE': {'view': 'GLOBAL'}, 'OPEN_SHIFT': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'OPERATION': {'view': 'GLOBAL'}, 'PCIRESOURCE': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'PEER_CLUSTER': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'PERSISTENT_DATA_VOLUME': {'change_owner': 'GLOBAL', 'create': 'GLOBAL', 'delete': 'GLOBAL', 'resize': 'GLOBAL', 'update': 'GLOBAL', 'user_share': 'GLOBAL', 'user_unshare': 'GLOBAL', 'view': 'GLOBAL'}, 'PRIVILEGED_APP': {'create': 'GLOBAL'}, 'PROTECTION_GROUP': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'REPLICATION_POLICY': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'REPORT': {'view': 'GLOBAL'}, 'REPO_CATALOG': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'RESOURCEPOOL': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'view': 'GLOBAL'}, 'RESOURCE_GROUP': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'RESOURCE_MANAGER': {'delete': 'GLOBAL', 'view': 'GLOBAL'}, 'SCHEDULER': {'update': 'GLOBAL', 'view': 'GLOBAL'}, 'SERVICE': {'update': 'GLOBAL', 'view': 'GLOBAL'}, 'SNAPSHOT': {'share': 'GLOBAL', 'unshare': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'SOFT_AFFINITY': {'delete': 'GLOBAL', 'view': 'GLOBAL'}, 'SSH_KEY': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'STORAGE_ARRAY': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'STORAGE_MANAGER': {'view': 'GLOBAL'}, 'STORAGE_REPO': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'purge': 'GLOBAL', 'push': 'GLOBAL', 'reclaim': 'GLOBAL', 'scan': 'GLOBAL', 'tenant_share': 'GLOBAL', 'tenant_unshare': 'GLOBAL', 'update': 'GLOBAL', 'user_share': 'GLOBAL', 'user_unshare': 'GLOBAL', 'view': 'GLOBAL'}, 'SYSTEM': {'create': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'TAG': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'TENANT': {'add_users': 'GLOBAL', 'create': 'GLOBAL', 'delete': 'GLOBAL', 'manage_resources': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'TEST': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'test': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'TRIGGER': {'view': 'GLOBAL'}, 'USER': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'update_role': 'GLOBAL', 'view': 'GLOBAL'}, 'USER_AUDIT': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'USER_AUTH': {'view': 'GLOBAL'}, 'USER_CAPABILITY': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'VLAN': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'VOLUME': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'VOLUME_BACKUP': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'VOLUME_SNAPSHOT': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'WATCHDOG': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'WORKFLOW': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}, 'ZONE': {'create': 'GLOBAL', 'delete': 'GLOBAL', 'update': 'GLOBAL', 'view': 'GLOBAL'}}, 'user_permissions': {}, 'ip_addr': '172.21.119.0', 'session_expires': '2024-07-23T06:14:43'}, 'appname': 'nginx-app', 'snapid': '76b70346482c11ef8fa0211f3f320af9'}}, 202]</msg>
+<arg>${response}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2024-07-22T18:49:50.780687" elapsed="0.015994"/>
+</kw>
+<kw name="Should Be Equal As Numbers" owner="BuiltIn">
+<msg time="2024-07-22T18:49:50.796681" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${response[1]}</arg>
+<arg>202</arg>
+<doc>Fails if objects are unequal after converting them to real numbers.</doc>
+<status status="PASS" start="2024-07-22T18:49:50.796681" elapsed="0.000000"/>
+</kw>
+<doc>Restore Helm app from snapshot</doc>
+<status status="PASS" start="2024-07-22T18:46:18.048146" elapsed="212.748535"/>
+</test>
+<test id="s1-t10" name="Verify Data Restore" line="55">
+<kw name="Verify Data Restore" owner="restore_helmApp_from_snapshot">
+<msg time="2024-07-22T18:49:57.664396" level="INFO">${response} = ('Now the file has more content!', 202)</msg>
+<var>${response}</var>
+<status status="PASS" start="2024-07-22T18:49:50.796681" elapsed="6.867715"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2024-07-22T18:49:57.666403" level="INFO">('Now the file has more content!', 202)</msg>
+<arg>${response}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2024-07-22T18:49:57.666403" elapsed="0.000000"/>
+</kw>
+<kw name="Should Be Equal As Numbers" owner="BuiltIn">
+<msg time="2024-07-22T18:49:57.668663" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${response[1]}</arg>
+<arg>202</arg>
+<doc>Fails if objects are unequal after converting them to real numbers.</doc>
+<status status="PASS" start="2024-07-22T18:49:57.667403" elapsed="0.001260"/>
+</kw>
+<doc>Verify if data is restored successfully</doc>
+<status status="PASS" start="2024-07-22T18:49:50.796681" elapsed="6.872990"/>
+</test>
+<test id="s1-t11" name="App Cleanup" line="61">
+<kw name="Delete App" owner="restore_helmApp_from_snapshot">
+<msg time="2024-07-22T18:50:22.829853" level="INFO">${response} = [{'jobid': 15966, 'plan': {'name': 'nginx-app', 'namespace': 'anupdemo', 'otype': 'app', 'del_snaps': False, 'helm_delete': True, 'release': 'nginx-app', 'helm_version': 3}}, 202]</msg>
+<var>${response}</var>
+<arg>${auth_token}</arg>
+<status status="PASS" start="2024-07-22T18:49:57.673916" elapsed="25.155937"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2024-07-22T18:50:22.830967" level="INFO">[{'jobid': 15966, 'plan': {'name': 'nginx-app', 'namespace': 'anupdemo', 'otype': 'app', 'del_snaps': False, 'helm_delete': True, 'release': 'nginx-app', 'helm_version': 3}}, 202]</msg>
+<arg>${response}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2024-07-22T18:50:22.830967" elapsed="0.000000"/>
+</kw>
+<kw name="Should Be Equal As Numbers" owner="BuiltIn">
+<msg time="2024-07-22T18:50:22.833208" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${response[1]}</arg>
+<arg>202</arg>
+<doc>Fails if objects are unequal after converting them to real numbers.</doc>
+<status status="PASS" start="2024-07-22T18:50:22.831981" elapsed="0.001227"/>
+</kw>
+<doc>Delete Helm App and snapshots</doc>
+<status status="PASS" start="2024-07-22T18:49:57.672911" elapsed="25.161298"/>
+</test>
+<status status="PASS" start="2024-07-22T18:45:07.648088" elapsed="315.188126"/>
+</suite>
+<statistics>
+<total>
+<stat pass="11" fail="0" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat pass="11" fail="0" skip="0" id="s1" name="restore helmApp from snapshot">restore helmApp from snapshot</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>

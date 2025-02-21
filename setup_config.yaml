@@ -1,0 +1,21 @@
+ssh-user: root
+ssh-pass: robin123
+robin-username: admin
+robin-password: Robin123
+media: HDD  # HDD or SSD
+
+master-node-ip: 10.7.82.50
+# manifest-file: bundle/manifest.yaml
+destTempDir: /tmp/robot/
+app-name: robotnginxapp
+ns: anupdemo
+bundle-name: robotBundleNginx
+iconFile:  /Users/anup.kumar/ROBOT/tests/bundle/icons/nginx.png
+repo: robotNginxRepo
+rpool: default
+found: False
+chartName: nginx-1
+volumeReplicationChartName: nginx-vol-replication-0.1.0
+resource_dir: /Users/anup.kumar/ROBOT
+kubeconfig_path: /Users/anup.kumar/ROBOT/tests/kubeconfig
+extra_replicas: 1  # it will be added on total number of nodes setting replicas more than the nodes available to test soft/hard antiffinity
