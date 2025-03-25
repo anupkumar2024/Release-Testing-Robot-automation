@@ -1,5 +1,5 @@
 *** Settings ***
-Library            restore_bundleApp_from_snapshot.py
+Library            ${resource_dir}/tests/restore_bundleApp_from_snapshot.py
 Resource           ${resource_dir}/robin_base.robot
 
 Suite Setup        Open Connection and Log In      ${master-node-ip}

@@ -46,6 +46,10 @@ Register external repo
     Log  ${response}
     Should Be Equal As Numbers    ${response[1]}    202
 
+Fetch pod name    
+    ${response}= get pod name    ${kubeconfig_path}
+    Log  ${response}
+    Should Not Be Empty    ${response}
 
 Upload file to pod
     [Documentation]    Upload text file to pod

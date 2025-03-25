@@ -85,7 +85,7 @@ def fetch_pvc():
         ssh = paramiko.SSHClient()
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         ssh.connect(hostname=nodeip, port=ssh_port, username=ssh_username, password=ssh_password)
-        stdin, stdout, stderr = ssh.exec_command("kubectl get pvc -n " + ns + " | grep -v NAME | awk \'{print $3}\'")
+        stdin, stdout, stderr = ssh.exec_command("kubectl get pvc -n " + ns + " | grep -v NAME | grep -i replication| awk \'{print $3}\'")
         pvc = stdout.read().decode().strip()
         return pvc
         ssh.close()

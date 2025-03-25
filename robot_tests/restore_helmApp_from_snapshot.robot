@@ -1,5 +1,5 @@
 *** Settings ***
-Library            restore_helmApp_from_snapshot.py
+Library            ${resource_dir}/tests/restore_helmApp_from_snapshot.py
 Resource           ${resource_dir}/robin_base.robot
 
 Suite Setup        Open Connection and Log In      ${master-node-ip}
@@ -60,6 +60,7 @@ Fetch Snapshot
     [Documentation]   Fetch Snapshot Id from which data will be restored
     ${response}=   Fetch Snapshot Id  ${auth_token}
     Log  ${response}
+    Set suite Variable    ${snapid}    ${response[0]}    
     Should Be Equal As Numbers    ${response[1]}    200
 
 Restore Data
@@ -80,8 +81,6 @@ App Cleanup
     Log  ${response}
     Should Be Equal As Numbers    ${response[1]}    202
 
-Helm bundle Cleanup
-    Delete Helm Bundle  
     
 Namespace Cleanup
     Delete Robin Namespace    ${ns}

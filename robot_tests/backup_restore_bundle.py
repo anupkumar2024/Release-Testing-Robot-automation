@@ -342,7 +342,7 @@ def delete_backups(auth_token):
 
         url = server_url + "/api/v3/robin_server/backups"
         for id in backupid_list[2]:
-            params_obj = {"action":"purge","backupid":id}
+            params_obj = {"action":"purge","backupid":id,"repo_purge":"true"}
             response_obj = requests.delete(url,data=json.dumps(params_obj),verify=False, headers=file_header)
             response_code = response_obj.status_code
             if response_obj and response_code == 202:

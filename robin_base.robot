@@ -26,6 +26,9 @@ Robin Login From Robot
 
 Create Robin Namespace
     ${stdout}  ${stderr}  ${rc}=    Execute Command    ~/bin/robin namespace add ${ns}    return_stderr=True    return_rc=True
+
+Setup dos2unix
+    ${stdout}  ${stderr}  ${rc}=    Execute Command    yum install dos2unix -y    return_stderr=True    return_rc=True
     Should Be Equal As Integers    ${rc}    0
     
 Copy File On Remote With Password
@@ -190,12 +193,26 @@ Log Bundle Info
     [Arguments]    ${bundleId}    ${zoneId}    ${contentId}
     Log To Console    Get Bundle Info | Bundle ID: ${bundleId} | Zone ID: ${zoneId} | Content ID: ${contentId}
 
+Detach Robin App
+    ${stdout}  ${stderr}  ${rc}=    Execute Command    ~/bin/robin app detach-repo ${app-name} ${repo} --wait -y  return_stderr=True    return_rc=True
+    Open Connection and Log In    ${master-node-ip}
+    Should Be Equal As Integers  ${rc}  0
+
+Create Robin App
+    Open Connection and Log In    ${master-node-ip}
+    ${stdout}  ${stderr}  ${rc}=    Execute Command    ~/bin/robin app create from-bundle ${app-name} ${bundleId} --wait --namespace ${ns} --rpool default  return_stderr=True    return_rc=True
+    Should Be Equal As Integers  ${rc}  0
 
 Delete Robin App
     ${stdout}  ${stderr}  ${rc}=    Execute Command    ~/bin/robin app delete ${app-name} --wait -y --iter --force  return_stderr=True    return_rc=True
     Open Connection and Log In    ${master-node-ip}
     Should Be Equal As Integers  ${rc}  0
-    
+
+hydrate app
+    ${stdout}  ${stderr}  ${rc}=    Execute Command    ~/bin/robin app hydrate ${app-name} --wait   return_stderr=True    return_rc=True
+    Open Connection and Log In    ${master-node-ip}
+    Should Be Equal As Integers  ${rc}  0s
+
 Delete Robin Bundle
     ${stdout}  ${stderr}  ${rc}=    Execute Command    ~/bin/robin bundle remove ${zoneId} ${bundleId} -y --wait  return_stderr=True    return_rc=True
     Should Be Equal As Integers  ${rc}  0
@@ -216,12 +233,15 @@ Bundle App Restore From Backup
     ${stdout}  ${stderr}  ${rc}=    Execute Command    ~/bin/robin app create from-backup ${app-name} ${backupId} -n ${ns} --rpool ${rpool} --wait  return_stderr=True    return_rc=True
     Should Be Equal As Integers  ${rc}  0
 
-Delete Robin Ext Storage Repo
-    [Arguments]    ${ns}
-    ${stdout}  ${stderr}  ${rc}=    Execute Command    ~/bin/robin namespace remove ${ns} -y   return_stderr=True    return_rc=True
+Fetch volume Info
+    [Arguments]    ${pvname}
+    ${stdout}  ${stderr}  ${rc}=    Execute Command    ~/bin/robin volume info ${pvname}    return_stderr=True    return_rc=True
+    Log     ${stdout}
     Should Be Equal As Integers  ${rc}  0
 
+    
 
+## helm
 Helm App Restore From Backup
     [Arguments]    ${backupIdHelm}
     ${stdout}  ${stderr}  ${rc}=    Execute Command    ~/bin/robin app create from-backup ${app-name} ${backupIdHelm} --namespace ${ns} --same-name-namespace --wait  return_stderr=True    return_rc=True

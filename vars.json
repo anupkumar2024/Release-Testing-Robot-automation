@@ -1,13 +1,12 @@
 {
-  "VIP" : "10.7.205.126",
+  "VIP" : "10.9.111.108",
   "ROBIN_USER" : "admin",
   "ROBIN_PASSWD" : "Robin123",
-  "appName" : "robotnginxapp",
+  "appName" : "backup-restore-test-app",
   "snapName": "nginx-snap",
   "ns" : "anupdemo",
-  "bundleid" : 96,
   "rpool" : "default",
-  "repo" : "robotNginxRepo",
+  "repo" : "nginxrepo",
   "remote_file_path" : "/opt/data/demofile.txt",
   "ip_pool_name" : ["net1-ovs-robottest","net2-sriov-robottest","net3-dpdk-robotest"],
   "ip_pool_macvlan": "net4-macvlan-robottest",
@@ -18,9 +17,9 @@
   "range_macvlan" : "10.6.0.0-16",
   "master_interface": "eth0",
   "minio" : {
-    "name": "robotNginxRepo",
+    "name": "nginxrepo",
     "repo_type": "AWS_S3",
-    "bucket": "mybackups",
+    "bucket": "backup",
     "path": "nginx",
     "permissions": "readwrite",
     "backup_target": 1,
@@ -36,6 +35,6 @@
   "ssh_port": 22,
   "ssh_username": "root",
   "ssh_password": "robin123",
-  "nodeip": "10.7.82.50",
+  "nodeip": "10.9.111.70",
   "remote_file_path_helm_pod": "/usr/share/nginx/html/demofile.txt"
 }

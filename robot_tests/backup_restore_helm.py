@@ -497,15 +497,19 @@ def list_file_from_pod(kubeconfig_path):
     except Exception:
         raise
 
+
+
 def verify_helm_pod(kubeconfig_path):
     try:
         pod_details = get_pod_name(kubeconfig_path)
-        if pod_details[0] == "nginx-server-0" and pod_details[1] == "nginx":
+        if pod_details[0] == "nginx-server-helm-0" and pod_details[1] == "nginx" and pod_details[2] == "True" and pod_details[4] == "Running":
             return [pod_details,200]
         else:
             raise Exception("pods are not intact after deregistration")
     except Exception:
         raise
+
+
 
 
 def helm_app_cleanup():

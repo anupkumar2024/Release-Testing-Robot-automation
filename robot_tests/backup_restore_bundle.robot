@@ -1,6 +1,6 @@
 *** Settings ***
 Library            ${resource_dir}/tests/backup_restore_bundle.py
-Library            ${resource_dir}/test.py
+Library            ${resource_dir}/pause.py
 Resource           ${resource_dir}/robin_base.robot
 
 Suite Setup        Open Connection and Log In      ${master-node-ip}
@@ -83,10 +83,14 @@ Backup Creation
     Log  ${response}
     Should Be Equal As Numbers    ${response[1]}    202
 
-#Paused
-#    Log    Press ok to continue    console=yes 
-#    pause  
-#    Log    Execution resumed..     console=yes
+Paused
+   Log    Press ok to continue    console=yes 
+   pause  
+   Log    Execution resumed..     console=yes
+
+Detach Bundle App
+    [Documentation]    Detach bundle app from External Repo
+    Detach Robin App
 
 Delete Bundle App
     [Documentation]    Delete bundle app from cluster
@@ -118,6 +122,10 @@ Bundle backups Cleanup
     ${response}=    Delete Backups   ${auth_token}
     Log  ${response}    
     Should Be Equal As Numbers    ${response[1]}    202
+    
+Detach Bundle App
+    [Documentation]    Detach bundle app from External Repo
+    Detach Robin App
 
 Bundle App Cleanup
     [Documentation]    Delete bundle app from cluster

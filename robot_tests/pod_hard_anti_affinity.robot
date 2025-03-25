@@ -1,5 +1,6 @@
 *** Settings ***
 Library            pod_hard_anti_affinity.py
+Library            ${resource_dir}/pause.py
 Resource           ${resource_dir}/robin_base.robot
 Resource           ${resource_dir}/k8s_resources.robot
 
@@ -32,11 +33,15 @@ Remove Existing yaml file
     ${stdout}  ${stderr}  ${rc}=    Execute Command    rm -rf ${dest_file}     return_stderr=True    return_rc=True
     Should Be Equal As Integers    ${rc}    0
 
+Install dos2unix
+    setup dos2unix
+
 Update Yaml to test Sufficient nodes
     Copy File On Remote With Password    ${master-node-ip}    ${file}    /root/
     ${stdout}   ${stderr}    ${rc}=    Execute Command    /usr/bin/dos2unix ${dest_file}     return_stderr=True  return_rc=True
     Should Be Equal As Integers    ${rc}    0
     Edit file by sed   ${dest_file}    replica_count    ${nodes_count} 
+
 
 Test Pod Hard Antiaffinity with Sufficient Nodes   
     Create k8s App    ${dest_file}    ${ns}    
@@ -44,8 +49,9 @@ Test Pod Hard Antiaffinity with Sufficient Nodes
     @{pod-list}=    k8s_resources.Get pod names
     Set Suite Variable        @{pod-list}
     
-    FOR     ${pod}    IN    @{pod-list}         
-        Wait Until Keyword Succeeds    3x    5s    Check the pod status    1/1 Running    ${pod}
+    FOR     ${pod}    IN    @{pod-list}
+        ${contains_affinity}=    Evaluate    'affinity' in '${pod}'         
+        Run Keyword If    ${contains_affinity}    Wait Until Keyword Succeeds    3x    5s    Check the pod status    1/1 Running    ${pod}
     END 
 
     Edit file by sed   ${dest_file}    ${nodes_count}    replica_count
@@ -53,13 +59,18 @@ Test Pod Hard Antiaffinity with Sufficient Nodes
     ${response}=   Verify Pod Hard Anti Affinity    ${kubeconfig_path}
     Log    ${response}
     Should Be Equal As Numbers   ${response[0]}  200
-    ${stdout}  ${stderr}  ${rc}=    Execute Command    kubectl get pods -n ${ns} -owide    return_stderr=True    return_rc=True
+    ${stdout}  ${stderr}  ${rc}=    Execute Command    kubectl get pods -n ${ns} -owide | grep -i affinity    return_stderr=True    return_rc=True
     Should Be Equal As Integers    ${rc}    0
     Log    ${stdout}    console=yes
     ${response}=   App Cleanup    ${kubeconfig_path}
     Log    ${response}
     ${stdout}  ${stderr}  ${rc}=    Execute Command    rm -rf ${dest_file}     return_stderr=True    return_rc=True
     Should Be Equal As Integers    ${rc}    0
+
+Paused
+   Log    Press ok to continue    console=yes 
+   pause  
+   Log    Execution resumed..     console=yes
 
 
 Update Yaml to test InSufficient nodes
@@ -77,13 +88,14 @@ Test Pod Hard Antiaffinity with InSufficient Nodes
     @{pod-list-pending}=    k8s_resources.Get pod names pending
     Set Suite Variable        @{pod-list-pending}
 
-    FOR     ${pod}    IN    @{pod-list-pending}         
-        Wait Until Keyword Succeeds    3x    5s    Check the pod status    0/1 Pending    ${pod}
+    FOR     ${pod}    IN    @{pod-list-pending}
+        ${contains_affinity}=    Evaluate    'affinity' in '${pod}'          
+        Run Keyword If    ${contains_affinity}    Wait Until Keyword Succeeds    3x    5s    Check the pod status    0/1 Pending    ${pod}
     END 
 
     Edit file by sed   ${dest_file}    ${new_replicas}    replica_count
     Copy File On Local With Password    ${master-node-ip}    ${dest_file}    ${resource_dir}/tests/
-    ${stdout}  ${stderr}  ${rc}=    Execute Command    kubectl get pods -n ${ns} -owide    return_stderr=True    return_rc=True
+    ${stdout}  ${stderr}  ${rc}=    Execute Command    kubectl get pods -n ${ns} -owide | grep -i affinity    return_stderr=True    return_rc=True
     Should Be Equal As Integers    ${rc}    0
     Log    ${stdout}    console=yes
     ${response}=   App Cleanup    ${kubeconfig_path}

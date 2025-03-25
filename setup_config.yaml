@@ -4,14 +4,14 @@ robin-username: admin
 robin-password: Robin123
 media: HDD  # HDD or SSD
 
-master-node-ip: 10.7.82.50
+master-node-ip: 10.9.111.70
 # manifest-file: bundle/manifest.yaml
 destTempDir: /tmp/robot/
-app-name: robotnginxapp
+app-name: backup-restore-test-app
 ns: anupdemo
 bundle-name: robotBundleNginx
 iconFile:  /Users/anup.kumar/ROBOT/tests/bundle/icons/nginx.png
-repo: robotNginxRepo
+repo: nginxrepo2
 rpool: default
 found: False
 chartName: nginx-1

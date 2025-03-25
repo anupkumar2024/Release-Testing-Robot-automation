@@ -29,6 +29,7 @@ Create Helm Stateful App
 Fetch PV Name
     [Documentation]    Fetch Physical Volume name
     ${response}=    Fetch PVC
+    Set Suite Variable  ${pvname}   ${response}
     Log  ${response}
 
 Verify Volume Replication
@@ -36,6 +37,7 @@ Verify Volume Replication
     ${response}=    Verify Vol Replication  ${auth_token}
     Log  ${response}
     Should Be Equal As Numbers  ${response[0]}  200
+    fetch volume info   ${pvname}
 
 Helm App Cleanup
     [Documentation]    Delete the helm app and its resources
